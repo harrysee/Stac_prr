@@ -1,0 +1,2 @@
+rootProject.name = "Stac_prr"
+include ':app'
