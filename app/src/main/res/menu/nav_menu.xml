@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_tab_home"
+        android:title="dfd"/>-->
+    <item
+        android:id="@+id/calendar"
+        android:icon="@drawable/ic_tab_calender"
+        android:title="sdfs"/>
+    <item
+        android:id="@+id/journal"
+        android:icon="@drawable/ic_tab_journal"
+        android:title="sdfa"/>
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/ic_tab_setting"
+        android:title="sdf"/>
+</menu>
