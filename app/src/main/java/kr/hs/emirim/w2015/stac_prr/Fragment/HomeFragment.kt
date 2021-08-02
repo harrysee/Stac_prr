@@ -33,29 +33,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 좌/우 노출되는 크기를 크게하려면 offsetPx 증가
-        /*fun Int.dpToPx(displayMetrics: DisplayMetrics): Int = (this * displayMetrics.density).toInt()
-
-        val offsetPx = 20.dpToPx(resources.displayMetrics)
-        viewPager.setPadding(offsetPx, offsetPx, offsetPx, offsetPx)
-
-        // 페이지간 마진 크게하려면 pageMarginPx 증가
-        val pageMarginPx = 10.dpToPx(resources.displayMetrics)
-        val marginTransformer = MarginPageTransformer(pageMarginPx)
-        viewPager.setPageTransformer(marginTransformer)
-        viewPager.offscreenPageLimit =1*/
-
-        // 유튜브 방법
-        /*val animTransformer = ViewPager2.PageTransformer { page, position ->
-            page.apply {
-                val r = 1 - abs(position)
-                page.scaleY = 0.85f + r * 0.15f
-            }
-        }
-        val transformer = CompositePageTransformer()
-        transformer.addTransformer(animTransformer)
-        viewPager.setPageTransformer(transformer)*/
-
         val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin) // dimen 파일 안에 크기를 정의해두었다.
         val pagerWidth = resources.getDimensionPixelOffset(R.dimen.pageWidth) // dimen 파일이 없으면 생성해야함
         val screenWidth = resources.displayMetrics.widthPixels // 스마트폰의 너비 길이를 가져옴
@@ -77,13 +54,12 @@ class HomeFragment : Fragment() {
             }*/
         }
         /* 여백, 너비에 대한 정의 */
-
-
         viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
         viewPager.adapter = FhViewAdapter(getimgList()) // 어댑터 생성
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
         viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
 
+        view_dots_indicator.setViewPager2(viewPager) // indicator 설정
     }
 
     private fun getimgList(): ArrayList<Int> {

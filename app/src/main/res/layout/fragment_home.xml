@@ -30,6 +30,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/shape_rounding" />
+
     <TextView
         android:id="@+id/text_flower"
         android:layout_width="wrap_content"
@@ -78,22 +89,28 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="380dp"
         android:layout_marginTop="15dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
-        android:clipToPadding="false"
-        android:clipChildren="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_flower_today_shap" />
 
-    <LinearLayout
-        android:id="@+id/SliderDots"
-        android:layout_width="match_parent"
+    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+        android:id="@+id/view_dots_indicator"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        app:dotsColor="@color/pp_green"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="10dp"
+        app:dotsSpacing="4dp"
+        app:dotsStrokeColor="@color/dot_gray"
+        app:dotsStrokeWidth="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewPager" />
 
