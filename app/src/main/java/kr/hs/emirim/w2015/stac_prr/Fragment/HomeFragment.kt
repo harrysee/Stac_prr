@@ -1,60 +1,137 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
+import kotlinx.android.synthetic.main.fragment_home.*
+import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
 import kr.hs.emirim.w2015.stac_prr.R
+import java.lang.Math.abs
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val MIN_SCALE = 0.90f // 뷰가 몇퍼센트로 줄어들 것인지
+    private val MIN_ALPHA = 0.5f // 어두워지는 정도를 나타낸 듯 하다.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // 좌/우 노출되는 크기를 크게하려면 offsetPx 증가
+        /*fun Int.dpToPx(displayMetrics: DisplayMetrics): Int = (this * displayMetrics.density).toInt()
+
+        val offsetPx = 20.dpToPx(resources.displayMetrics)
+        viewPager.setPadding(offsetPx, offsetPx, offsetPx, offsetPx)
+
+        // 페이지간 마진 크게하려면 pageMarginPx 증가
+        val pageMarginPx = 10.dpToPx(resources.displayMetrics)
+        val marginTransformer = MarginPageTransformer(pageMarginPx)
+        viewPager.setPageTransformer(marginTransformer)
+        viewPager.offscreenPageLimit =1*/
+
+        // 유튜브 방법
+        /*val animTransformer = ViewPager2.PageTransformer { page, position ->
+            page.apply {
+                val r = 1 - abs(position)
+                page.scaleY = 0.85f + r * 0.15f
+            }
+        }
+        val transformer = CompositePageTransformer()
+        transformer.addTransformer(animTransformer)
+        viewPager.setPageTransformer(transformer)*/
+
+        val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin) // dimen 파일 안에 크기를 정의해두었다.
+        val pagerWidth = resources.getDimensionPixelOffset(R.dimen.pageWidth) // dimen 파일이 없으면 생성해야함
+        val screenWidth = resources.displayMetrics.widthPixels // 스마트폰의 너비 길이를 가져옴
+        val offsetPx = screenWidth - pageMarginPx - pagerWidth
+
+        viewPager.setPageTransformer { page, position ->
+            page.translationX = position * -offsetPx
+            /*val myOffset = position * - offsetPx
+
+            if (position < -1) {
+                page.translationX=-myOffset
+            } else if (position <= 1) {
+                var scaleFactor = Math.max(0.7f, 1-Math.abs(position-0.14285715f))
+                page.translationX=myOffset
+                page.scaleY=scaleFactor
+            } else {
+                page.translationX=myOffset
+
+            }*/
+        }
+        /* 여백, 너비에 대한 정의 */
+
+
+        viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
+        viewPager.adapter = FhViewAdapter(getimgList()) // 어댑터 생성
+        viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
+        viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
+
+    }
+
+    private fun getimgList(): ArrayList<Int> {
+        return arrayListOf<Int>(
+            R.drawable.ic_add_img_box,
+            R.drawable.test_plant2,
+            R.drawable.test_plant1,
+            R.drawable.test_plant2
+        )
+    }
+
+    /* 공식문서에 있는 코드 긁어온거임 */
+    inner class ZoomOutPageTransformer : ViewPager2.PageTransformer {
+        override fun transformPage(view: View, position: Float) {
+            view.apply {
+                val pageWidth = width
+                val pageHeight = height
+                when {
+                    position < -1 -> { // [-Infinity,-1)
+                        // This page is way off-screen to the left.
+                        //alpha = 0f
+                    }
+                    position <= 1 -> { // [-1,1]
+                        // Modify the default slide transition to shrink the page as well
+                        val scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position))
+                        // 왼쪽으로 갔을 때 마진 삭제
+                        /*val vertMargin = pageHeight * (1 - scaleFactor) / 2
+                        val horzMargin = pageWidth * (1 - scaleFactor) / 2
+                        translationX = if (position < 0) {
+                            horzMargin - vertMargin / 2
+                        } else {
+                            horzMargin + vertMargin / 2
+                        }*/
+
+                        // Scale the page down (between MIN_SCALE and 1)
+                        scaleX = scaleFactor
+                        scaleY = scaleFactor
+
+                        // 투명도 삭제
+                        /*alpha = (MIN_ALPHA +
+                                (((scaleFactor - MIN_SCALE) / (1 - MIN_SCALE)) * (1 - MIN_ALPHA)))*/
+                    }
+                    else -> { // (1,+Infinity]
+                        // 투명도 삭제
+                        //alpha = 0f
+                    }
                 }
             }
+        }
     }
 }
