@@ -103,7 +103,7 @@
         android:id="@+id/view_dots_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         app:dotsColor="@color/pp_green"
         app:dotsCornerRadius="8dp"
         app:dotsSize="9dp"

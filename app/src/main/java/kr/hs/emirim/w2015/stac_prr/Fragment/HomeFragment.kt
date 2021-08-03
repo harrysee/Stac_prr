@@ -1,16 +1,20 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
+import kr.hs.emirim.w2015.stac_prr.AlarmActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.lang.Math.abs
 
@@ -60,6 +64,11 @@ class HomeFragment : Fragment() {
         viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
 
         view_dots_indicator.setViewPager2(viewPager) // indicator 설정
+
+        btn_img_alram.setOnClickListener{
+            val i = Intent(activity, AlarmActivity::class.java)
+            activity?.startActivity(i)
+        }
     }
 
     private fun getimgList(): ArrayList<Int> {
@@ -121,5 +130,8 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-    }
+    } // 공식문서 코드 끝
+    
+
+
 }
