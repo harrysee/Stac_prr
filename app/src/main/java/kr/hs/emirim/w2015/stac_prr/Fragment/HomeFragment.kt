@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
         }
         /* 여백, 너비에 대한 정의 */
         viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
-        viewPager.adapter = FhViewAdapter(getimgList()) // 어댑터 생성
+        viewPager.adapter = FhViewAdapter(getimgList(),gettxtList()) // 어댑터 생성
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
         viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
 
@@ -65,9 +65,21 @@ class HomeFragment : Fragment() {
     private fun getimgList(): ArrayList<Int> {
         return arrayListOf<Int>(
             R.drawable.ic_add_img_box,
-            R.drawable.test_plant2,
             R.drawable.test_plant1,
-            R.drawable.test_plant2
+            R.drawable.test_plant2,
+            R.drawable.test_plant3,
+            R.drawable.test_plant4,
+            R.drawable.test_plant5
+        )
+    }
+    private fun gettxtList(): ArrayList<String> {
+        return arrayListOf<String>(
+            "새 식물 등록하기",
+            "식물이름1",
+            "식물이름2",
+            "식물이름3",
+            "식물이름4",
+            "식물이름5"
         )
     }
 

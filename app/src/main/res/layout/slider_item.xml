@@ -17,11 +17,10 @@
         android:layout_margin="12dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="235dp"
-            android:layout_height="266dp"
+            android:layout_width="245dp"
+            android:layout_height="276dp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="3dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="0dp">
 
