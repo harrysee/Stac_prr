@@ -10,5 +10,6 @@
     <color name="pp_green">#8EC057</color>
     <color name="dot_gray">#CCCCCC</color>
     <color name="back_gray">#F5F5F5</color>
+    <color name="gray_strock">#CCCCCC</color>
     <color name="transparent">#00FFFFFF</color>
 </resources>
