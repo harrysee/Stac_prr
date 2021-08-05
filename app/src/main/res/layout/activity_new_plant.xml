@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back_gray"
+    tools:context=".newPlant">
+    <LinearLayout
+        android:layout_width="412dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:id="@+id/imgbtn_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@color/back_gray"
+            android:src="@drawable/ic_back"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="310dp"
+            android:layout_marginTop="16dp"
+            android:text="완료"
+            android:textColor="@color/pp_green"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/imgbtn_back"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="78dp"
+        android:src="@drawable/ic_add_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="대표 사진 수정"
+        android:textColor="#F5F5F5"
+        android:layout_marginTop="342dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="380dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="애칭"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="애칭"
+            android:textColorHint="#868686"
+            android:textSize="14sp"
+            android:layout_marginLeft="64dp"
+            app:layout_constraintStart_toEndOf="@+id/nameText"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <View
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#cccccc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear1" />
+
+    <LinearLayout
+        android:id="@+id/linear2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="420dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/kindText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="종류"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/kind"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="종류"
+            android:textColorHint="#868686"
+            android:textSize="14sp"
+            android:layout_marginLeft="64dp"
+            app:layout_constraintStart_toEndOf="@+id/kindText"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <View
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#cccccc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear2" />
+
+    <LinearLayout
+        android:id="@+id/linear3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="460dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="심은 날짜"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="0000. 00. 00"
+            android:textColorHint="#868686"
+            android:textSize="14sp"
+            android:layout_marginLeft="31dp"
+            app:layout_constraintStart_toEndOf="@+id/dateText"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <View
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#cccccc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear3" />
+
+    <LinearLayout
+        android:id="@+id/linear4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="500dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tmprtText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최적 온도"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/tmprt"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="00~00˚"
+            android:textColorHint="#868686"
+            android:textSize="14sp"
+            android:layout_marginLeft="31dp"
+            app:layout_constraintStart_toEndOf="@+id/tmprtText"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <View
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#cccccc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear4" />
+
+    <LinearLayout
+        android:id="@+id/linear5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="540dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/lightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="빛 요구도"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/light"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="빛 요구도"
+            android:textColorHint="#868686"
+            android:textSize="14sp"
+            android:layout_marginLeft="31dp"
+            app:layout_constraintStart_toEndOf="@+id/lightText"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <View
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#cccccc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear5" />
+
+    <LinearLayout
+        android:id="@+id/linear6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="580dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/waterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="급수 주기"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/water"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="00일"
+            android:textColorHint="#868686"
+            android:textSize="14sp"
+            android:layout_marginLeft="31dp"
+            app:layout_constraintStart_toEndOf="@+id/waterText"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+    <View
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#cccccc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear6" />
+
+    <LinearLayout
+        android:id="@+id/linear7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="620dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/memoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="메모"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/memo"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="메모를 작성하세요."
+            android:textColorHint="#868686"
+            android:textSize="14sp"
+            android:layout_marginLeft="64dp"
+            app:layout_constraintStart_toEndOf="@+id/memoText"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
