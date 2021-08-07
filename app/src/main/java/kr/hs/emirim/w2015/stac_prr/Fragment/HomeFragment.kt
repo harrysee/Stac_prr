@@ -1,22 +1,17 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.viewpager2.widget.CompositePageTransformer
-import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
 import kr.hs.emirim.w2015.stac_prr.AlarmActivity
 import kr.hs.emirim.w2015.stac_prr.R
-import java.lang.Math.abs
 
 class HomeFragment : Fragment() {
     private val MIN_SCALE = 0.90f // 뷰가 몇퍼센트로 줄어들 것인지
@@ -54,12 +49,22 @@ class HomeFragment : Fragment() {
                 page.scaleY=scaleFactor
             } else {
                 page.translationX=myOffset
+profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListener{
+            override fun onItemClick(v: View, data: ProfileData, pos : Int) {
+                Intent(this@MainActivity, ProfileDetailActivity::class.java).apply {
+                    putExtra("data", data)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }.run { startActivity(this) }
+            }
 
+})
             }*/
         }
         /* 여백, 너비에 대한 정의 */
         viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
-        viewPager.adapter = FhViewAdapter(getimgList(),gettxtList()) // 어댑터 생성
+        val viewAdapter = FhViewAdapter(getimgList(),gettxtList(),activity) // 어댑터 생성
+        viewPager.adapter = viewAdapter
+        Log.i("어댑터소환", "어댑터 실행완료 ")
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
         viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
 
@@ -69,7 +74,9 @@ class HomeFragment : Fragment() {
             val i = Intent(activity, AlarmActivity::class.java)
             activity?.startActivity(i)
         }
+
     }
+
 
     private fun getimgList(): ArrayList<Int> {
         return arrayListOf<Int>(

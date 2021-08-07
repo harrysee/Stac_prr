@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back_gray"
-    tools:context=".newPlant">
+    tools:context=".Fragment.NewPlantFragment">
     <LinearLayout
         android:layout_width="412dp"
         android:layout_height="56dp"
@@ -14,11 +14,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <ImageButton
-            android:id="@+id/imgbtn_back"
+            android:id="@+id/img_btn_backhome"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@color/back_gray"
             android:src="@drawable/ic_back"
+            android:padding="10dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"

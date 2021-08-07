@@ -3,56 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:background="#ffffff"
-    android:elevation="5dp"
     android:orientation="horizontal">
 
-    <RelativeLayout
-        android:id="@+id/btn_bottom_navi_home_tab"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/selector_tab_home" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/btn_bottom_navi_calender_tab"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/slector_tab_calender" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/btn_bottom_navi_jour_tab"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/selector_tab_journal" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/btn_bottom_navi_set_tab"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/selector_tab_setting" />
-    </RelativeLayout>
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:id="@+id/icon"
+        android:layout_gravity="center"/>
 
 </LinearLayout>
