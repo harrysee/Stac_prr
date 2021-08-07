@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:background="@color/back_gray"
     android:layout_height="match_parent"
-    tools:context=".AlarmActivity">
+    tools:context=".Fragment.AlamFragment">
 
     <ImageButton
         android:id="@+id/imgbtn_back"
-        android:onClick="back_home"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:background="@color/back_gray"

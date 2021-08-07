@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_new_plant.*
+import kr.hs.emirim.w2015.stac_prr.CustomDialog
+import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
 class NewPlantFragment : Fragment(){
@@ -20,7 +22,31 @@ class NewPlantFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.activity_new_plant, container, false)
+
         return view
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val activity = activity as MainActivity
+        
+        // 이미지 화살표 눌렀을때
+        img_btn_backhome.setOnClickListener(){
+            val dir = CustomDialog(requireContext())
+                .setMessage("진짜 다썻니?")
+                .setPositiveBtn("네"){
+                    activity.fragmentChange_for_adapter(HomeFragment())
+                }
+                .setNegativeBtn("아니오"){}
+                .show()
+        }
+        
+        // 완료 눌렀을 때
+        btn_completion.setOnClickListener{
+            activity.fragmentChange_for_adapter(HomeFragment())
+        }
+
+    }
+
 
 }

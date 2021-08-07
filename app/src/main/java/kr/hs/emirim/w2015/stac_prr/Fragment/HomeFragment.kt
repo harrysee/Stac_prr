@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
-import kr.hs.emirim.w2015.stac_prr.AlarmActivity
+import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
 class HomeFragment : Fragment() {
@@ -71,8 +71,8 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
         view_dots_indicator.setViewPager2(viewPager) // indicator 설정
 
         btn_img_alram.setOnClickListener{
-            val i = Intent(activity, AlarmActivity::class.java)
-            activity?.startActivity(i)
+            val activity = activity as MainActivity
+            activity.fragmentChange_for_adapter(AlarmFragment())
         }
 
     }

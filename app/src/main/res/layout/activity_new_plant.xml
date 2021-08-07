@@ -6,37 +6,37 @@
     android:layout_height="match_parent"
     android:background="@color/back_gray"
     tools:context=".Fragment.NewPlantFragment">
-    <LinearLayout
-        android:layout_width="412dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:orientation="horizontal"
         android:background="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <ImageButton
             android:id="@+id/img_btn_backhome"
             android:layout_width="25dp"
+            android:backgroundTint="@color/transparent"
             android:layout_height="25dp"
             android:background="@color/back_gray"
             android:src="@drawable/ic_back"
             android:padding="10dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="16dp"/>
 
-        <TextView
+        <Button
+            android:id="@+id/btn_completion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="310dp"
-            android:layout_marginTop="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="-2dp"
+            android:background="@drawable/shape_nostrock"
             android:text="완료"
             android:textColor="@color/pp_green"
             android:textSize="19sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/imgbtn_back"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+            android:textStyle="bold" />
+
+    </RelativeLayout>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

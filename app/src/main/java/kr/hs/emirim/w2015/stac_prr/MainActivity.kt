@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         view4.findViewById<View>(R.id.icon).setBackgroundResource(R.drawable.selector_tab_setting)
         tabs.addTab(tabs.newTab().setCustomView(view4))
 
+        supportFragmentManager.beginTransaction().replace(R.id.container, HomeFragment()).commit()
+
         tabs.setOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val position = tab.position
