@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.android.synthetic.main.activity_main.*
-import kr.hs.emirim.w2015.stac_prr.Adapter.MainFragmentStatePagerAdapter
 import kr.hs.emirim.w2015.stac_prr.Fragment.CalenderFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
