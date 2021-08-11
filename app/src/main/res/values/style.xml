@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CalendarWidgetHeader">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/pp_green</item>
+    </style>
+    <style name="CalendarWidgetWeek">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#686868</item>
+    </style>
+    <style name="CalendarWidgetDate">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/day_gray</item>
+    </style>
+    <style name="OtherDay">
+        <item name="android:textColor">@color/other_day_gray</item>
+        <item name="android:textSize">10dp</item>
+    </style>
+</resources>

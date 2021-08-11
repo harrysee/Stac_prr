@@ -8,25 +8,54 @@
     tools:context=".Fragment.CalenderFragment">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="371dp"
+        android:id="@+id/cardView"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:cardCornerRadius="40dp"
         android:background="@color/white"
+        app:cardCornerRadius="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.applandeo.materialcalendarview.CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:headerColor="@color/back_gray"
-            app:todayLabelColor="@color/black"
-            app:selectionColor="@color/pp_green"
-            app:daysLabelsColor="#868686"
-            app:highlightedDaysLabelsColor="@color/red"
-            app:headerLabelColor="@color/pp_green" />
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/materialCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="5dp"
+            app:mcv_arrowColor="@color/pp_green"
+            app:mcv_firstDayOfWeek="sunday"
+            app:mcv_leftArrowMask="@drawable/calendar_prebtn"
+            app:mcv_rightArrowMask="@drawable/calendar_forbtn"
+            app:mcv_selectionColor="#FFFDE4" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="360dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="14dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/transparent"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_month_plan"
+            android:textColor="@color/pp_green"
+            android:textSize="16dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"/>
+
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

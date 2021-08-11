@@ -5,30 +5,7 @@
     <string name="text_today_flower">오늘의 꽃말</string>
     <string name="text_register_plant">새 식물 등록하기</string>
     <string name="alarm_text">알림</string>
-    <string name="material_calendar_monday">월</string>
-    <string name="material_calendar_tuesday">화</string>
-    <string name="material_calendar_wednesday">수</string>
-    <string name="material_calendar_thursday">목</string>
-    <string name="material_calendar_friday">금</string>
-    <string name="material_calendar_saturday">토</string>
-    <string name="material_calendar_sunday">일</string>
+    <string name="text_month_plan">이번 달 일정</string>
 
-    <array name="material_calendar_months_array">
-        <item>01월</item>
-        <item>02월</item>
-        <item>03월</item>
-        <item>04월</item>
-        <item>05월</item>
-        <item>06월</item>
-        <item>07월</item>
-        <item>08월</item>
-        <item>09월</item>
-        <item>10월</item>
-        <item>11월</item>
-        <item>12월</item>
-    </array>
 
-    <string name="material_calendar_today_button">Today</string>
-    <string name="material_calendar_positive_button">OK</string>
-    <string name="material_calendar_negative_button">Cancel</string>
 </resources>
