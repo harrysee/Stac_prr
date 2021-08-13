@@ -49,7 +49,7 @@
         android:layout_marginTop="89dp"
         android:text="@string/text_today_flower"
         android:textColor="#5E5E5E"
-        android:textSize="13sp"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,7 +70,7 @@
         android:layout_marginTop="133dp"
         android:text="꽃말 텍스트"
         android:textColor="#5E5E5E"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,7 +82,7 @@
         android:layout_marginTop="2dp"
         android:text="#꽃말_부가설명"
         android:textColor="#8EC057"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_flower_today" />
 
@@ -103,7 +103,7 @@
         android:id="@+id/view_dots_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         app:dotsColor="@color/pp_green"
         app:dotsCornerRadius="8dp"
         app:dotsSize="9dp"

@@ -5,26 +5,30 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content">
 
         <CheckBox
             android:id="@+id/check_box"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="31dp"
+            android:layout_height="29dp"
+            android:buttonTint="@color/day_gray"
             android:checked="false"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/content"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:minWidth="100dp"
-            android:text="title"
-            android:gravity="left"
-            app:layout_constraintLeft_toRightOf="@+id/check_box" />
+            android:text="내용"
+            android:textColor="@color/day_gray"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/check_box"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
