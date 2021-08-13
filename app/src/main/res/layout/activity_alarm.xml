@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/back_gray"
     android:layout_height="match_parent"
-    tools:context=".Fragment.AlamFragment">
+    tools:context=".Fragment.AlarmFragment">
 
     <ImageButton
         android:id="@+id/imgbtn_back"

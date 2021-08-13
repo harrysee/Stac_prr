@@ -5,6 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.activity_alarm.*
+import kotlinx.android.synthetic.main.activity_alarm.imgbtn_back
+import kotlinx.android.synthetic.main.activity_new_plant.*
+import kotlinx.android.synthetic.main.fragment_add_plan.*
+import kr.hs.emirim.w2015.stac_prr.CustomDialog
+import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -18,16 +24,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class AddPlanFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -38,23 +37,25 @@ class AddPlanFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_plan, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddPlanFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddPlanFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val activity = activity as MainActivity
+        // 이미지 화살표 눌렀을때
+        addplan_pass_btn.setOnClickListener(){
+            val dir = CustomDialog(requireContext())
+                .setMessage("작성중인 내용이 사라집니다\n취소하시겠습니까?")
+                .setPositiveBtn("네"){
+                    activity.fragmentChange_for_adapter(CalenderFragment())
                 }
-            }
+                .setNegativeBtn("아니오"){}
+                .show()
+        }
+
+        // 완료 눌렀을 때
+        addplan_complate_btn.setOnClickListener{
+            activity.fragmentChange_for_adapter(CalenderFragment())
+        }
     }
+
+
 }

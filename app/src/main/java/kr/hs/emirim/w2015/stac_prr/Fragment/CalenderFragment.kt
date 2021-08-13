@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.prolificinteractive.materialcalendarview.*
 import kotlinx.android.synthetic.main.fragment_calender.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.PlanAdapter
 import kr.hs.emirim.w2015.stac_prr.ItemModel
+import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.databinding.FragmentCalenderBinding
 import java.text.SimpleDateFormat
@@ -103,6 +105,8 @@ class CalenderFragment : Fragment(),View.OnClickListener {
         init()  // recycleview 설정
         //plus btn listener
         binding.planPlusBtn.setOnClickListener(){
+            val activity = activity as MainActivity
+            activity.fragmentChange_for_adapter(AddPlanFragment())
             Log.d("plus", "plus버튼 클릭됨")
         }
     }// onViewCreate end
