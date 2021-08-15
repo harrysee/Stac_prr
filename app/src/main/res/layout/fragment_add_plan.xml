@@ -53,10 +53,33 @@
     </LinearLayout>
 
     <!--    대상 넣기   -->
+
+    <Spinner
+        android:id="@+id/planets_spinner"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="48dp"
+        android:spinnerMode="dropdown"
+        android:background="@drawable/selector_spinner_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <View
+        android:id="@+id/addplan_view_line0"
+        android:layout_width="142dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="32dp"
+        android:background="@color/day_gray"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/planets_spinner" />
+
     <LinearLayout
         android:id="@+id/edit1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginTop="144dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,17 +90,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:layout_gravity="center"
             android:text="대상"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-        <EditText
+        <Spinner
+            android:id="@+id/plant_name_spinner"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="70dp"
-            android:hint="내용을 입력해주세요내용"
-            android:textSize="14sp"
-            android:textColorHint="@color/day_gray" />
+            android:spinnerMode="dropdown"
+            android:background="@drawable/selector_spinner_view"
+            />
     </LinearLayout>
 
     <View
@@ -94,7 +119,7 @@
     <LinearLayout
         android:id="@+id/edit2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,15 +131,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="날짜"
+            android:layout_gravity="center"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
         <EditText
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="70dp"
             android:textSize="14sp"
-            android:hint="내용을 입력해주세요내용"
+            android:hint="0000.00.00(월)"
+            android:gravity="center_vertical"
             android:textColorHint="@color/day_gray" />
     </LinearLayout>
 
@@ -132,7 +159,7 @@
     <LinearLayout
         android:id="@+id/edit3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -144,15 +171,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="시간"
+            android:layout_gravity="center"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
         <EditText
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:layout_marginLeft="70dp"
             android:textSize="14sp"
-            android:hint="내용을 입력해주세요내용"
+            android:hint="오전 6:00"
             android:textColorHint="@color/day_gray" />
     </LinearLayout>
 
@@ -170,7 +199,7 @@
     <LinearLayout
         android:id="@+id/edit4"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -181,17 +210,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:layout_gravity="center"
             android:text="알림"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-        <EditText
+        <Spinner
+            android:id="@+id/alarm_spinner"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="70dp"
-            android:textSize="14sp"
-            android:hint="내용을 입력해주세요내용"
-            android:textColorHint="@color/day_gray" />
+            android:spinnerMode="dropdown"
+            android:background="@drawable/selector_spinner_view"
+            />
     </LinearLayout>
 
     <View
@@ -210,6 +241,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:minHeight="60dp"
+        android:maxHeight="70dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

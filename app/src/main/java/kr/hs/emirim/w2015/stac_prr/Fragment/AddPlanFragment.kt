@@ -1,28 +1,17 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_alarm.*
-import kotlinx.android.synthetic.main.activity_alarm.imgbtn_back
-import kotlinx.android.synthetic.main.activity_new_plant.*
+import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.fragment_add_plan.*
 import kr.hs.emirim.w2015.stac_prr.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddPlanFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddPlanFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +29,7 @@ class AddPlanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as MainActivity
+        R.style.AlertDialog_AppCompat
         // 이미지 화살표 눌렀을때
         addplan_pass_btn.setOnClickListener(){
             val dir = CustomDialog(requireContext())
@@ -55,7 +45,18 @@ class AddPlanFragment : Fragment() {
         addplan_complate_btn.setOnClickListener{
             activity.fragmentChange_for_adapter(CalenderFragment())
         }
-    }
 
+        // title 부분
+        val title = resources.getStringArray(R.array.title_arr)
+        val adapter = ArrayAdapter<String>(
+            requireContext(),
+            R.layout.spinner_custom,
+            title
+        )
+        Log.d("TAG", "onViewCreated: 어댑터 완성")
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        planets_spinner.adapter= adapter
 
+    }// onViewcreated end
+    
 }

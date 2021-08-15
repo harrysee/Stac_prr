@@ -18,7 +18,7 @@
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="66dp"
+        android:layout_height="61dp"
         android:elevation="5dp"
         app:tabRippleColor="@color/transparent"
         app:tabIndicatorColor="@color/pp_green"

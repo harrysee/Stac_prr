@@ -7,6 +7,15 @@
     <string name="alarm_text">알림</string>
     <string name="complate">완료</string>
     <string name="text_month_plan">이번 달 일정</string>
+    <string-array name="title_arr">
+        <item>제목</item>
+        <item>급수</item>
+        <item>분갈이</item>
+        <item>영양제투여</item>
+        <item>심은날</item>
+        <item>수분</item>
+        <item>수확</item>
+    </string-array>
 
 
 </resources>

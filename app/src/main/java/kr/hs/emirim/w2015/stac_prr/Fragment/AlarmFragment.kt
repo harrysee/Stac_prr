@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_alarm.*
+import kotlinx.android.synthetic.main.fragment_alarm.*
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
@@ -18,7 +18,7 @@ class AlarmFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.activity_alarm, container, false)
+        return inflater.inflate(R.layout.fragment_alarm, container, false)
 
     }
 
