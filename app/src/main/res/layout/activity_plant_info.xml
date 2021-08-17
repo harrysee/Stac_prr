@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:gravity="bottom"
+    app:umanoDragView="@id/dragView"
+    app:umanoPanelHeight="490dp"
+    app:umanoOverlay="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E9E9E9"
+            />
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_back_btn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/dragView"
+        android:layout_width="match_parent"
+        android:layout_height="660dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:background="@drawable/drawer_background"
+            android:layout_width="match_parent"
+            android:layout_height="660dp">
+
+            <LinearLayout
+                android:id="@+id/linear1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="29dp"
+                android:layout_marginLeft="32dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="식물이름"
+                    android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/pp_green"
+                    android:text="식물종류"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="88dp"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/back_circle"
+                    android:backgroundTint="#8EC057"/>
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="28dp"
+                    android:background="@drawable/back_circle"
+                    android:backgroundTint="#AF7266"/>
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="28dp"
+                    android:background="@drawable/back_circle"
+                    android:backgroundTint="#72B5E8"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="94dp"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="67.69dp"
+                        android:layout_height="67.69dp"
+                        android:background="@drawable/ic_date"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="37.67dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="0일째"
+                        android:textColor="#8EC057"
+                        android:textStyle="bold"/>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40.3dp"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="67.69dp"
+                        android:layout_height="67.69dp"
+                        android:background="@drawable/ic_repot" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="37.67dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="0회"
+                        android:textColor="#AF7266"
+                        android:textStyle="bold"/>
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40.3dp"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="67.69dp"
+                        android:layout_height="67.69dp"
+                        android:background="@drawable/ic_water" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="37.67dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="00일전"
+                        android:textColor="#72B5E8"
+                        android:textStyle="bold"/>
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_alignTop="@+id/linear2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-10dp"
+                android:background="#cccccc" />
+            <LinearLayout
+                android:id="@+id/linear2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="196dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="심은 날짜"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="34dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0000. 00. 00"
+                    android:textColor="#cccccc"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="34dp" />
+            </LinearLayout>
+            <View
+                android:id="@+id/linear2bt"
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/linear2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc"/>
+
+            <LinearLayout
+                android:id="@+id/linear3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/linear2bt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="최적 온도"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="34dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00~00˚"
+                    android:textColor="#cccccc"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="34dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+            <View
+                android:id="@+id/linear3bt"
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/linear3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc" />
+
+            <LinearLayout
+                android:id="@+id/linear4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/linear3bt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="빛 요구도"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="34dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="빛 요구도"
+                    android:textColor="#cccccc"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="34dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+            <View
+                android:id="@+id/linear4bt"
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/linear4"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc" />
+
+            <LinearLayout
+                android:id="@+id/linear5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/linear4bt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="급수 주기"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="34dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00일"
+                    android:textColor="#cccccc"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="34dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+            <View
+                android:id="@+id/linear5bt"
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/linear5"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc" />
+
+            <LinearLayout
+                android:id="@+id/linear6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/linear5bt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="메모"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="34dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="메모를 작성하세요\n(공간은 줄 수에 따라 유동적\n으로 변합니다.)"
+                    android:textColor="#cccccc"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="64dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+            <View
+                android:id="@+id/linear6bt"
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/linear6"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc" />
+
+            <LinearLayout
+                android:id="@+id/linear7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/linear6bt">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="갤러리"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="34dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
