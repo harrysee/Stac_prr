@@ -16,6 +16,16 @@
         <item>수분</item>
         <item>수확</item>
     </string-array>
+    <string name="set_alarm">PUSH 알림</string>
+    <string name="set_nugu">SKT NUGU 연동</string>
+    <string name="set_iot">IOT 연동</string>
+    <string name="set_notice">공지사항</string>
+    <string name="set_ask">문의하기</string>
+    <string name="set_tos">이용약관</string>
+    <string name="set_version">버전 정보</string>
+
+<!--    이용약관 text  -->
+
 
 
 </resources>
