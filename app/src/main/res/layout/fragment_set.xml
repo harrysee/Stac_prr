@@ -188,7 +188,7 @@
             android:src="@drawable/ic_gray_pass" />
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/set_linear_rule"
+        android:id="@+id/set_linear_tos"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@drawable/shape_set_linear"
@@ -202,13 +202,13 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:textColor="@color/black"
-            android:text="@string/set_rule"/>
+            android:text="@string/set_tos"/>
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
         <ImageButton
-            android:id="@+id/set_imgbtn_rule"
+            android:id="@+id/set_imgbtn_tos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
@@ -222,7 +222,7 @@
         android:layout_height="56dp"
         android:background="@drawable/shape_set_linear"
         android:orientation="horizontal"
-        android:layout_below="@+id/set_linear_rule"
+        android:layout_below="@+id/set_linear_tos"
         android:layout_marginTop="1dp">
         <TextView
             android:layout_width="wrap_content"
@@ -236,14 +236,15 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
-        <ImageButton
+        <TextView
             android:id="@+id/set_imgbtn_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
+            android:layout_marginRight="20dp"
             android:layout_gravity="center_vertical|right"
-            android:padding="20dp"
-            android:src="@drawable/ic_gray_pass" />
+            android:text="1.12"
+            android:textSize="15sp"
+            android:textColor="@color/day_gray" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
