@@ -15,7 +15,6 @@ private const val ARG_PARAM2 = "param2"
 class SetFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -36,7 +35,7 @@ class SetFragment : Fragment() {
             main.fragmentChange_for_adapter(SetTosFragment())
         }
         set_imgbtn_notice.setOnClickListener(){
-            main.fragmentChange_for_adapter(SetTosFragment())
+            main.fragmentChange_for_adapter(SetNoticeFragment())
         }
         set_imgbtn_ask.setOnClickListener(){
             main.fragmentChange_for_adapter(SetTosFragment())
