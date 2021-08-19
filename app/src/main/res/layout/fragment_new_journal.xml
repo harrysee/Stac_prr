@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back_gray"
+    tools:context=".Fragment.NewJournalFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/addplan_pass_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="13dp"
+            android:background="@color/back_gray"
+            android:backgroundTint="@color/transparent"
+            android:padding="10dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="일지 작성"
+            android:textColor="@color/pp_green"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/addplan_complate_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="200dp"
+            android:background="@drawable/shape_nostrock"
+            android:gravity="center"
+            android:text="@string/complate"
+            android:textColor="@color/pp_green"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/now_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="16dp"
+        android:text="날짜"
+        android:textColor="@color/pp_green"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="365dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_corner"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/now_date"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/choice"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:text="선택"
+                android:textColor="@color/day_gray"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/linear"
+                app:layout_constraintTop_toTopOf="@id/linear"/>
+
+            <Spinner
+                android:id="@+id/choice_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="14dp"
+                android:spinnerMode="dropdown"
+                android:background="@drawable/selector_spinner_view"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:id="@+id/line1"
+        android:layout_width="365dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="34dp"
+        android:background="@color/set_bg"
+        app:layout_constraintTop_toTopOf="@id/linear"
+        app:layout_constraintStart_toStartOf="@id/linear"/>
+    <EditText
+        android:id="@+id/journaling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:hint="새 일지를 작성하세요"
+        android:textColorHint="@color/day_gray"
+        android:textSize="14sp"
+        android:textColor="@color/day_gray"
+        app:layout_constraintTop_toBottomOf="@id/line1"
+        app:layout_constraintStart_toStartOf="@id/linear"/>
+
+    <ImageButton
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_add_photo"
+        app:layout_constraintTop_toBottomOf="@id/journaling"
+        app:layout_constraintLeft_toLeftOf="@id/linear"
+        android:layout_marginTop="157dp"
+        android:layout_marginLeft="16dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
