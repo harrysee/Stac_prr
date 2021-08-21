@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/back_gray"
     tools:context=".Fragment.SetNoticeFragment">
 
@@ -41,6 +42,9 @@
         android:id="@+id/notice_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        tools:listitem="@layout/notice_item"
         android:layout_below="@+id/notice_top_bar"/>
 
 </RelativeLayout>
