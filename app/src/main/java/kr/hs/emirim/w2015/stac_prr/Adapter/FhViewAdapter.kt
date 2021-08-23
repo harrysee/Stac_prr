@@ -1,7 +1,5 @@
 package kr.hs.emirim.w2015.stac_prr.Adapter
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.slider_item.view.*
 import kr.hs.emirim.w2015.stac_prr.Fragment.NewPlantFragment
 import kr.hs.emirim.w2015.stac_prr.MainActivity
+import kr.hs.emirim.w2015.stac_prr.Fragment.PlantInfoFragment
 import kr.hs.emirim.w2015.stac_prr.R
 
 
@@ -25,13 +24,15 @@ class FhViewAdapter(a : ArrayList<Int>, newtext : ArrayList<String>, val fragmen
     override fun onBindViewHolder(holder: MyViewholder, position: Int) {
         holder.bind(item_img[position], ntxt[position])
         holder.itemView.setOnClickListener{
-            Log.d("클릭", "클릭됨 ")
-            var fragment:Fragment= NewPlantFragment()
+            Log.d(">>>>."+position.toString(), "클릭됨 ")
+            var fragment:Fragment= PlantInfoFragment()
             var bundle: Bundle = Bundle()
-
-            fragment.arguments = bundle
-
             activity = fragment_s as MainActivity?
+
+            if (position==0){
+                fragment = NewPlantFragment()
+            }
+            fragment.arguments = bundle
             activity?.fragmentChange_for_adapter(fragment)
             Log.d("프레그먼트", "프레그먼트 갔다옴 ")
         }
