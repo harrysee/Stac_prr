@@ -7,7 +7,7 @@
     tools:context=".MainActivity"
     android:gravity="bottom"
     app:umanoDragView="@id/dragView"
-    app:umanoPanelHeight="490dp"
+    app:umanoPanelHeight="435dp"
     app:umanoOverlay="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +25,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@drawable/ic_back_btn"
+            android:backgroundTint="@color/transparent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="16dp"
@@ -36,13 +37,13 @@
     <LinearLayout
         android:id="@+id/dragView"
         android:layout_width="match_parent"
-        android:layout_height="660dp"
+        android:layout_height="580dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:background="@drawable/drawer_background"
             android:layout_width="match_parent"
-            android:layout_height="660dp">
+            android:layout_height="580dp">
 
             <LinearLayout
                 android:id="@+id/linear1"
