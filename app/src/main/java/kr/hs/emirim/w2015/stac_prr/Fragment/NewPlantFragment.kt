@@ -32,7 +32,7 @@ class NewPlantFragment : Fragment(){
         // 이미지 화살표 눌렀을때
         img_btn_backhome.setOnClickListener(){
             val dir = CustomDialog(requireContext())
-                .setMessage("진짜 다썻니?")
+                .setMessage("작성중인 내용이 사라집니다\n취소하시겠습니까?")
                 .setPositiveBtn("네"){
                     activity.fragmentChange_for_adapter(HomeFragment())
                 }
