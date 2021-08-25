@@ -13,7 +13,7 @@ import kr.hs.emirim.w2015.stac_prr.R
 
 class JournalFragment : Fragment() {
     lateinit var journalAdapter: JournalAdapter
-    val datas = mutableListOf<JournalData>()
+    private val datas = mutableListOf<JournalData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class JournalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_journal, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,18 +34,15 @@ class JournalFragment : Fragment() {
 
     private fun initRecycler() {
         journalAdapter = JournalAdapter(requireContext())
-        journal.adapter = journalAdapter
+        journal_recycler.adapter = journalAdapter
 
-        datas.apply {
-            add(JournalData(name = "초록이", journal = "일지"))
-            add(JournalData(name = "무럭이", journal = "일지"))
-            add(JournalData(name = "완전멋진이름", journal = "일지"))
-            add(JournalData(name = "초록이", journal = "일지"))
-            add(JournalData(name = "무럭이", journal = "일지"))
+        datas.add(JournalData(name = "초록이", journal = "일지"))
+        datas.add(JournalData(name = "무럭이", journal = "일지"))
+        datas.add(JournalData(name = "완전멋진이름", journal = "일지"))
+        datas.add(JournalData(name = "초록이", journal = "일지"))
+        datas.add(JournalData(name = "무럭이", journal = "일지"))
 
-            journalAdapter.datas = datas
-            journalAdapter.notifyDataSetChanged()
-
-        }
+        journalAdapter.datas = datas
+        journalAdapter.notifyDataSetChanged()
     }
 }

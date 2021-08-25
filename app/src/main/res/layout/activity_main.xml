@@ -17,6 +17,7 @@
     <com.google.android.material.tabs.TabLayout
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         android:id="@+id/tabs"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="61dp"
         android:elevation="5dp"

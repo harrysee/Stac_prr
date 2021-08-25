@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/white"
+        android:background="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -26,6 +26,7 @@
             android:text="내용"
             android:textColor="@color/day_gray"
             android:textSize="15sp"
+            android:paddingRight="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/check_box"
             app:layout_constraintTop_toTopOf="parent" />

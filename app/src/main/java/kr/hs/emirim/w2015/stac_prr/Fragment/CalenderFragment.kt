@@ -25,10 +25,6 @@ import kr.hs.emirim.w2015.stac_prr.databinding.FragmentCalenderBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class CalenderFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentCalenderBinding? = null//<layout></layout>으로 감싼 것만 바인딩가능
     private val binding get() = _binding!!
@@ -138,7 +134,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         val sundayDecorator = SundayDecorator()     // 일요일 빨간색
         val saturdayDecorator = SaturdayDecorator() // 토요일 파란색
         val todayDecorator = TodayDecorator(requireContext())   //오늘 배경설정
-        val dotDecorator = DotDecorator("#ff0000", dotPlanDay)
+        val dotDecorator = DotDecorator("#8EC057", dotPlanDay)
 
         //데코레이터 추가
         binding.materialCalendar.addDecorators(

@@ -82,9 +82,10 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/journal"
+        android:id="@+id/journal_recycler"
         android:layout_width="match_parent"
         android:layout_height="640dp"
+        android:padding="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation ="vertical"
         tools:listitem="@layout/journal_item"

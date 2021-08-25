@@ -19,7 +19,7 @@ class DotDecorator(private val color: String, dates: Collection<CalendarDay>?) :
     }
 
     override fun decorate(view: DayViewFacade) {
-        view.addSpan(DotSpan(5F, Color.parseColor(color)))
+        view.addSpan(DotSpan(6F, Color.parseColor(color)))
         //view.addSpan(drawble!!)
 
         Log.d(dates.toString(), "decorate: 실행됨 dot")

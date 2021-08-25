@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:backgroundTint="@color/white"
+    android:padding="5dp"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/shape_corner">
     <TextView
         android:id="@+id/journal_title"
@@ -19,12 +21,12 @@
     <ImageButton
         android:layout_width="14dp"
         android:layout_height="18dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="280dp"
-        android:src="@drawable/ic_baseline_bookmark_border"
+        android:src="@drawable/selector_bookmark"
         android:background="@color/transparent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/journal_title"/>
+        android:layout_marginRight="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/line1"
+        app:layout_constraintRight_toRightOf="parent"/>
     <View
         android:id="@+id/line1"
         android:layout_width="match_parent"
