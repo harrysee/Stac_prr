@@ -19,10 +19,12 @@
         android:layout_margin="12dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:id="@+id/cardView2"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            app:cardElevation="0dp"
             app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
+            android:scaleType="fitXY"
             app:layout_constraintDimensionRatio="124:145"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,18 +37,25 @@
                 android:background="@drawable/shape_rounding"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_add_img_box" />
+
         </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="text_register_plant,btn_icon_passvar"/>
 
         <TextView
             android:id="@+id/text_register_plant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:padding="5dp"
             android:text="@string/text_register_plant"
             android:textColor="#000000"
             android:textSize="15sp"
-            android:padding="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -54,15 +63,15 @@
             android:id="@+id/btn_icon_passvar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintDimensionRatio="7:13"
+            android:layout_marginRight="5dp"
+            android:background="@color/transparent"
             android:maxWidth="7dp"
             android:maxHeight="14dp"
-            android:background="@color/transparent"
-            android:src="@drawable/pass"
             android:padding="5dp"
-            android:layout_marginRight="5dp"
+            android:src="@drawable/pass"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintDimensionRatio="7:13"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

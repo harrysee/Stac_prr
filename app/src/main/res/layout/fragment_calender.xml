@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -10,23 +11,29 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="360dp"
-            android:layout_height="wrap_content"
-            app:cardElevation="0dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
             android:background="@color/white"
             app:cardCornerRadius="40dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/plan_card"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.65"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintWidth_percent="0.9">
 
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                 android:id="@+id/materialCalendar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@color/white"
                 android:padding="5dp"
                 app:mcv_arrowColor="@color/pp_green"
                 app:mcv_firstDayOfWeek="sunday"
+                app:mcv_titleAnimationOrientation="horizontal"
                 app:mcv_leftArrowMask="@drawable/calendar_prebtn"
                 app:mcv_rightArrowMask="@drawable/calendar_forbtn"
                 app:mcv_selectionColor="#FFFDE4" />
@@ -34,15 +41,18 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="360dp"
-            android:layout_height="300dp"
+            android:id="@+id/plan_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="14dp"
-            app:cardElevation="0dp"
             app:cardBackgroundColor="@color/transparent"
             app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView">
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintWidth_percent="0.9">
 
             <TextView
                 android:id="@+id/plan_txt"
@@ -61,19 +71,19 @@
                 android:layout_gravity="right"
                 android:layout_marginTop="0dp"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/btn_plus_plan"
                 android:background="@color/transparent"
-                />
+                android:src="@drawable/btn_plus_plan" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/plan_recyclerview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="20dp"/>
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="50dp" />
 
 
         </androidx.cardview.widget.CardView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

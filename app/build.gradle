@@ -1,8 +1,9 @@
+
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
-
 }
 
 android {
@@ -11,6 +12,7 @@ android {
     defaultConfig {
         applicationId "kr.hs.emirim.w2015.stac_prr"
         minSdkVersion 16
+        multiDexEnabled true
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -39,6 +41,7 @@ android {
 dependencies {
     implementation 'com.tbuonomo:dotsindicator:4.2'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    implementation 'com.google.firebase:firebase-firestore:23.0.3'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
@@ -51,9 +54,13 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.github.prolificinteractive:material-calendarview:1.4.3'
+    implementation 'com.prolificinteractive:material-calendarview:1.4.3'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-}
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+ }

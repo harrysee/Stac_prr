@@ -2,12 +2,14 @@ package kr.hs.emirim.w2015.stac_prr
 
 import android.content.Context
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.hs.emirim.w2015.stac_prr.Fragment.CalenderFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
@@ -68,4 +70,5 @@ class MainActivity : AppCompatActivity() {
         Log.d("frag", "main으로 옴")
         supportFragmentManager.beginTransaction().replace(R.id.container, frag).commit()
     }
+
 }

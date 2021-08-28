@@ -1,14 +1,17 @@
 package kr.hs.emirim.w2015.stac_prr
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Handler
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.Constraints
 import kotlinx.android.synthetic.main.custom_dialog.view.*
 
 class CustomDialog(private val context: Context) {
+
     private val builder:AlertDialog.Builder by lazy {
         AlertDialog.Builder(context).setView(view)
     }
@@ -71,13 +74,21 @@ class CustomDialog(private val context: Context) {
         }
         return this
     }
+    /*fun setsize():CustomDialog{
+
+    }*/
     // 그 외 부가 함수
     fun create(){
         dialog = builder.create()
     }
     fun show(){
         dialog = builder.create()
+        //dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        //dialog?.window?.setLayout(256,149)
         dialog?.show()
+        val window: Window? = dialog?.window
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        window?.setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT)
     }
     fun dismiss(){
         dialog?.dismiss()
