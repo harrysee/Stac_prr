@@ -28,10 +28,6 @@ class FhViewAdapter(a : ArrayList<Int>, newtext : ArrayList<String>, val fragmen
             var fragment:Fragment= PlantInfoFragment()
             var bundle: Bundle = Bundle()
             activity = fragment_s as MainActivity?
-
-            if (position==0){
-                fragment = NewPlantFragment()
-            }
             fragment.arguments = bundle
             activity?.fragmentChange_for_adapter(fragment)
             Log.d("프레그먼트", "프레그먼트 갔다옴 ")

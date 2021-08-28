@@ -1,4 +1,4 @@
-package DataClass
+package kr.hs.emirim.w2015.stac_prr.DataClass
 
 import java.util.*
 

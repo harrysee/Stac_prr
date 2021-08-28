@@ -1,6 +1,5 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
+import java.util.*
+
 
 class HomeFragment : Fragment() {
     private val MIN_SCALE = 0.90f // 뷰가 몇퍼센트로 줄어들 것인지
@@ -77,10 +80,35 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(AlarmFragment())
         }
+        home_fab.setOnClickListener{
+            val activity = activity as MainActivity
+            activity.fragmentChange_for_adapter(NewPlantFragment())
+        }
 
     }
+    fun setflower(){
+        val rd = Random()
+        val num =  (rd.nextInt(10)).toString()
 
+        //CollectionReference 는 파이어스토어의 컬렉션을 참조하는 객체다.
+        val productRef = db.collection("today_flower").document(num)
+        //get()을 통해서 해당 문서의 정보를 가져온다.
+        productRef.get().addOnCompleteListener(OnCompleteListener{ task ->
+            //작업이 성공적으로 마쳤을때
+            if (task.isSuccessful) {
+                //문서의 데이터를 담을 DocumentSnapshot 에 작업의 결과를 담는다.
+                val document: DocumentSnapshot? = task.getResult()
+                val name = document?.getString("name")
+                val tag = document?.getString("tag")
 
+                text_flower_today.text = name +"의 꽃말은?"
+                text_flower_today_tag.text = tag
+                //그렇지 않을때
+            } else {
+                Log.d("TAG", "setflower: 파이어베이스 연결오류")
+            }
+        })
+    }
     private fun getimgList(): ArrayList<Int> {
         return arrayListOf<Int>(
             R.drawable.ic_add_img_box,
@@ -141,7 +169,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             }
         }
     } // 공식문서 코드 끝
-    
+
 
 
 }

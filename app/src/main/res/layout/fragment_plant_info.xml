@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:gravity="bottom"
+    android:elevation="0dp"
     app:umanoDragView="@id/dragView"
     app:umanoPanelHeight="435dp"
     app:umanoOverlay="true">

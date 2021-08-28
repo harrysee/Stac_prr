@@ -88,14 +88,14 @@
         android:text="꽃말 텍스트"
         android:textColor="#5E5E5E"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/text_flower_today_shap"
+        app:layout_constraintBottom_toTopOf="@id/text_flower_today_tag"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view" />
 
     <TextView
-        android:id="@+id/text_flower_today_shap"
+        android:id="@+id/text_flower_today_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"

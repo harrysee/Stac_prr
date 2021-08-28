@@ -1,6 +1,6 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
-import Decorator.DotDecorator
+import kr.hs.emirim.w2015.stac_prr.Decorator.DotDecorator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.prolificinteractive.materialcalendarview.*
 import kotlinx.android.synthetic.main.fragment_calender.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.PlanAdapter
 import kr.hs.emirim.w2015.stac_prr.ItemModel
 import kr.hs.emirim.w2015.stac_prr.MainActivity

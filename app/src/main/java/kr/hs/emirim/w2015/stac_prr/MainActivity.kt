@@ -1,6 +1,8 @@
 package kr.hs.emirim.w2015.stac_prr
 
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -20,6 +22,7 @@ import kr.hs.emirim.w2015.stac_prr.Fragment.SetFragment
 class MainActivity : AppCompatActivity() {
     private lateinit var context: Context
     private lateinit var bottomNaviLayout : View
+    val br : BroadcastReceiver = BroadcastReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -70,5 +73,17 @@ class MainActivity : AppCompatActivity() {
         Log.d("frag", "main으로 옴")
         supportFragmentManager.beginTransaction().replace(R.id.container, frag).commit()
     }
+    // 브로드캐스트리시버 필터 추가 & 등록
+    override fun onResume() {
+        super.onResume()
+        var filter = IntentFilter()
+        filter.addAction(Intent.ACTION_DATE_CHANGED)
+        registerReceiver(br, filter)
+    }
 
+    // 등록 삭제
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(br)
+    }
 }

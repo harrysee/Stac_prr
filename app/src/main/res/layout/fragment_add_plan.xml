@@ -140,6 +140,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="70dp"
             android:textSize="14sp"
+            android:singleLine="true"
+            android:background="@color/transparent"
             android:hint="0000.00.00(월)"
             android:gravity="center_vertical"
             android:textColorHint="@color/day_gray" />
@@ -181,6 +183,8 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="70dp"
             android:textSize="14sp"
+            android:singleLine="true"
+            android:background="@color/transparent"
             android:hint="오전 6:00"
             android:textColorHint="@color/day_gray" />
     </LinearLayout>
@@ -262,6 +266,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="70dp"
             android:textSize="14sp"
+            android:background="@color/transparent"
             android:hint="내용을 입력해주세요내용입력해라입력해라하던가안하던가 입력을 하라고"
             android:textColorHint="@color/day_gray" />
     </LinearLayout>
