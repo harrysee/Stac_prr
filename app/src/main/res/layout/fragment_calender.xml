@@ -13,45 +13,56 @@
             android:id="@+id/cardView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="15dp"
             android:background="@color/white"
             app:cardCornerRadius="40dp"
             app:cardElevation="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/plan_card"
+            android:layout_marginTop="57dp"
+            app:layout_constraintBottom_toBottomOf="@+id/materialCalendar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.65"
+            app:layout_constraintHeight_percent="0.61"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/materialCalendar"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintWidth_percent="0.9">
 
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/materialCalendar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:padding="5dp"
-                app:mcv_arrowColor="@color/pp_green"
-                app:mcv_firstDayOfWeek="sunday"
-                app:mcv_titleAnimationOrientation="horizontal"
-                app:mcv_leftArrowMask="@drawable/calendar_prebtn"
-                app:mcv_rightArrowMask="@drawable/calendar_forbtn"
-                app:mcv_selectionColor="#FFFDE4" />
-
         </androidx.cardview.widget.CardView>
+
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/materialCalendar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:backgroundTint="@color/transparent"
+            android:padding="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/plan_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.68"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.31"
+            app:layout_constraintWidth_percent="0.9"
+            app:mcv_arrowColor="@color/pp_green"
+            app:mcv_firstDayOfWeek="sunday"
+            app:mcv_leftArrowMask="@drawable/calendar_prebtn"
+            app:mcv_rightArrowMask="@drawable/calendar_forbtn"
+            app:mcv_selectionColor="#FFFDE4"
+            app:mcv_titleAnimationOrientation="horizontal" />
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/plan_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
             app:cardBackgroundColor="@color/transparent"
             app:cardCornerRadius="30dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/materialCalendar"
             app:layout_constraintWidth_percent="0.9">
 
             <TextView
@@ -79,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="50dp" />
+                android:layout_marginTop="40dp" />
 
 
         </androidx.cardview.widget.CardView>

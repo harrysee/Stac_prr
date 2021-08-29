@@ -4,28 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/back_gray"
     tools:context=".MainActivity">
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/tabs"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         android:id="@+id/tabs"
-        android:background="@color/white"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="61dp"
+        android:layout_height="66dp"
+        app:tabPaddingStart="5dp"
+        app:tabPaddingEnd="5dp"
+        android:background="@drawable/shape_tab_radius"
+        android:stateListAnimator="@null"
         android:elevation="5dp"
-        app:tabRippleColor="@color/transparent"
-        app:tabIndicatorColor="@color/pp_green"
-        app:tabIndicator="@drawable/main_indicator"
+        app:tabGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tabIndicator="@drawable/main_indicator"
+        app:tabIndicatorColor="@color/pp_green"
+        app:tabRippleColor="@color/transparent"
+        app:layout_constraintTop_toBottomOf="@id/container"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

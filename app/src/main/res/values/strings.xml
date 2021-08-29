@@ -6,7 +6,7 @@
     <string name="text_register_plant">새 식물 등록하기</string>
     <string name="alarm_text">알림</string>
     <string name="complate">완료</string>
-    <string name="text_month_plan">이번 달 일정</string>
+    <string name="text_month_plan">오늘의 일정</string>
     <string-array name="title_arr">
         <item>제목</item>
         <item>급수</item>

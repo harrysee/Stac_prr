@@ -1,5 +1,6 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.util.*
+import kotlin.math.log
 
 
 class HomeFragment : Fragment() {
@@ -84,9 +86,11 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(NewPlantFragment())
         }
-
+        setflower()
     }
+    @SuppressLint("SetTextI18n")
     fun setflower(){
+        Log.d("TAG", "setflower: 함수실행됨")
         val rd = Random()
         val num =  (rd.nextInt(10)).toString()
 

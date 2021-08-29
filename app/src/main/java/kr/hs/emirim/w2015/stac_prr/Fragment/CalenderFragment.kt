@@ -125,7 +125,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         binding.materialCalendar.setDateTextAppearance(R.style.CalendarWidgetDate)
 
         // 부가적 커스텀
-        binding.materialCalendar.setTileHeightDp(53) // 타이틀 높이
+        binding.materialCalendar.setTileHeightDp(57) // 타이틀 높이
         binding.materialCalendar.setSelectedDate(CalendarDay.today())  // 오늘 선택
     }
 
