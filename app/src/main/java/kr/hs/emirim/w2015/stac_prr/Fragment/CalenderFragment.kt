@@ -30,6 +30,8 @@ class CalenderFragment : Fragment(), View.OnClickListener {
     lateinit var adapter: PlanAdapter
     var model = ItemModel()
     val dotPlanDay = mutableListOf<CalendarDay>()
+    val selectDateFormat = SimpleDateFormat("yyyy. MM. dd")
+    var datetext = selectDateFormat.format(Date().day)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,18 +54,28 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         //날짜 클릭했을때
         binding.materialCalendar.setOnDateChangedListener { widget, date, selected ->
             val simpleDateFormat = SimpleDateFormat("MM월 dd일")
-            val date: String = simpleDateFormat.format(date.getCalendar().getTime())
+            val dateMd: String = simpleDateFormat.format(date.getCalendar().getTime())
+            datetext = selectDateFormat.format(date.getCalendar().getTime())
 
-            binding.planTxt.text = date
+            binding.planTxt.text = dateMd
         }
 
         binding.planRecyclerview.addItemDecoration(RecyclerViewDecoration(18))
         init()  // recycleview 설정
         //plus btn listener
         binding.planPlusBtn.setOnClickListener() {
-            val activity = activity as MainActivity
-            activity.fragmentChange_for_adapter(AddPlanFragment())
-            Log.d("plus", "plus버튼 클릭됨")
+            Log.i(datetext, "onViewCreated: datetext")
+            //val activity = activity as MainActivity
+            val fragment = AddPlanFragment(); // Fragment 생성
+            val bundle = Bundle()
+            bundle.putString("date", datetext); //Key, Value
+            fragment.arguments = bundle
+            Log.i(bundle.toString(), "onViewCreated: bundle")
+            //activity.fragmentChange_for_adapter(AddPlanFragment())
+            Log.d(fragment.arguments.toString(), "plus버튼 클릭됨")
+            activity?.supportFragmentManager!!.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit()
         }
     }// onViewCreate end
 
