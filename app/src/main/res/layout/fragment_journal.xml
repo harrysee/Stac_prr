@@ -27,37 +27,36 @@
             android:textColor="@color/pp_green"
             android:textSize="18sp"
             android:textStyle="bold" />
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
         <ImageButton
             android:id="@+id/up_btn"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginLeft="220dp"
-            android:layout_marginTop="19dp"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
             android:backgroundTint="@color/transparent"
             android:padding="10dp"
             android:src="@drawable/ic_up_btn" />
         <ImageButton
             android:id="@+id/down_btn"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginLeft="16dp"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
             android:background="@color/back_gray"
             android:backgroundTint="@color/transparent"
             android:padding="10dp"
             android:src="@drawable/ic_down_btn" />
         <ImageButton
             android:id="@+id/bookmark"
-            android:layout_width="15.83dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="19dp"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="right"
             android:background="@color/back_gray"
             android:backgroundTint="@color/transparent"
-            android:padding="10dp"
+            android:padding="20dp"
             android:src="@drawable/ic_bookmark" />
     </LinearLayout>
 
@@ -107,14 +106,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/journal_recycler"
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
         android:padding="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation ="vertical"
-        tools:listitem="@layout/journal_item"
-        app:layout_constraintTop_toBottomOf="@+id/tab_linear">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tab_linear"
+        tools:listitem="@layout/journal_item">
 
     </androidx.recyclerview.widget.RecyclerView>
+
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

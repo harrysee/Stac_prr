@@ -88,7 +88,7 @@ class CustomDialog(private val context: Context) {
         dialog?.show()
         val window: Window? = dialog?.window
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        window?.setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT)
     }
     fun dismiss(){
         dialog?.dismiss()

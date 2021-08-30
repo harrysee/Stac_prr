@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/ic_bookmark"
+        android:state_focused="true"
+        android:state_pressed="true"/>
+    <item
+        android:drawable="@drawable/ic_bookmark"
+        android:state_focused="false"
+        android:state_pressed="true"/>
     <item
         android:drawable="@drawable/ic_baseline_bookmark_border"
-        android:state_selected="false"/>
+        android:state_focused="true"
+        android:state_pressed="false"/>
     <item
-        android:state_selected="true"
-        android:drawable="@drawable/ic_bookmark" />
+        android:drawable="@drawable/ic_baseline_bookmark_border"
+        android:state_focused="false"
+        android:state_pressed="false"/>
 </selector>

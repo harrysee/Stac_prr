@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil.setContentView
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_alarm.*
 import kotlinx.android.synthetic.main.fragment_journal.*
@@ -21,7 +22,6 @@ import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
 class JournalFragment : Fragment() {
-    lateinit var journalAdapter: JournalAdapter
     lateinit var journalTabAdapter: JournalTabAdapter
     private val datas = mutableListOf<JournalData>()
 
@@ -41,7 +41,8 @@ class JournalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecycler()
+        val journalAdapter = JournalAdapter(requireContext())
+        initRecycler(journalAdapter)
         journal_recycler.setOnScrollListener(onScrollListener)
 
         fab.setOnClickListener(){
@@ -55,7 +56,15 @@ class JournalFragment : Fragment() {
                 .replace(R.id.container, fragment)
                 .commit()
         }
+
+        up_btn.setOnClickListener{
+            journal_recycler.scrollToPosition(0)
+        }
+        down_btn.setOnClickListener{
+            journal_recycler.scrollToPosition(journalAdapter.itemCount-1)
+        }
     }
+
 
     val onScrollListener = object: RecyclerView.OnScrollListener() {
         override fun onScrolled(@NonNull recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -72,8 +81,7 @@ class JournalFragment : Fragment() {
             fab.show()
         }
     }
-    private fun initRecycler() {
-        journalAdapter = JournalAdapter(requireContext())
+    private fun initRecycler(journalAdapter : JournalAdapter) {
         journal_recycler.adapter = journalAdapter
         journalTabAdapter = JournalTabAdapter(requireContext())
         tab_recycler.adapter = journalTabAdapter

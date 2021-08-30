@@ -93,6 +93,8 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
         Log.d("TAG", "setflower: 함수실행됨")
         val rd = Random()
         val num =  (rd.nextInt(10)).toString()
+        var name : String?= "푸르름의 꽃말은?"
+        var tag : String? = "#푸른#하늘#은하수"
 
         //CollectionReference 는 파이어스토어의 컬렉션을 참조하는 객체다.
         val productRef = db.collection("today_flower").document(num)
@@ -102,8 +104,8 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             if (task.isSuccessful) {
                 //문서의 데이터를 담을 DocumentSnapshot 에 작업의 결과를 담는다.
                 val document: DocumentSnapshot? = task.getResult()
-                val name = document?.getString("name")
-                val tag = document?.getString("tag")
+                name = document?.getString("name")
+                tag = document?.getString("tag")
 
                 text_flower_today.text = name +"의 꽃말은?"
                 text_flower_today_tag.text = tag
