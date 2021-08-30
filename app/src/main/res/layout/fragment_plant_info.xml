@@ -14,6 +14,18 @@
         app:umanoPanelHeight="435dp"
         app:umanoOverlay="true">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#E9E9E9"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:id="@+id/dragView"
             android:layout_width="match_parent"
@@ -351,7 +363,9 @@
 
         </LinearLayout>
 
+
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
 
     <ImageButton
         android:id="@+id/info_pass_btn"
@@ -363,5 +377,4 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
