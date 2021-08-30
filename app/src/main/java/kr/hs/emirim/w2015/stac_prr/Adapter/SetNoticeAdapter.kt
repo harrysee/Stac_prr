@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kr.hs.emirim.w2015.stac_prr.NoticeData
 import kr.hs.emirim.w2015.stac_prr.R
+import kotlin.math.log
 
 
 class SetNoticeAdapter(private val context: Context) :
@@ -31,6 +32,7 @@ class SetNoticeAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Log.d(updown.toString(), "현재 닫혀있는지 ")
         holder.bind(datas[position])
+        Log.i(datas[position].toString(), "onBindViewHolder: 데이터 확인 ")
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,7 +46,8 @@ class SetNoticeAdapter(private val context: Context) :
             Log.d(item.title, "bind: 데이터 들어옴")
             txtName.text = item.title
             txtDate.text = item.date
-            txtMain.text = item.main.toString()
+            txtMain.text = item.main
+            Log.d("${txtName.text} - ${txtDate.text} - ${txtMain.text}", "bind: item 데이터 bind 확인")
 
             arrowBtn.setOnClickListener() {
                 if(!updown){

@@ -19,6 +19,7 @@ class SetNoticeFragment : Fragment() {
     lateinit var noticeAdapter: SetNoticeAdapter
     val datas = mutableListOf<NoticeData>()
     val db = FirebaseFirestore.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -47,17 +48,18 @@ class SetNoticeFragment : Fragment() {
         db.collection("noticed")
             .get()
             .addOnSuccessListener { result ->
-                datas.clear()
                 for (document in result) {
-                    datas.add(NoticeData(document["title"] as String,document["date"] as String,document["content"] as String))
-                    Log.d("TAG", "${document["title"]} => ${document.data}")
+                    val content = (document["content"] as String).replace("\\n", "\n")
+                    datas.add(NoticeData(document["title"] as String,document["date"] as String,content))
+                    Log.d("TAG", "${document["title"]} => ${datas}")
                 }
+                noticeAdapter.datas = datas
+                noticeAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(),"공지사항 불러오기 실패",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),"공지사항 불러오기 실패", Toast.LENGTH_SHORT).show()
                 Log.d("TAG", "Error getting documents: ", exception)
             }
-        noticeAdapter.datas = datas
-        noticeAdapter.notifyDataSetChanged()
+
     }
 }
