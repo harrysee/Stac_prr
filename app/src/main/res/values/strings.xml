@@ -16,6 +16,14 @@
         <item>수분</item>
         <item>수확</item>
     </string-array>
+
+    <string-array name="alram_arr">
+        <item>해당일</item>
+        <item>하루 전</item>
+        <item>이틀 전</item>
+        <item>없음</item>
+    </string-array>
+
     <string name="set_alarm">PUSH 알림</string>
     <string name="set_nugu">SKT NUGU 연동</string>
     <string name="set_iot">IOT 연동</string>

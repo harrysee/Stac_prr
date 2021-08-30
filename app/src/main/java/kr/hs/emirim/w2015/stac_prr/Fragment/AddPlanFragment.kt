@@ -13,6 +13,7 @@ import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
 class AddPlanFragment : Fragment() {
+    var date_str :String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,9 @@ class AddPlanFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("TAG", "argument: $arguments")
+        date_str = arguments?.getString("date") // 전달한 key 값
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_plan, container, false)
     }
@@ -30,6 +34,8 @@ class AddPlanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as MainActivity
         R.style.AlertDialog_AppCompat
+
+        addplan_date_txt.text = date_str
         // 이미지 화살표 눌렀을때
         addplan_pass_btn.setOnClickListener(){
             val dir = CustomDialog(requireContext())
@@ -48,7 +54,7 @@ class AddPlanFragment : Fragment() {
 
         // title 부분
         val title = resources.getStringArray(R.array.title_arr)
-        val adapter = ArrayAdapter<String>(
+        var adapter = ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_custom,
             title
@@ -56,6 +62,18 @@ class AddPlanFragment : Fragment() {
         Log.d("TAG", "onViewCreated: 어댑터 완성")
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         planets_spinner.adapter= adapter
+
+        // 알람 부분
+        val alarm = resources.getStringArray(R.array.alram_arr)
+        adapter = ArrayAdapter<String>(
+            requireContext(),
+            R.layout.spinner_custom,
+            alarm
+        )
+        Log.d("TAG", "onViewCreated: 어댑터 완성")
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        alarm_spinner.adapter= adapter
+
 
     }// onViewcreated end
     
