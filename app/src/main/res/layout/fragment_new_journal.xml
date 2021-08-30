@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/addplan_pass_btn"
+            android:id="@+id/addjournal_pass_btn"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginLeft="16dp"
@@ -40,7 +40,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/addplan_complate_btn"
+            android:id="@+id/addjournal_complate_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="200dp"
@@ -122,6 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:hint="새 일지를 작성하세요"
+        android:background="@android:color/transparent"
         android:textColorHint="@color/day_gray"
         android:textSize="14sp"
         android:textColor="@color/day_gray"

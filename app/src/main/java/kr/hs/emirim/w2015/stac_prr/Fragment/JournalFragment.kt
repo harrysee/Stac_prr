@@ -2,6 +2,7 @@ package kr.hs.emirim.w2015.stac_prr.Fragment
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,18 @@ class JournalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
         journal_recycler.setOnScrollListener(onScrollListener)
+
+        fab.setOnClickListener(){
+            val fragment = NewJournalFragment(); // Fragment 생성
+            val bundle = Bundle()
+            fragment.arguments = bundle
+            Log.i(bundle.toString(), "onViewCreated: bundle")
+            //activity.fragmentChange_for_adapter(AddPlanFragment())
+            Log.d(fragment.arguments.toString(), "plus버튼 클릭됨")
+            activity?.supportFragmentManager!!.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit()
+        }
     }
 
     val onScrollListener = object: RecyclerView.OnScrollListener() {
