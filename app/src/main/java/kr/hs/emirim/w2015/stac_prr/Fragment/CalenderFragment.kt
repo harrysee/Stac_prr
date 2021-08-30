@@ -31,7 +31,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
     var model = ItemModel()
     val dotPlanDay = mutableListOf<CalendarDay>()
     val selectDateFormat = SimpleDateFormat("yyyy. MM. dd")
-    var datetext = selectDateFormat.format(Date().day)
+    var datetext = selectDateFormat.format(Date().time)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
