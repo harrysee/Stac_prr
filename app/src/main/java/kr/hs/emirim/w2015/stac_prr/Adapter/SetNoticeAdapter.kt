@@ -35,6 +35,7 @@ class SetNoticeAdapter(private val context: Context) :
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val txtName: TextView = itemView.findViewById(R.id.notice_title_text)
+        private val txtDate : TextView = itemView.findViewById(R.id.notice_date_text)
         private val txtMain: TextView = itemView.findViewById(R.id.notice_main_text)
         private val arrowBtn: ImageButton = itemView.findViewById(R.id.notice_arrow_btn)
         private val mainLinear: LinearLayout = itemView.findViewById(R.id.notice_main_linear)
@@ -42,6 +43,7 @@ class SetNoticeAdapter(private val context: Context) :
         fun bind(item: NoticeData) {
             Log.d(item.title, "bind: 데이터 들어옴")
             txtName.text = item.title
+            txtDate.text = item.date
             txtMain.text = item.main.toString()
 
             arrowBtn.setOnClickListener() {

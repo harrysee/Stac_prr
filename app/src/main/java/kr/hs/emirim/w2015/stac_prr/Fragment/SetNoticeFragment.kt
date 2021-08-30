@@ -1,10 +1,14 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_set_notice.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.SetNoticeAdapter
 import kr.hs.emirim.w2015.stac_prr.MainActivity
@@ -14,10 +18,9 @@ import kr.hs.emirim.w2015.stac_prr.R
 class SetNoticeFragment : Fragment() {
     lateinit var noticeAdapter: SetNoticeAdapter
     val datas = mutableListOf<NoticeData>()
-
+    val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -40,15 +43,20 @@ class SetNoticeFragment : Fragment() {
     private fun initRecycler() {
         noticeAdapter = SetNoticeAdapter(requireContext())
         notice_recycler.adapter = noticeAdapter
-        
-        datas.add(NoticeData(title = "mary", main = "24"))
-        datas.add(NoticeData(title = "mary", main = "24"))
-        datas.add(NoticeData(title = "mary", main = "24"))
-        datas.add(NoticeData(title = "mary", main = "24"))
-        datas.add(NoticeData(title = "mary", main = "24"))
-        datas.add(NoticeData(title = "mary", main = "24"))
-        datas.add(NoticeData(title = "mary", main = "24"))
 
+        db.collection("noticed")
+            .get()
+            .addOnSuccessListener { result ->
+                datas.clear()
+                for (document in result) {
+                    datas.add(NoticeData(document["title"] as String,document["date"] as String,document["content"] as String))
+                    Log.d("TAG", "${document["title"]} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(),"공지사항 불러오기 실패",Toast.LENGTH_SHORT).show()
+                Log.d("TAG", "Error getting documents: ", exception)
+            }
         noticeAdapter.datas = datas
         noticeAdapter.notifyDataSetChanged()
     }

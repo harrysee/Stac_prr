@@ -44,14 +44,21 @@
         <LinearLayout
             android:id="@+id/notice_main_linear"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:autoSizeTextType="uniform"
             android:maxHeight="200dp"
             android:minHeight="100dp"
             android:background="@color/white"
             android:orientation="vertical">
-
+            <TextView
+                android:id="@+id/notice_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:textColor="#868686"
+                android:layout_marginLeft="16dp"
+                android:text="날짜"/>
             <TextView
                 android:id="@+id/notice_main_text"
                 android:layout_width="match_parent"
