@@ -22,7 +22,6 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,24 +32,18 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.7" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
         <Button
             android:id="@+id/negativeButton"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@drawable/shape_dialog_btn"
-            android:textSize="18sp"
-            android:textColor="@color/pp_green"
             android:text="아니오"
-            app:layout_constraintRight_toLeftOf="@+id/guideline2"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:textColor="@color/pp_green"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline"
+            app:layout_constraintWidth_percent="0.5" />
 
         <Button
             android:id="@+id/positiveButton"
@@ -59,6 +52,7 @@
             android:textSize="18sp"
             android:textColor="@color/pp_green"
             android:text="네"
+            app:layout_constraintWidth_percent="0.5"
             android:background="@drawable/shape_dialog_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/negativeButton"

@@ -14,25 +14,26 @@
         android:background="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <ImageButton
             android:id="@+id/img_btn_backhome"
             android:layout_width="25dp"
-            android:backgroundTint="@color/transparent"
             android:layout_height="25dp"
-            android:background="@color/back_gray"
-            android:src="@drawable/ic_back"
-            android:padding="10dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="13dp"/>
+            android:layout_marginTop="13dp"
+            android:background="@color/back_gray"
+            android:backgroundTint="@color/transparent"
+            android:padding="10dp"
+            android:src="@drawable/ic_back" />
 
         <Button
             android:id="@+id/btn_completion"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:gravity="center"
             android:layout_marginRight="-2dp"
             android:background="@drawable/shape_nostrock"
+            android:gravity="center"
             android:text="@string/complate"
             android:textColor="@color/pp_green"
             android:textSize="17sp"
@@ -44,12 +45,14 @@
         android:id="@+id/cardView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:background="@color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/linear1"
-        app:layout_constraintEnd_toEndOf="parent"
         app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/newplant_input"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nplant_top_bar">
+        app:layout_constraintTop_toBottomOf="@+id/nplant_top_bar"
+        app:layout_constraintVertical_bias="0.060000002">
 
 
         <ImageButton
@@ -57,316 +60,332 @@
             android:layout_width="248dp"
             android:layout_height="290dp"
             android:src="@drawable/ic_add_img" />
+
         <TextView
             android:id="@+id/newplant_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="7dp"
             android:layout_gravity="bottom|center_horizontal"
+            android:paddingBottom="7dp"
             android:text="대표 사진 수정"
             android:textColor="#f5f5f5" />
     </androidx.cardview.widget.CardView>
 
-    <LinearLayout
-        android:id="@+id/linear1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="380dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/nameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="애칭"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="34dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="애칭"
-            android:textColorHint="@color/day_gray"
-            android:textColor="@color/day_gray"
-            android:textSize="14sp"
-            android:layout_marginLeft="64dp"
-            android:singleLine="true"
-            app:layout_constraintStart_toEndOf="@+id/nameText"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="350dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:background="#cccccc"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newplant_input"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear1" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView3">
 
-    <LinearLayout
-        android:id="@+id/linear2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="420dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/kindText"
+        <LinearLayout
+            android:id="@+id/linear1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="종류"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="34dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/kind"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="종류"
-            android:textColorHint="@color/day_gray"
-            android:textColor="@color/day_gray"
-            android:textSize="14sp"
-            android:layout_marginLeft="64dp"
-            android:singleLine="true"
-            app:layout_constraintStart_toEndOf="@+id/kindText"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
-    <View
-        android:layout_width="350dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:background="#cccccc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear2" />
+            <TextView
+                android:id="@+id/nameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:text="애칭"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linear3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="460dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="64dp"
+                android:background="@android:color/transparent"
+                android:hint="애칭"
+                android:singleLine="true"
+                android:textColor="@color/day_gray"
+                android:textColorHint="@color/day_gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/nameText"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/dateText"
+        <View
+            android:id="@+id/view2"
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="#cccccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear1" />
+
+        <LinearLayout
+            android:id="@+id/linear2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="심은 날짜"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="34dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/linear1">
 
-        <EditText
-            android:id="@+id/date"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="0000. 00. 00"
-            android:textColorHint="@color/day_gray"
-            android:textColor="@color/day_gray"
-            android:textSize="14sp"
-            android:layout_marginLeft="31dp"
-            android:singleLine="true"
-            app:layout_constraintStart_toEndOf="@+id/dateText"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
-    <View
-        android:layout_width="350dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:background="#cccccc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear3" />
+            <TextView
+                android:id="@+id/kindText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:text="종류"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linear4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="500dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            <EditText
+                android:id="@+id/kind"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="64dp"
+                android:background="@android:color/transparent"
+                android:hint="종류"
+                android:singleLine="true"
+                android:textColor="@color/day_gray"
+                android:textColorHint="@color/day_gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/kindText"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tmprtText"
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="#cccccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear2" />
+
+        <LinearLayout
+            android:id="@+id/linear3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="최적 온도"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="34dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/linear2">
 
-        <EditText
-            android:id="@+id/tmprt"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="00~00˚"
-            android:textColorHint="@color/day_gray"
-            android:textColor="@color/day_gray"
-            android:textSize="14sp"
-            android:layout_marginLeft="31dp"
-            android:singleLine="true"
-            app:layout_constraintStart_toEndOf="@+id/tmprtText"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
-    <View
-        android:layout_width="350dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:background="#cccccc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear4" />
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:text="심은 날짜"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linear5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="540dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="31dp"
+                android:background="@android:color/transparent"
+                android:hint="0000. 00. 00"
+                android:singleLine="true"
+                android:textColor="@color/day_gray"
+                android:textColorHint="@color/day_gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/dateText"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/lightText"
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="#cccccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear3" />
+
+        <LinearLayout
+            android:id="@+id/linear4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="빛 요구도"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="34dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/linear3">
 
-        <EditText
-            android:id="@+id/light"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="빛 요구도"
-            android:textColorHint="@color/day_gray"
-            android:textColor="@color/day_gray"
-            android:textSize="14sp"
-            android:layout_marginLeft="31dp"
-            android:singleLine="true"
-            app:layout_constraintStart_toEndOf="@+id/lightText"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
-    <View
-        android:layout_width="350dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:background="#cccccc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear5" />
+            <TextView
+                android:id="@+id/tmprtText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:text="최적 온도"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linear6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="580dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            <EditText
+                android:id="@+id/tmprt"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="31dp"
+                android:background="@android:color/transparent"
+                android:hint="00~00˚"
+                android:singleLine="true"
+                android:textColor="@color/day_gray"
+                android:textColorHint="@color/day_gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/tmprtText"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/waterText"
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="#cccccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear4" />
+
+        <LinearLayout
+            android:id="@+id/linear5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="급수 주기"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="34dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/linear4">
 
-        <EditText
-            android:id="@+id/water"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="00일"
-            android:textColorHint="@color/day_gray"
-            android:textColor="@color/day_gray"
-            android:textSize="14sp"
-            android:singleLine="true"
-            android:layout_marginLeft="31dp"
-            app:layout_constraintStart_toEndOf="@+id/waterText"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
-    <View
-        android:layout_width="350dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:background="#cccccc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear6" />
+            <TextView
+                android:id="@+id/lightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:text="빛 요구도"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linear7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="620dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            <EditText
+                android:id="@+id/light"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="31dp"
+                android:background="@android:color/transparent"
+                android:hint="빛 요구도"
+                android:singleLine="true"
+                android:textColor="@color/day_gray"
+                android:textColorHint="@color/day_gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/lightText"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/memoText"
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="#cccccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear5" />
+
+        <LinearLayout
+            android:id="@+id/linear6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="메모"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="34dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/linear5">
 
-        <EditText
-            android:id="@+id/memo"
-            android:layout_width="200dp"
+            <TextView
+                android:id="@+id/waterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:text="급수 주기"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/water"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="31dp"
+                android:background="@android:color/transparent"
+                android:hint="00일"
+                android:singleLine="true"
+                android:textColor="@color/day_gray"
+                android:textColorHint="@color/day_gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/waterText"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="#cccccc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear6" />
+
+        <LinearLayout
+            android:id="@+id/linear7"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="메모를 작성하세요."
-            android:textColorHint="@color/day_gray"
-            android:textColor="@color/day_gray"
-            android:textSize="14sp"
-            android:layout_marginLeft="64dp"
-            android:singleLine="true"
-            app:layout_constraintStart_toEndOf="@+id/memoText"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear6">
+
+            <TextView
+                android:id="@+id/memoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34dp"
+                android:text="메모"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/memo"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="64dp"
+                android:background="@android:color/transparent"
+                android:hint="메모를 작성하세요."
+                android:singleLine="true"
+                android:textColor="@color/day_gray"
+                android:textColorHint="@color/day_gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/memoText"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
