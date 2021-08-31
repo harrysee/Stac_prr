@@ -118,12 +118,12 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
     }
     private fun getDataList(): ArrayList<HomeData> {
         return arrayListOf<HomeData>(
-            HomeData("새 식물 등록하기","종류",R.drawable.ic_add_img_box),
-            HomeData("식물이름1","종류",R.drawable.test_plant1),
-            HomeData("식물이름2","종류",R.drawable.test_plant2),
-            HomeData("식물이름3","종류",R.drawable.test_plant3),
-            HomeData("식물이름4","종류",R.drawable.test_plant4),
-            HomeData("식물이름5","종류",R.drawable.test_plant5)
+            HomeData("새 식물 등록하기","식물 종류",R.drawable.ic_add_img_box),
+            HomeData("식물이름1","식물 종류",R.drawable.test_plant1),
+            HomeData("식물이름2","식물 종류",R.drawable.test_plant2),
+            HomeData("식물이름3","식물 종류",R.drawable.test_plant3),
+            HomeData("식물이름4","식물 종류",R.drawable.test_plant4),
+            HomeData("식물이름5","식물 종류",R.drawable.test_plant5)
         )
     }
 

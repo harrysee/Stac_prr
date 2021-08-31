@@ -25,10 +25,12 @@
             android:scaleType="fitXY"
             app:cardCornerRadius="30dp"
             app:cardElevation="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
             app:layout_constraintDimensionRatio="124:145"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <ImageView
                 android:id="@+id/img_register_plant"
@@ -44,9 +46,13 @@
             android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:orientation="vertical"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline8">
 
             <TextView
                 android:id="@+id/text_register_plant"
@@ -55,8 +61,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginBottom="3dp"
-                android:text="@string/text_register_plant"
                 android:paddingTop="5dp"
+                android:text="@string/text_register_plant"
                 android:textColor="#000000"
                 android:textSize="15sp" />
 
@@ -83,15 +89,25 @@
             android:src="@drawable/pass"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="7:13"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline8"
+            app:layout_constraintVertical_bias="0.6" />
 
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier3"
+            android:id="@+id/barrier5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="top"
             app:constraint_referenced_ids="linearLayout3,btn_icon_passvar"
-            tools:layout_editor_absoluteY="781dp" />
+            tools:layout_editor_absoluteY="561dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="20dp"
+            app:layout_constraintGuide_percent="0.85" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

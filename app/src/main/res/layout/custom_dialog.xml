@@ -9,7 +9,7 @@
     tools:layout_height="160dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="310dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
@@ -49,14 +49,14 @@
             android:id="@+id/positiveButton"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:textSize="18sp"
-            android:textColor="@color/pp_green"
-            android:text="네"
-            app:layout_constraintWidth_percent="0.5"
             android:background="@drawable/shape_dialog_btn"
+            android:text="네"
+            android:textColor="@color/pp_green"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/negativeButton"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline" />
+            app:layout_constraintTop_toBottomOf="@id/guideline"
+            app:layout_constraintWidth_percent="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

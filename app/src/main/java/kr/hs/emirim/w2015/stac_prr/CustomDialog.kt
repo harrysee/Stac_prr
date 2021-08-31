@@ -2,12 +2,14 @@ package kr.hs.emirim.w2015.stac_prr
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.view.*
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.Constraints
+import androidx.core.content.ContextCompat.getSystemService
 import kotlinx.android.synthetic.main.custom_dialog.view.*
 
 class CustomDialog(private val context: Context) {
@@ -87,8 +89,8 @@ class CustomDialog(private val context: Context) {
         //dialog?.window?.setLayout(256,149)
         dialog?.show()
         val window: Window? = dialog?.window
+        dialog?.window?.setLayout(860, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT)
     }
     fun dismiss(){
         dialog?.dismiss()
