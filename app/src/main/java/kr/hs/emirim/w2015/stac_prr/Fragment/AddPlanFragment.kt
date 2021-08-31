@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_add_plan.*
@@ -104,8 +105,10 @@ class AddPlanFragment : Fragment() {
                 24,
                 false
             )
-            dialog.setTitle("알림 시간 선택")
+            //dialog.setTitle("알림 시간 선택")
             dialog.window!!.setBackgroundDrawableResource(R.color.back_gray)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setTitle(Window.FEATURE_NO_TITLE)
             dialog.show()
 
         }

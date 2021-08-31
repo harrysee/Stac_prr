@@ -3,13 +3,13 @@
 
     <style name="TimePicker" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowIsFloating">true</item>
+        <item name="colorPrimary">@color/pp_green</item>
+        <item name="colorPrimaryDark">@color/pp_green</item>
+        <item name="colorAccent">@color/pp_green</item>
         <item name="android:timePickerStyle">@style/PickerMode</item>
     </style>
 
     <style name="PickerMode" parent="android:Widget.Material.Light.TimePicker">
         <item name="android:timePickerMode">spinner</item>
-        <item name="colorPrimary">@color/pp_green</item>
-        <item name="colorPrimaryDark">@color/pp_green</item>
-        <item name="colorAccent">@color/pp_green</item>
     </style>
 </resources>

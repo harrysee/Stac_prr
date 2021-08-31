@@ -87,7 +87,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(NewPlantFragment())
         }
-        setflower()
+        setflower() // 꽃말 갈아끼우기 : 테스트용
     }
     @SuppressLint("SetTextI18n")
     fun setflower(){
