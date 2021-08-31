@@ -8,21 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.slider_item.view.*
+import kr.hs.emirim.w2015.stac_prr.DataClass.HomeData
 import kr.hs.emirim.w2015.stac_prr.Fragment.NewPlantFragment
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.Fragment.PlantInfoFragment
 import kr.hs.emirim.w2015.stac_prr.R
 
 
-class FhViewAdapter(a : ArrayList<Int>, newtext : ArrayList<String>, val fragment_s:FragmentActivity?) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
-    var item_img = a
-    var ntxt = newtext
+class FhViewAdapter(val datas : ArrayList<HomeData>, val fragment_s:FragmentActivity?) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
     var activity: MainActivity?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewholder(parent)
 
     override fun onBindViewHolder(holder: MyViewholder, position: Int) {
-        holder.bind(item_img[position], ntxt[position])
+        holder.bind(datas[position])
         holder.itemView.setOnClickListener{
             Log.d(">>>>."+position.toString(), "클릭됨 ")
             var fragment:Fragment= PlantInfoFragment()
@@ -35,18 +34,20 @@ class FhViewAdapter(a : ArrayList<Int>, newtext : ArrayList<String>, val fragmen
     }
 
     override fun getItemCount(): Int {
-        return item_img.size
+        return datas.size
     }
 
     inner class MyViewholder(parent:ViewGroup) : RecyclerView.ViewHolder
         (LayoutInflater.from(parent.context).inflate(R.layout.slider_item, parent, false)) {
         val imageView = itemView.img_register_plant
         val textView = itemView.text_register_plant
+        val textSpace = itemView.text_register_spacies
 
-        fun bind(img:Int, txt:String){
-            imageView.setImageResource(img)
-            textView.text = txt
-            Log.d(txt, "바인드 실행 : ")
+        fun bind(item: HomeData){
+            imageView.setImageResource(item.imgUrl)
+            textView.text = item.name
+            textSpace.text = item.spacies
+            Log.d(item.name, "바인드 실행 : ")
 
         }
 

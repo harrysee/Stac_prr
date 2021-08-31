@@ -1,6 +1,8 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
+import android.app.TimePickerDialog
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +13,13 @@ import kotlinx.android.synthetic.main.fragment_add_plan.*
 import kr.hs.emirim.w2015.stac_prr.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class AddPlanFragment : Fragment() {
-    var date_str :String? = null
-
+    var date_str: String? = null
+    val cal = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -37,18 +42,18 @@ class AddPlanFragment : Fragment() {
 
         addplan_date_txt.text = date_str
         // 이미지 화살표 눌렀을때
-        addplan_pass_btn.setOnClickListener(){
+        addplan_pass_btn.setOnClickListener() {
             val dir = CustomDialog(requireContext())
                 .setMessage("작성중인 내용이 사라집니다\n취소하시겠습니까?")
-                .setPositiveBtn("네"){
+                .setPositiveBtn("네") {
                     activity.fragmentChange_for_adapter(CalenderFragment())
                 }
-                .setNegativeBtn("아니오"){}
+                .setNegativeBtn("아니오") {}
                 .show()
         }
 
         // 완료 눌렀을 때
-        addplan_complate_btn.setOnClickListener{
+        addplan_complate_btn.setOnClickListener {
             activity.fragmentChange_for_adapter(CalenderFragment())
         }
 
@@ -61,20 +66,48 @@ class AddPlanFragment : Fragment() {
         )
         Log.d("TAG", "onViewCreated: 어댑터 완성")
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        planets_spinner.adapter= adapter
+        planets_spinner.adapter = adapter
 
         // 알람 부분
         val alarm = resources.getStringArray(R.array.alram_arr)
         adapter = ArrayAdapter<String>(
             requireContext(),
-            R.layout.spinner_custom,
+            R.layout.spinner_custom_alarm,
             alarm
         )
         Log.d("TAG", "onViewCreated: 어댑터 완성")
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        alarm_spinner.adapter= adapter
+        alarm_spinner.adapter = adapter
 
-
+        setTime()
     }// onViewcreated end
-    
+
+    fun setTime() {
+        // 시간 받는 리스너 설정
+        val timepickerlistener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            cal.set(Calendar.MINUTE, minute)
+            var format = SimpleDateFormat("오전 HH:mm").format(cal.time)
+            if (hourOfDay >12){
+                cal.set(Calendar.HOUR_OF_DAY, hourOfDay-12)
+                format = SimpleDateFormat("오후 HH:mm").format(cal.time)
+            }
+            addplan_time.text = format
+        }
+
+        addplan_time.setOnClickListener {
+            val dialog = TimePickerDialog(
+                requireContext(),
+                R.style.TimePicker,
+                timepickerlistener,
+                15,
+                24,
+                false
+            )
+            dialog.setTitle("알림 시간 선택")
+            dialog.window!!.setBackgroundDrawableResource(R.color.back_gray)
+            dialog.show()
+
+        }
+    }
 }

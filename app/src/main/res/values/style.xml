@@ -15,7 +15,7 @@
     </style>
     <style name="OtherDay">
         <item name="android:textColor">@color/other_day_gray</item>
-        <item name="android:textSize">10dp</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
 <!--    set 스위치 부분-->
@@ -31,4 +31,5 @@
         <item name="android:colorForeground">#42221f1f
         </item>
     </style>
+
 </resources>

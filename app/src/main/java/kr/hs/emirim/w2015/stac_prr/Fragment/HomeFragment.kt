@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
+import kr.hs.emirim.w2015.stac_prr.DataClass.HomeData
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.util.*
@@ -70,7 +71,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
         }
         /* 여백, 너비에 대한 정의 */
         viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
-        val viewAdapter = FhViewAdapter(getimgList(),gettxtList(),activity) // 어댑터 생성
+        val viewAdapter = FhViewAdapter(getDataList(),activity) // 어댑터 생성
         viewPager.adapter = viewAdapter
         Log.i("어댑터소환", "어댑터 실행완료 ")
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
@@ -115,24 +116,14 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             }
         })
     }
-    private fun getimgList(): ArrayList<Int> {
-        return arrayListOf<Int>(
-            R.drawable.ic_add_img_box,
-            R.drawable.test_plant1,
-            R.drawable.test_plant2,
-            R.drawable.test_plant3,
-            R.drawable.test_plant4,
-            R.drawable.test_plant5
-        )
-    }
-    private fun gettxtList(): ArrayList<String> {
-        return arrayListOf<String>(
-            "새 식물 등록하기",
-            "식물이름1",
-            "식물이름2",
-            "식물이름3",
-            "식물이름4",
-            "식물이름5"
+    private fun getDataList(): ArrayList<HomeData> {
+        return arrayListOf<HomeData>(
+            HomeData("새 식물 등록하기","종류",R.drawable.ic_add_img_box),
+            HomeData("식물이름1","종류",R.drawable.test_plant1),
+            HomeData("식물이름2","종류",R.drawable.test_plant2),
+            HomeData("식물이름3","종류",R.drawable.test_plant3),
+            HomeData("식물이름4","종류",R.drawable.test_plant4),
+            HomeData("식물이름5","종류",R.drawable.test_plant5)
         )
     }
 

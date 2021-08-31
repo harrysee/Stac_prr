@@ -178,17 +178,17 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-        <EditText
+        <Button
+            android:id="@+id/addplan_time"
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_marginLeft="70dp"
+            android:text="시간"
             android:textSize="14sp"
             android:singleLine="true"
             android:background="@color/transparent"
-            android:hint="오전 6:00"
-            android:textColorHint="@color/day_gray" />
-    </LinearLayout>
+            android:textColor="@color/day_gray" />   </LinearLayout>
 
     <View
         android:id="@+id/addplan_view_line3"
@@ -268,6 +268,7 @@
             android:layout_marginLeft="70dp"
             android:textSize="14sp"
             android:background="@color/transparent"
+            android:paddingBottom="5dp"
             android:hint="내용을 입력해주세요내용입력해라입력해라하던가안하던가 입력을 하라고"
             android:textColorHint="@color/day_gray" />
     </LinearLayout>

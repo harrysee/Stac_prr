@@ -22,9 +22,9 @@
             android:id="@+id/cardView2"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scaleType="fitXY"
             app:cardCornerRadius="30dp"
             app:cardElevation="0dp"
-            android:scaleType="fitXY"
             app:layout_constraintDimensionRatio="124:145"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,24 +40,36 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.constraintlayout.widget.Barrier
+        <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:barrierDirection="top"
-            app:constraint_referenced_ids="text_register_plant,btn_icon_passvar"/>
-
-        <TextView
-            android:id="@+id/text_register_plant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp"
-            android:text="@string/text_register_plant"
-            android:textColor="#000000"
-            android:textSize="15sp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/text_register_plant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="3dp"
+                android:text="@string/text_register_plant"
+                android:paddingTop="5dp"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/text_register_spacies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="식물 종류"
+                android:textColor="@color/pp_green"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/btn_icon_passvar"
@@ -67,11 +79,19 @@
             android:background="@color/transparent"
             android:maxWidth="7dp"
             android:maxHeight="14dp"
-            android:padding="5dp"
+            android:padding="7dp"
             android:src="@drawable/pass"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="7:13"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="linearLayout3,btn_icon_passvar"
+            tools:layout_editor_absoluteY="781dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
