@@ -71,6 +71,10 @@ class NewPlantFragment : Fragment() {
             val imagesRef: StorageReference? = storageRef.child("info/" + filename)
             var downloadUri: String  // 다운로드 uri 저장변수
 
+            if(photoURI.equals(null)){
+                Toast.makeText(requireContext(), "사진을 업로드하세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val file: Uri = photoURI
 
             // 스토리지에 올리기

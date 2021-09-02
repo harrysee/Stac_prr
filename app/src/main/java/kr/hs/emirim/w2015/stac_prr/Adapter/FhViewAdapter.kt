@@ -1,12 +1,17 @@
 package kr.hs.emirim.w2015.stac_prr.Adapter
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.slider_item.view.*
 import kr.hs.emirim.w2015.stac_prr.DataClass.HomeData
 import kr.hs.emirim.w2015.stac_prr.Fragment.NewPlantFragment
@@ -15,13 +20,15 @@ import kr.hs.emirim.w2015.stac_prr.Fragment.PlantInfoFragment
 import kr.hs.emirim.w2015.stac_prr.R
 
 
-class FhViewAdapter(val datas : ArrayList<HomeData>, val fragment_s:FragmentActivity?) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
+class FhViewAdapter(val datas : ArrayList<HomeData>, val fragment_s:FragmentActivity?, val context:Context) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
     var activity: MainActivity?= null
+    private val storage: FirebaseStorage = FirebaseStorage.getInstance()
+    private val storageRef: StorageReference = storage.reference
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewholder(parent)
 
     override fun onBindViewHolder(holder: MyViewholder, position: Int) {
-        holder.bind(datas[position])
+        holder.bind(datas[position],context)
         holder.itemView.setOnClickListener{
             Log.d(">>>>."+position.toString(), "클릭됨 ")
             var fragment:Fragment= PlantInfoFragment()
@@ -43,8 +50,19 @@ class FhViewAdapter(val datas : ArrayList<HomeData>, val fragment_s:FragmentActi
         val textView = itemView.text_register_plant
         val textSpace = itemView.text_register_spacies
 
-        fun bind(item: HomeData){
-            imageView.setImageResource(item.imgUrl)
+        fun bind(item: HomeData, context : Context){
+            //imageView.setImageResource()
+            storageRef.child(item.imgUrl.toString()).downloadUrl.addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    //glide를 이용해서 이미지뷰에 이미지 바로 넣기
+                    Glide.with(context) //쓸곳
+                        .load(task.result)  //이미지 받아올 경로
+                        .fitCenter()        // 가운데 잘라서 채우게 가져오기
+                        .into(imageView)    // 받아온 이미지를 받을 공간
+                } else {
+                    Toast.makeText(context, task.exception.toString(), Toast.LENGTH_SHORT).show()   // 이미지 못받았을때
+                }
+            }
             textView.text = item.name
             textSpace.text = item.spacies
             Log.d(item.name, "바인드 실행 : ")

@@ -29,6 +29,9 @@ class PlantInfoFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //실행하면 데이터 가져와서 보여주기
+
+
         info_pass_btn.setOnClickListener(){
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(HomeFragment())

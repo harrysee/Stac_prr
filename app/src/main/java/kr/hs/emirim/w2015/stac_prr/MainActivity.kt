@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.tabs.TabLayout
@@ -23,6 +24,7 @@ import kr.hs.emirim.w2015.stac_prr.Fragment.CalenderFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.SetFragment
+import java.util.jar.Manifest
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         pref = this.getSharedPreferences("pref", Context.MODE_PRIVATE)
         onTabs()
 
+        ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
         //최초실행 확인
     }
 

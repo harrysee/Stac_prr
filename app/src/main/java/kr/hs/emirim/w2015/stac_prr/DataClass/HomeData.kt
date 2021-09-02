@@ -5,5 +5,5 @@ import android.widget.ImageView
 data class HomeData (
     val name:String,
     val spacies : String,
-    val imgUrl : Int
+    val imgUrl : String
 )

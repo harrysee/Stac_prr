@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
 import kr.hs.emirim.w2015.stac_prr.DataClass.HomeData
@@ -24,8 +27,8 @@ import kotlin.math.log
 class HomeFragment : Fragment() {
     private val MIN_SCALE = 0.90f // 뷰가 몇퍼센트로 줄어들 것인지
     private val MIN_ALPHA = 0.5f // 어두워지는 정도를 나타낸 듯 하다.
-    val db : FirebaseFirestore = FirebaseFirestore.getInstance()
-
+    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    val auth = Firebase.auth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -33,7 +36,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -41,7 +44,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin) // dimen 파일 안에 크기를 정의해두었다.
+        val pageMarginPx =
+            resources.getDimensionPixelOffset(R.dimen.pageMargin) // dimen 파일 안에 크기를 정의해두었다.
         val pagerWidth = resources.getDimensionPixelOffset(R.dimen.pageWidth) // dimen 파일이 없으면 생성해야함
         val screenWidth = resources.displayMetrics.widthPixels // 스마트폰의 너비 길이를 가져옴
         val offsetPx = screenWidth - pageMarginPx - pagerWidth
@@ -71,7 +75,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
         }
         /* 여백, 너비에 대한 정의 */
         viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
-        val viewAdapter = FhViewAdapter(getDataList(),activity) // 어댑터 생성
+        val viewAdapter = FhViewAdapter(getDataList(), activity, requireContext()) // 어댑터 생성
         viewPager.adapter = viewAdapter
         Log.i("어댑터소환", "어댑터 실행완료 ")
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
@@ -79,28 +83,29 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
 
         view_dots_indicator.setViewPager2(viewPager) // indicator 설정
 
-        btn_img_alram.setOnClickListener{
+        btn_img_alram.setOnClickListener {
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(AlarmFragment())
         }
-        home_fab.setOnClickListener{
+        home_fab.setOnClickListener {
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(NewPlantFragment())
         }
         setflower() // 꽃말 갈아끼우기 : 테스트용
     }
+
     @SuppressLint("SetTextI18n")
-    fun setflower(){
+    fun setflower() {
         Log.d("TAG", "setflower: 함수실행됨")
         val rd = Random()
-        val num =  (rd.nextInt(10)).toString()
-        var name : String?= "푸르름의 꽃말은?"
-        var tag : String? = "#푸른#하늘#은하수"
+        val num = (rd.nextInt(10)).toString()
+        var name: String? = "푸르름의 꽃말은?"
+        var tag: String? = "#푸른#하늘#은하수"
 
         //CollectionReference 는 파이어스토어의 컬렉션을 참조하는 객체다.
         val productRef = db.collection("today_flower").document(num)
         //get()을 통해서 해당 문서의 정보를 가져온다.
-        productRef.get().addOnCompleteListener(OnCompleteListener{ task ->
+        productRef.get().addOnCompleteListener(OnCompleteListener { task ->
             //작업이 성공적으로 마쳤을때
             if (task.isSuccessful) {
                 //문서의 데이터를 담을 DocumentSnapshot 에 작업의 결과를 담는다.
@@ -108,7 +113,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
                 name = document?.getString("name")
                 tag = document?.getString("tag")
 
-                text_flower_today.text = name +"의 꽃말은?"
+                text_flower_today.text = name + "의 꽃말은?"
                 text_flower_today_tag.text = tag
                 //그렇지 않을때
             } else {
@@ -116,15 +121,21 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             }
         })
     }
+    
+    // 파이어스토어에서 데이터 가져와서 어댑터로 보내기 준비
     private fun getDataList(): ArrayList<HomeData> {
-        return arrayListOf<HomeData>(
-            HomeData("새 식물 등록하기","식물 종류",R.drawable.ic_add_img_box),
-            HomeData("식물이름1","식물 종류",R.drawable.test_plant1),
-            HomeData("식물이름2","식물 종류",R.drawable.test_plant2),
-            HomeData("식물이름3","식물 종류",R.drawable.test_plant3),
-            HomeData("식물이름4","식물 종류",R.drawable.test_plant4),
-            HomeData("식물이름5","식물 종류",R.drawable.test_plant5)
-        )
+        val homedatas = ArrayList<HomeData>()
+        db.collection("plant_info")
+            .whereEqualTo("userId", auth.uid)
+            .get()
+            .addOnSuccessListener {
+                for(document in it){
+                    homedatas.add(HomeData(document["name"] as String, document["species"] as String,document["imgUri"] as String))
+                }
+            }.addOnFailureListener {
+
+            }
+        return homedatas
     }
 
     /* 공식문서에 있는 코드 긁어온거임 */
@@ -166,7 +177,6 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             }
         }
     } // 공식문서 코드 끝
-
 
 
 }
