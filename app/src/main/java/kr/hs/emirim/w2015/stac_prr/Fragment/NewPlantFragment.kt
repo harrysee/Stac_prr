@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kr.hs.emirim.w2015.stac_prr.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
@@ -71,7 +72,7 @@ class NewPlantFragment : Fragment() {
             val imagesRef: StorageReference? = storageRef.child("info/" + filename)
             var downloadUri: String  // 다운로드 uri 저장변수
 
-            if(photoURI.equals(null)){
+            if(!Uri.EMPTY.equals(photoURI)){
                 Toast.makeText(requireContext(), "사진을 업로드하세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -142,7 +143,7 @@ class NewPlantFragment : Fragment() {
 
                 val date = DatePickerDialog(
                     requireContext(),
-                    R.style.TimePicker,
+                    R.style.DatePicker,
                     setDateListener,
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH-1),

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.slider_item.view.*
@@ -20,7 +21,7 @@ import kr.hs.emirim.w2015.stac_prr.Fragment.PlantInfoFragment
 import kr.hs.emirim.w2015.stac_prr.R
 
 
-class FhViewAdapter(val datas : ArrayList<HomeData>, val fragment_s:FragmentActivity?, val context:Context) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
+class FhViewAdapter(val datas : ArrayList<HomeData>?, val fragment_s:FragmentActivity?, val context:Context) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
     var activity: MainActivity?= null
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
     private val storageRef: StorageReference = storage.reference
@@ -28,20 +29,26 @@ class FhViewAdapter(val datas : ArrayList<HomeData>, val fragment_s:FragmentActi
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewholder(parent)
 
     override fun onBindViewHolder(holder: MyViewholder, position: Int) {
-        holder.bind(datas[position],context)
+        holder.bind(datas?.get(position)!!,context)
         holder.itemView.setOnClickListener{
             Log.d(">>>>."+position.toString(), "클릭됨 ")
             var fragment:Fragment= PlantInfoFragment()
             var bundle: Bundle = Bundle()
-            activity = fragment_s as MainActivity?
+            bundle.putString("docId", datas?.get(position)?.docId)
             fragment.arguments = bundle
-            activity?.fragmentChange_for_adapter(fragment)
+
+            activity?.supportFragmentManager!!.beginTransaction()
+                .replace(R.id.container,fragment)
+                .commit()
             Log.d("프레그먼트", "프레그먼트 갔다옴 ")
         }
     }
 
     override fun getItemCount(): Int {
-        return datas.size
+        if (datas != null) {
+            return datas.size
+        }
+        return 0
     }
 
     inner class MyViewholder(parent:ViewGroup) : RecyclerView.ViewHolder

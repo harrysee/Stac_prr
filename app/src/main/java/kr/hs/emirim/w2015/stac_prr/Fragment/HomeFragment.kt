@@ -12,16 +12,14 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
 import kr.hs.emirim.w2015.stac_prr.DataClass.HomeData
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.util.*
-import kotlin.math.log
+import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment() {
@@ -29,6 +27,7 @@ class HomeFragment : Fragment() {
     private val MIN_ALPHA = 0.5f // 어두워지는 정도를 나타낸 듯 하다.
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth = Firebase.auth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -75,8 +74,10 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
         }
         /* 여백, 너비에 대한 정의 */
         viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
-        val viewAdapter = FhViewAdapter(getDataList(), activity, requireContext()) // 어댑터 생성
-        viewPager.adapter = viewAdapter
+        if (getDataList() != null) {
+            val viewAdapter = FhViewAdapter(getDataList(), activity, requireContext()) // 어댑터 생성
+            viewPager.adapter = viewAdapter
+        }
         Log.i("어댑터소환", "어댑터 실행완료 ")
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
         viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
@@ -121,16 +122,19 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             }
         })
     }
-    
+
     // 파이어스토어에서 데이터 가져와서 어댑터로 보내기 준비
-    private fun getDataList(): ArrayList<HomeData> {
-        val homedatas = ArrayList<HomeData>()
+    private fun getDataList(): ArrayList<HomeData>? {
+        val homedatas: ArrayList<HomeData>? = ArrayList<HomeData>()
         db.collection("plant_info")
             .whereEqualTo("userId", auth.uid)
             .get()
             .addOnSuccessListener {
-                for(document in it){
-                    homedatas.add(HomeData(document["name"] as String, document["species"] as String,document["imgUri"] as String))
+                for (document in it) {
+                    homedatas?.add(HomeData(document["name"] as String,
+                        document["species"] as String,
+                        document["imgUri"] as String,
+                        document.id))
                 }
             }.addOnFailureListener {
 

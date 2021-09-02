@@ -22,7 +22,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#E9E9E9"
-                />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -176,6 +179,7 @@
                         android:textStyle="bold"
                         android:layout_marginLeft="34dp" />
                     <TextView
+                        android:id="@+id/info_date_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0000. 00. 00"
@@ -211,6 +215,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                     <TextView
+                        android:id="@+id/info_c_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="00~00˚"
@@ -248,6 +253,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                     <TextView
+                        android:id="@+id/info_led_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="빛 요구도"
@@ -285,6 +291,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                     <TextView
+                        android:id="@+id/info_water_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="00일"
@@ -322,6 +329,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                     <TextView
+                        android:id="@+id/info_memo_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="메모를 작성하세요\n(공간은 줄 수에 따라 유동적\n으로 변합니다.)"
