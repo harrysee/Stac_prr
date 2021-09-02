@@ -21,6 +21,7 @@ class ItemModel {
         for (i in 0 until 100) {
             var item = ItemEntity()
             item.contents = "$i 번째 내용"
+            item.isChecked = false
             items.add(item)
         }
     }

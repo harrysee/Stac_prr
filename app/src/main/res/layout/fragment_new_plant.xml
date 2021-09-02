@@ -103,7 +103,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/name"
+                android:id="@+id/newplant_name"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="64dp"
@@ -149,7 +149,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/kind"
+                android:id="@+id/newplant_spacies"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="64dp"
@@ -192,16 +192,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/date"
+            <Button
+                android:id="@+id/newplant_date_btn"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_height="28dp"
                 android:layout_marginLeft="31dp"
                 android:background="@android:color/transparent"
-                android:hint="0000. 00. 00"
-                android:singleLine="true"
+                android:text="0000. 00. 00"
+                android:paddingLeft="-20dp"
                 android:textColor="@color/day_gray"
-                android:textColorHint="@color/day_gray"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/dateText"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -238,7 +237,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/tmprt"
+                android:id="@+id/newplant_temperature"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="31dp"
@@ -283,7 +282,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/light"
+                android:id="@+id/newplant_led"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="31dp"
@@ -328,13 +327,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/water"
+                android:id="@+id/newplant_water"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="31dp"
                 android:background="@android:color/transparent"
                 android:hint="00일"
                 android:singleLine="true"
+                android:inputType="number"
                 android:textColor="@color/day_gray"
                 android:textColorHint="@color/day_gray"
                 android:textSize="14sp"
@@ -373,7 +373,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/memo"
+                android:id="@+id/newplant_memo"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="64dp"

@@ -32,7 +32,6 @@ class PlantInfoFragment : Fragment(){
         info_pass_btn.setOnClickListener(){
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(HomeFragment())
-
         }
     }
 }

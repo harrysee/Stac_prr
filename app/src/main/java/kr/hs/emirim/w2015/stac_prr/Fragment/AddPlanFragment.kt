@@ -108,7 +108,6 @@ class AddPlanFragment : Fragment() {
             //dialog.setTitle("알림 시간 선택")
             dialog.window!!.setBackgroundDrawableResource(R.color.back_gray)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setTitle(Window.FEATURE_NO_TITLE)
             dialog.show()
 
         }
