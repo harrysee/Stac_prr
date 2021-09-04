@@ -8,9 +8,11 @@ import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
 import kr.hs.emirim.w2015.stac_prr.ItemModel
 import kr.hs.emirim.w2015.stac_prr.databinding.PlanItemViewBinding
+import java.util.*
 
-class PlanAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PlanAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var items: ItemModel? = ItemModel()
+    var date : Date = Calendar.getInstance().time
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         var binding = PlanItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)

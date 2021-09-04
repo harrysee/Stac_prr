@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.prolificinteractive.materialcalendarview.*
 import kotlinx.android.synthetic.main.fragment_calender.*
+import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.PlanAdapter
 import kr.hs.emirim.w2015.stac_prr.ItemModel
 import kr.hs.emirim.w2015.stac_prr.MainActivity
@@ -32,6 +33,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
     val dotPlanDay = mutableListOf<CalendarDay>()
     val selectDateFormat = SimpleDateFormat("yyyy. MM. dd")
     var datetext = selectDateFormat.format(Date().time)
+    var selec_date : Date = Calendar.getInstance().time
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,18 +52,22 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         dotPlanDay.add(CalendarDay.from(2021, 8 - 1, 10))
         calendarOption()
         addDecorator()
+        binding.planRecyclerview.addItemDecoration(RecyclerViewDecoration(18))
+        init()  // recycleview 설정
 
         //날짜 클릭했을때
         binding.materialCalendar.setOnDateChangedListener { widget, date, selected ->
             val simpleDateFormat = SimpleDateFormat("MM월 dd일")
             val dateMd: String = simpleDateFormat.format(date.getCalendar().getTime())
             datetext = selectDateFormat.format(date.getCalendar().getTime())
-
+            selec_date = date.calendar.time
+            // 어댑터 새로고침
+            adapter.date = selec_date
+            adapter.notifyDataSetChanged()
+            
             binding.planTxt.text = dateMd
         }
 
-        binding.planRecyclerview.addItemDecoration(RecyclerViewDecoration(18))
-        init()  // recycleview 설정
         //plus btn listener
         binding.planPlusBtn.setOnClickListener() {
             Log.i(datetext, "onViewCreated: datetext")

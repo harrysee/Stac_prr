@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kr.hs.emirim.w2015.stac_prr.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
+import java.io.FileNotFoundException
 import java.util.*
 
 
@@ -72,12 +74,19 @@ class NewPlantFragment : Fragment() {
             val imagesRef: StorageReference? = storageRef.child("info/" + filename)
             var downloadUri: String  // 다운로드 uri 저장변수
 
-            if(!Uri.EMPTY.equals(photoURI)){
+            Log.d("TAG", "onViewCreated: ${photoURI}")
+            if(photoURI.path.equals("")){
                 Toast.makeText(requireContext(), "사진을 업로드하세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val file: Uri = photoURI
 
+            var file: Uri? = null
+            try {
+                file = photoURI
+            }catch (e : java.lang.Exception){
+                Toast.makeText(requireContext(), "이미지를 업로드하세요", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             // 스토리지에 올리기
             val uploadTask = imagesRef?.putFile(file)
             Toast.makeText(requireContext(), "업로드중...", Toast.LENGTH_LONG).show()
@@ -95,6 +104,7 @@ class NewPlantFragment : Fragment() {
                     Log.d("TAG", "onViewCreated: 사진 업로드 완료")
                     downloadUri = task.toString()  // 다운로드 uri string으로 가져오기
 
+                    val date : Date= cal.time
                     // 올릴 필드 설정하기
                     val docData = hashMapOf(
                         "name" to newplant_name.text,           //식물이름
@@ -103,7 +113,7 @@ class NewPlantFragment : Fragment() {
                         "water" to newplant_water.text,              //급수주기
                         "temperature" to newplant_temperature.text,        // 온도
                         "memo" to newplant_memo.text,               //메모
-                        "date" to cal.timeInMillis/1000L,   // 날짜
+                        "date" to Timestamp(date),   // 날짜
                         "imgUri" to downloadUri,        // 이미지 uri
                         "userId" to uid    // 식별가능한 유저 아이디
                     )
@@ -145,7 +155,7 @@ class NewPlantFragment : Fragment() {
                     requireContext(),
                     R.style.DatePicker,
                     setDateListener,
-                    cal.get(Calendar.YEAR),
+                    2021,
                     cal.get(Calendar.MONTH-1),
                     cal.get(Calendar.DATE)
                 ).show()
