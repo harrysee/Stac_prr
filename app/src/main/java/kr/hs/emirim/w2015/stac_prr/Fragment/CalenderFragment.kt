@@ -1,6 +1,5 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
-import kr.hs.emirim.w2015.stac_prr.Decorator.DotDecorator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
@@ -14,21 +13,24 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import com.google.firebase.firestore.FirebaseFirestore
 import com.prolificinteractive.materialcalendarview.*
 import kotlinx.android.synthetic.main.fragment_calender.*
 import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.PlanAdapter
+import kr.hs.emirim.w2015.stac_prr.Decorator.DotDecorator
 import kr.hs.emirim.w2015.stac_prr.ItemModel
-import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.databinding.FragmentCalenderBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class CalenderFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentCalenderBinding? = null//<layout></layout>으로 감싼 것만 바인딩가능
     private val binding get() = _binding!!
     lateinit var adapter: PlanAdapter
+    val db = FirebaseFirestore.getInstance()
     var model = ItemModel()
     val dotPlanDay = mutableListOf<CalendarDay>()
     val selectDateFormat = SimpleDateFormat("yyyy. MM. dd")
@@ -37,7 +39,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // onCreateView에서 바인딩을 시켜주고 binding 객체의 root를 리턴
         _binding = FragmentCalenderBinding.inflate(inflater, container, false)
@@ -46,12 +48,10 @@ class CalenderFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // dot 추가할 리스트 넣기 - month는 인덱스가 0이라서 1월 -> 0월로 적어야한다
-        dotPlanDay.add(CalendarDay.from(2021, 8 - 1, 18))
-        dotPlanDay.add(CalendarDay.from(2021, 8 - 1, 27))
-        dotPlanDay.add(CalendarDay.from(2021, 8 - 1, 10))
-        calendarOption()
-        addDecorator()
+        // dot 추가할 리스트 넣기 - month는 인덱스가 0이라서 1월 -> 0월로 계산해야됨
+        getDotDate()    //점찍을 날짜 추가
+        calendarOption()    //캘린더 기본세팅
+        addDecorator()      // 추가 커스텀
         binding.planRecyclerview.addItemDecoration(RecyclerViewDecoration(18))
         init()  // recycleview 설정
 
@@ -64,7 +64,6 @@ class CalenderFragment : Fragment(), View.OnClickListener {
             // 어댑터 새로고침
             adapter.date = selec_date
             adapter.notifyDataSetChanged()
-            
             binding.planTxt.text = dateMd
         }
 
@@ -109,6 +108,21 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         Log.d("", "onClick: 버튼이 없기때문에 없어도됨")
     }
 
+    fun getDotDate(){
+        db.collection("dotDate")
+            .whereEqualTo("date", true)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val date = SimpleDateFormat("yyyy. MM. dd").parse(document.id)
+                    dotPlanDay.add(CalendarDay.from(date))
+                    Log.d("TAG", "점날짜 ${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("TAG", "점날짜 >> Error getting documents: ", exception)
+            }
+    }
     fun calendarOption() {
         // 캘린더 부분 변수선언
         var startTimeCalendar = Calendar.getInstance()
@@ -151,7 +165,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         val sundayDecorator = SundayDecorator()     // 일요일 빨간색
         val saturdayDecorator = SaturdayDecorator() // 토요일 파란색
         val todayDecorator = TodayDecorator(requireContext())   //오늘 배경설정
-        val dotDecorator = DotDecorator("#8EC057", dotPlanDay)
+        val dotDecorator = DotDecorator("#8EC057", dotPlanDay)  //일정있으면 점찍기
 
         //데코레이터 추가
         binding.materialCalendar.addDecorators(
@@ -212,7 +226,7 @@ class RecyclerViewDecoration(val divHeight: Int) : ItemDecoration() {
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State
+        state: RecyclerView.State,
     ) {
         super.getItemOffsets(outRect, view!!, parent!!, state!!)
         outRect.top = divHeight

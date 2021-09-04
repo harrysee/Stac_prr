@@ -28,7 +28,7 @@ import kotlin.collections.ArrayList
 
 class AddPlanFragment : Fragment() {
     var date_str: String? = null
-    val cal = Calendar.getInstance()
+    val cal : Calendar = Calendar.getInstance()
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
