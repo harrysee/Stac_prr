@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kr.hs.emirim.w2015.stac_prr.ItemModel
 import kr.hs.emirim.w2015.stac_prr.databinding.PlanItemViewBinding
 import java.util.*
@@ -37,6 +39,8 @@ class PlanAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         class ItemHolder(var binding: PlanItemViewBinding) : RecyclerView.ViewHolder(binding.root),
             CompoundButton.OnCheckedChangeListener {
             var item: ItemModel.ItemEntity? = null
+            val auth = FirebaseAuth.getInstance()
+            val db = FirebaseFirestore.getInstance()
 
             init {  // 체크박스가 온클릭 되면 바로 리스너 이동시키기
                 binding.checkBox.setOnCheckedChangeListener(this)
@@ -64,6 +68,12 @@ class PlanAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         it.isChecked = true
                         binding.content.setPaintFlags(binding.content.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                     }
+                    //체크박스 선택부분 업데이트
+                    /*db.collection("schedule")
+                        .document(auth.uid.toString())
+                        .collection("plans")
+                        .document(it.docId)
+                        .update("checkbox",it.isChecked)*/
                     Log.d("checked", "${it.isChecked}")
                 }
             }//onCheckedChanged end

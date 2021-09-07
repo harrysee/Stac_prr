@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.prolificinteractive.materialcalendarview.*
 import kotlinx.android.synthetic.main.fragment_calender.*
@@ -31,6 +33,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
     private val binding get() = _binding!!
     lateinit var adapter: PlanAdapter
     val db = FirebaseFirestore.getInstance()
+    val auth = FirebaseAuth.getInstance()
     var model = ItemModel()
     val dotPlanDay = mutableListOf<CalendarDay>()
     val selectDateFormat = SimpleDateFormat("yyyy. MM. dd")
@@ -49,7 +52,6 @@ class CalenderFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // dot 추가할 리스트 넣기 - month는 인덱스가 0이라서 1월 -> 0월로 계산해야됨
-        getDotDate()    //점찍을 날짜 추가
         calendarOption()    //캘린더 기본세팅
         addDecorator()      // 추가 커스텀
         binding.planRecyclerview.addItemDecoration(RecyclerViewDecoration(18))
@@ -62,6 +64,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
             datetext = selectDateFormat.format(date.getCalendar().getTime())
             selec_date = date.calendar.time
             // 어댑터 새로고침
+            model.date = selec_date
             adapter.date = selec_date
             adapter.notifyDataSetChanged()
             binding.planTxt.text = dateMd
@@ -109,18 +112,17 @@ class CalenderFragment : Fragment(), View.OnClickListener {
     }
 
     fun getDotDate(){
-        db.collection("dotDate")
-            .whereEqualTo("date", true)
+        db.collection("schedule")
+            .document(auth.uid.toString())
+            .collection("plans")
             .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val date = SimpleDateFormat("yyyy. MM. dd").parse(document.id)
+            .addOnSuccessListener {
+                Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
+                for (document in it){
+                    val date = document["date"] as Date
                     dotPlanDay.add(CalendarDay.from(date))
                     Log.d("TAG", "점날짜 ${document.id} => ${document.data}")
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("TAG", "점날짜 >> Error getting documents: ", exception)
             }
     }
     fun calendarOption() {
@@ -162,6 +164,9 @@ class CalenderFragment : Fragment(), View.OnClickListener {
     }
 
     fun addDecorator() {
+        getDotDate()    //점찍을 날짜 추가
+        Log.d("TAG", "onViewCreated: ${dotPlanDay}")
+
         val sundayDecorator = SundayDecorator()     // 일요일 빨간색
         val saturdayDecorator = SaturdayDecorator() // 토요일 파란색
         val todayDecorator = TodayDecorator(requireContext())   //오늘 배경설정

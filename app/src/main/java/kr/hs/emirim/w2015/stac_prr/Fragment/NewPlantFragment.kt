@@ -1,6 +1,5 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -23,6 +21,8 @@ import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kr.hs.emirim.w2015.stac_prr.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
+import android.app.DatePickerDialog
+import android.content.Context
 import java.io.FileNotFoundException
 import java.util.*
 
@@ -74,7 +74,6 @@ class NewPlantFragment : Fragment() {
             val imagesRef: StorageReference? = storageRef.child("info/" + filename)
             var downloadUri: String  // 다운로드 uri 저장변수
 
-            Log.d("TAG", "onViewCreated: ${photoURI}")
             if(photoURI.path.equals("")){
                 Toast.makeText(requireContext(), "사진을 업로드하세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -87,12 +86,15 @@ class NewPlantFragment : Fragment() {
                 Toast.makeText(requireContext(), "이미지를 업로드하세요", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
+
+            Log.d("TAG", "onViewCreated: 사진 uri ${photoURI}")
             // 스토리지에 올리기
-            val uploadTask = imagesRef?.putFile(file)
+            val uploadTask = imagesRef?.putFile(file!!)
             Toast.makeText(requireContext(), "업로드중...", Toast.LENGTH_LONG).show()
 
             // 잘올라갔으면 다운로드 url 가져오기
             uploadTask?.continueWithTask { task ->
+                Log.d("TAG", "onViewCreated: 새로운 식물 continue 들어옴")
                 if (!task.isSuccessful) {
                     task.exception?.let {
                         Log.d("TAG", "onViewCreated: 사진 안올라감")
@@ -101,8 +103,8 @@ class NewPlantFragment : Fragment() {
                 }
                 val uid: String? = auth.uid
                 storageRef.downloadUrl?.addOnSuccessListener { task ->
-                    Log.d("TAG", "onViewCreated: 사진 업로드 완료")
                     downloadUri = task.toString()  // 다운로드 uri string으로 가져오기
+                    Log.d(downloadUri.toString(), "onViewCreated: 사진 업로드 완료")
 
                     val date : Date= cal.time
                     // 올릴 필드 설정하기
@@ -122,6 +124,7 @@ class NewPlantFragment : Fragment() {
                         .set(docData)
                         .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감") }
                         .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류", e) }
+
 
                     Toast.makeText(requireContext(), "업로드 완료 !", Toast.LENGTH_LONG).show()
                     Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
@@ -143,19 +146,19 @@ class NewPlantFragment : Fragment() {
 
             // 날짜 선택 다이얼로그
             newplant_date_btn.setOnClickListener {
-                val setDateListener =
-                    DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                val setDateListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
                         cal.set(Calendar.YEAR,year)
                         cal.set(Calendar.MONTH,month)
                         cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
                         newplant_date_btn.text = "${year}-${month+1}-${dayOfMonth}"
                     }
 
-                val date = DatePickerDialog(
-                    requireContext(),
+                Log.d("TAG", "onViewCreated: 현재 시간 :${cal.time}")
+                DatePickerDialog(
+                    context as Context,
                     R.style.DatePicker,
                     setDateListener,
-                    2021,
+                    cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH-1),
                     cal.get(Calendar.DATE)
                 ).show()
@@ -168,8 +171,7 @@ class NewPlantFragment : Fragment() {
             if (data?.data != null) {
                 try {
                     photoURI = data.data!!
-                    val bitmap =
-                        MediaStore.Images.Media.getBitmap(context?.contentResolver, photoURI)
+                    val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, photoURI)
                     newplant_upload_btn.setImageBitmap(bitmap)
                 } catch (e: Exception) {
                     e.printStackTrace()

@@ -1,6 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr.Adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,6 @@ class JournalAdapter(private val context: Context) :
             fun bind(item: JournalData) {
                 txtName.text = item.name
                 txtJournal.text = item.journal
-
             }
         }
     }

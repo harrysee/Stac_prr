@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tabIndicator="@drawable/main_indicator"
-        app:tabIndicatorColor="@color/pp_green"
+        app:tabIndicatorColor="@color/transparent"
         app:tabRippleColor="@color/transparent"
         app:layout_constraintTop_toBottomOf="@id/container"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />

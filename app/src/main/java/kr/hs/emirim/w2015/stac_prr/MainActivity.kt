@@ -32,12 +32,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNaviLayout: View
     private val br: BroadcastReceiver = BroadcastReceiver()
     private lateinit var pref: SharedPreferences
-    private lateinit var auth: FirebaseAuth
+    private var auth: FirebaseAuth =FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        auth = FirebaseAuth.getInstance()
         pref = this.getSharedPreferences("pref", Context.MODE_PRIVATE)
         onTabs()
 
@@ -107,10 +106,13 @@ class MainActivity : AppCompatActivity() {
     //앱 실행시 로그인 하기
     public override fun onStart() {
         super.onStart()
-        isFirstCheck()
-        // Check if user is signed in (non-null) and update UI accordingly.
+        if(auth.currentUser?.uid == null){
+            isFirstCheck()
+        }
         val currentUser = auth.currentUser
         Log.d("TAG", "onStart 유저 아이디 : ${currentUser?.uid} ")
+
+        // Check if user is signed in (non-null) and update UI accordingly.
     }
 
     fun isFirstCheck() {
@@ -122,25 +124,24 @@ class MainActivity : AppCompatActivity() {
                 putBoolean("isFirst", false)
                 commit()
             }
-            Toast.makeText(this, "메뚜기월드에 오신걸 환영합니다", Toast.LENGTH_SHORT).show()
-            // 첫 실행 시 가입 : signInAnonymously
-            auth.signInAnonymously()
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("TAG", "signInAnonymously:success - 사용자등록 완료")
-
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("TAG", "signInAnonymously:failure", task.exception)
-                        Toast.makeText(
-                            baseContext, "Authentication failed.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
+            Toast.makeText(this, "푸르름에 오신걸 환영합니다", Toast.LENGTH_SHORT).show()
         }
+        // 첫 실행 시 가입 : signInAnonymously
+        auth.signInAnonymously()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("TAG", "signInAnonymously:success - 사용자등록 완료")
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("TAG", "signInAnonymously:failure", task.exception)
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
     }
 
 }

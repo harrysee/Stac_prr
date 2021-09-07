@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!-- margin을 통해 텍스트와 이미지 사이의 간격 조절가능 -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="size"
+    android:textColor="@color/day_gray"
+    android:textSize="15sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />

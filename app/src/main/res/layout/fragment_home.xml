@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="38dp" />
+        app:layout_constraintGuide_percent="0.05" />
 
     <TextView
         android:id="@+id/text_flower"
@@ -157,17 +157,19 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.melnykov.fab.FloatingActionButton
         android:id="@+id/home_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/pp_green"
-        android:src="@drawable/ic_baseline_add"
         app:fabCustomSize="48dp"
         app:fab_shadow="false"
+        android:layout_gravity="end|bottom"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/pp_green"
+        android:src="@drawable/ic_baseline_add"/>
+
 
 
 

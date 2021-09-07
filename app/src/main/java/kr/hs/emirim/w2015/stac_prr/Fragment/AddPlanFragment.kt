@@ -83,22 +83,16 @@ class AddPlanFragment : Fragment() {
                 "checkbox" to false,
                 "date" to Timestamp(date),   // 날짜
             )
-            val docDate = hashMapOf(
-                "date" to true,   // 날짜유효
-            )
             // 콜렉션에 문서 생성하기
             db!!.collection("schedule").document(uid).collection("plans").document()
                 .set(docData)
                 .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : schedule") }
                 .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : schedule", e) }
 
-            //날짜만 따로 저장 : 점찍는 날짜
-            db!!.collection("dotDate").document(date_str.toString())
-                .set(docDate)
-                .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : dotDate") }
-                .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : dotDate", e) }
             Toast.makeText(requireContext(), "업로드 완료 !", Toast.LENGTH_LONG).show()
             Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
+
+            activity.fragmentChange_for_adapter(CalenderFragment())
         }
 
 
@@ -137,7 +131,6 @@ class AddPlanFragment : Fragment() {
     }
 
     fun setSpinner() {
-        val names_arr = ArrayList<String>()
 
         // title 부분
         val title = resources.getStringArray(R.array.title_arr)
@@ -151,15 +144,15 @@ class AddPlanFragment : Fragment() {
         planets_spinner.adapter = adapter
 
         // 대상 부분
-        val names = getNames()
+        val names_arr = getNames()
         var nadapter = ArrayAdapter<String>(
             requireContext(),
-            R.layout.spinner_custom,
+            R.layout.spinner_custom_name,
             names_arr
         )
         Log.d("TAG", "onViewCreated: 어댑터 완성")
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        plant_name_spinner.adapter = adapter
+        nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        plant_name_spinner.adapter = nadapter
 
         // 알람 부분
         val alarm = resources.getStringArray(R.array.alram_arr)

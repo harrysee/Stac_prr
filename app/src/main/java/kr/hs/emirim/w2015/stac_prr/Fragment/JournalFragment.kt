@@ -1,29 +1,32 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
-import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
-import androidx.databinding.DataBindingUtil.setContentView
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_alarm.*
 import kotlinx.android.synthetic.main.fragment_journal.*
 import kotlinx.android.synthetic.main.fragment_plant_info.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.JournalAdapter
 import kr.hs.emirim.w2015.stac_prr.Adapter.JournalTabAdapter
 import kr.hs.emirim.w2015.stac_prr.JournalData
-import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
+import java.text.SimpleDateFormat
+
 
 class JournalFragment : Fragment() {
     lateinit var journalTabAdapter: JournalTabAdapter
     private val datas = mutableListOf<JournalData>()
+    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    val auth = Firebase.auth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +36,7 @@ class JournalFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_journal, container, false)
     }
@@ -82,27 +85,43 @@ class JournalFragment : Fragment() {
     }
     private fun initRecycler(journalAdapter : JournalAdapter) {
         journal_recycler.adapter = journalAdapter
+
+        // 일지 목록 리사이클 설정
+        val obj = object :JournalTabAdapter.ItemClickListener{
+            override fun onItemClick(position: String) {
+                db.collection("journals")
+                    .document(auth.uid.toString())
+                    .collection("journal")
+                    .whereEqualTo("name",position)
+                    .get()
+                    .addOnSuccessListener {
+                        Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
+                        for (document in it){
+                            datas.add(JournalData(document["name"] as String,document["content"] as String,SimpleDateFormat("yy-MM-dd").format(document["date"])))
+                        }
+                    }
+                journalAdapter.datas = datas
+                journalAdapter.notifyDataSetChanged()
+            }
+        }
         journalTabAdapter = JournalTabAdapter(requireContext())
         tab_recycler.adapter = journalTabAdapter
 
-        datas.add(JournalData(name = "초록이", journal = "일지"))
-        datas.add(JournalData(name = "무럭이", journal = "일지"))
-        datas.add(JournalData(name = "완전멋진이름", journal = "일지"))
-        datas.add(JournalData(name = "초록이", journal = "일지"))
-        datas.add(JournalData(name = "무럭이", journal = "일지"))
-        datas.add(JournalData(name = "초록이", journal = "일지"))
-        datas.add(JournalData(name = "무럭이", journal = "일지"))
-        datas.add(JournalData(name = "완전멋진이름", journal = "일지"))
-        datas.add(JournalData(name = "초록이", journal = "일지"))
-        datas.add(JournalData(name = "무럭이", journal = "일지"))
-        datas.add(JournalData(name = "초록이", journal = "일지"))
-        datas.add(JournalData(name = "무럭이", journal = "일지"))
-        datas.add(JournalData(name = "완전멋진이름", journal = "일지"))
-        datas.add(JournalData(name = "초록이", journal = "일지"))
-        datas.add(JournalData(name = "무럭이", journal = "일지"))
-
-        journalAdapter.datas = datas
-        journalAdapter.notifyDataSetChanged()
+        datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "완전멋진이름", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "완전멋진이름", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "완전멋진이름", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
 
         journalTabAdapter.datas = datas
         journalTabAdapter.notifyDataSetChanged()

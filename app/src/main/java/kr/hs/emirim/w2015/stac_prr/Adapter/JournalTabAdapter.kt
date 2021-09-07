@@ -14,10 +14,15 @@ import kr.hs.emirim.w2015.stac_prr.R
 class JournalTabAdapter(private val context: Context) :
     RecyclerView.Adapter<JournalTabAdapter.ViewHolder>() {
     var datas = mutableListOf<JournalData>()
+    lateinit var itemClickListener : ItemClickListener
+
+    interface ItemClickListener {
+        fun onItemClick(position: String) : Unit
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(this.context).inflate(R.layout.tab_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, itemClickListener)
     }
 
     override fun getItemCount(): Int = datas.size
@@ -26,7 +31,7 @@ class JournalTabAdapter(private val context: Context) :
         holder.bind(datas[position])
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View, val itemClickListener: ItemClickListener) : RecyclerView.ViewHolder(view) {
         private val txtName: TextView = itemView.findViewById(R.id.plant_name)
         private val tab : ConstraintLayout = itemView.findViewById(R.id.journal_tab_item)
 
@@ -36,6 +41,9 @@ class JournalTabAdapter(private val context: Context) :
             itemView.setOnClickListener(){
                 tab.setBackgroundResource(R.color.pp_green)
                 txtName.setTextColor(R.color.white)
+
+                itemClickListener.onItemClick(item.name)
+
             }
         }
     }

@@ -43,8 +43,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val pageMarginPx =
-            resources.getDimensionPixelOffset(R.dimen.pageMargin) // dimen 파일 안에 크기를 정의해두었다.
+        val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin) // dimen 파일 안에 크기를 정의해두었다.
         val pagerWidth = resources.getDimensionPixelOffset(R.dimen.pageWidth) // dimen 파일이 없으면 생성해야함
         val screenWidth = resources.displayMetrics.widthPixels // 스마트폰의 너비 길이를 가져옴
         val offsetPx = screenWidth - pageMarginPx - pagerWidth
@@ -92,7 +91,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(NewPlantFragment())
         }
-        //setflower() // 꽃말 갈아끼우기 : 테스트용
+        setflower() // 꽃말 갈아끼우기 : 테스트용
     }
 
     @SuppressLint("SetTextI18n")
@@ -132,7 +131,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             .addOnSuccessListener {
                 for (document in it) {
                     homedatas?.add(HomeData(document["name"] as String,
-                        document["species"] as String,
+                        document["specise"] as String,
                         document["imgUri"] as String,
                         document.id))
                 }

@@ -117,7 +117,7 @@
         app:layout_constraintTop_toTopOf="@id/linear"
         app:layout_constraintStart_toStartOf="@id/linear"/>
     <EditText
-        android:id="@+id/journaling"
+        android:id="@+id/journal_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -133,7 +133,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_add_photo"
-        app:layout_constraintTop_toBottomOf="@id/journaling"
+        app:layout_constraintTop_toBottomOf="@id/journal_content"
         app:layout_constraintLeft_toLeftOf="@id/linear"
         android:layout_marginTop="157dp"
         android:layout_marginLeft="16dp"/>

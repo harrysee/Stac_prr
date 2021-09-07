@@ -14,7 +14,6 @@
     </style>
 
     <style name="DatePicker" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowIsFloating">true</item>
         <item name="colorPrimary">@color/pp_green</item>
         <item name="colorPrimaryDark">@color/pp_green</item>
         <item name="colorAccent">@color/pp_green</item>

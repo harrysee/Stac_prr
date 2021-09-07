@@ -59,7 +59,7 @@ class FhViewAdapter(val datas : ArrayList<HomeData>?, val fragment_s:FragmentAct
 
         fun bind(item: HomeData, context : Context){
             //imageView.setImageResource()
-            storageRef.child(item.imgUrl.toString()).downloadUrl.addOnCompleteListener{ task ->
+            storageRef.child(item.imgUrl).downloadUrl.addOnCompleteListener{ task ->
                 if (task.isSuccessful) {
                     //glide를 이용해서 이미지뷰에 이미지 바로 넣기
                     Glide.with(context) //쓸곳
