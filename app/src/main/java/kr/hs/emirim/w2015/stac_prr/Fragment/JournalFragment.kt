@@ -104,7 +104,7 @@ class JournalFragment : Fragment() {
                 journalAdapter.notifyDataSetChanged()
             }
         }
-        journalTabAdapter = JournalTabAdapter(requireContext())
+        journalTabAdapter = JournalTabAdapter(requireContext(),obj)
         tab_recycler.adapter = journalTabAdapter
 
         datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))

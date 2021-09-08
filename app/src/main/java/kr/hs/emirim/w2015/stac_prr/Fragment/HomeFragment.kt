@@ -27,6 +27,7 @@ class HomeFragment : Fragment() {
     private val MIN_ALPHA = 0.5f // 어두워지는 정도를 나타낸 듯 하다.
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth = Firebase.auth
+    var homedatas: ArrayList<HomeData>? = ArrayList<HomeData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +74,11 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
         }
         /* 여백, 너비에 대한 정의 */
         viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
-        if (getDataList() != null) {
-            val viewAdapter = FhViewAdapter(getDataList(), activity, requireContext()) // 어댑터 생성
+        // 어댑터 넣기
+        getDataList()
+        if (homedatas != null) {
+            Log.d("TAG", "onViewCreated: 식물정보 데이터리스트 null인지 : ${homedatas}")
+            val viewAdapter = homedatas?.let { FhViewAdapter(it, activity, requireContext()) }  // 어댑터 생성
             viewPager.adapter = viewAdapter
         }
         Log.i("어댑터소환", "어댑터 실행완료 ")
@@ -92,7 +96,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             activity.fragmentChange_for_adapter(NewPlantFragment())
         }
         setflower() // 꽃말 갈아끼우기 : 테스트용
-    }
+    }   // OnViewCreate end
 
     @SuppressLint("SetTextI18n")
     fun setflower() {
@@ -123,24 +127,35 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
     }
 
     // 파이어스토어에서 데이터 가져와서 어댑터로 보내기 준비
-    private fun getDataList(): ArrayList<HomeData>? {
-        val homedatas: ArrayList<HomeData>? = ArrayList<HomeData>()
-        db.collection("plant_info")
-            .whereEqualTo("userId", auth.uid)
-            .get()
-            .addOnSuccessListener {
-                for (document in it) {
-                    homedatas?.add(HomeData(document["name"] as String,
-                        document["specise"] as String,
-                        document["imgUri"] as String,
-                        document.id))
+    private fun getDataList() {
+        homedatas.let {
+            db.collection("plant_info")
+                .whereEqualTo("userId", auth.uid)
+                .get()
+                .addOnSuccessListener {
+                    for (document in it) {
+                        Log.i("TAG", "getDataList: 식물 데이터 보여주기 ${document.data}")
+                        homedatas?.add(HomeData(document["name"] as String,
+                            document["specise"] as String,
+                            document["imgUri"] as String,
+                            document.id))
+                        Log.d("TAG", "getDataList: 홈데이터 담기 : $homedatas")
+                        //this.homedatas = homedatas
+                    }
+                    getHomeData(homedatas)
+                    Log.d(it.toString(), "setflower: 식물 데이터 홈에서 불러오기 성공 $homedatas")
+                }.addOnFailureListener {
+                    Log.d(it.toString(), "setflower: 식물 데이터 홈에서 불러오기 실패")
                 }
-            }.addOnFailureListener {
+        }
 
-            }
-        return homedatas
     }
 
+    fun getHomeData(homeData: ArrayList<HomeData>?){
+        Log.d("TAG", "getData: 홈데이터 가져와보기 : $homeData" )
+        homedatas = homeData
+        viewPager.adapter?.notifyDataSetChanged()
+    }
     /* 공식문서에 있는 코드 긁어온거임 */
     inner class ZoomOutPageTransformer : ViewPager2.PageTransformer {
         override fun transformPage(view: View, position: Float) {

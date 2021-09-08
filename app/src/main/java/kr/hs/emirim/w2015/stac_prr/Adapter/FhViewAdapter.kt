@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -21,20 +22,20 @@ import kr.hs.emirim.w2015.stac_prr.Fragment.PlantInfoFragment
 import kr.hs.emirim.w2015.stac_prr.R
 
 
-class FhViewAdapter(val datas : ArrayList<HomeData>?, val fragment_s:FragmentActivity?, val context:Context) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
+class FhViewAdapter(private val datas : ArrayList<HomeData>, val fragment_s:FragmentActivity?, val context:Context) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
     var activity: MainActivity?= null
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
-    private val storageRef: StorageReference = storage.reference
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewholder(parent)
 
     override fun onBindViewHolder(holder: MyViewholder, position: Int) {
-        holder.bind(datas?.get(position)!!,context)
+        Log.d("TAG", "onBindViewHolder: 식물정보 넘겨줄때 데이터 : ${datas.get(position)}")
+        holder.bind(datas.get(position),context)
         holder.itemView.setOnClickListener{
             Log.d(">>>>."+position.toString(), "클릭됨 ")
-            var fragment:Fragment= PlantInfoFragment()
-            var bundle: Bundle = Bundle()
-            bundle.putString("docId", datas?.get(position)?.docId)
+            val fragment:Fragment= PlantInfoFragment()
+            val bundle: Bundle = Bundle()
+            bundle.putString("docId", datas.get(position).docId)
             fragment.arguments = bundle
 
             activity?.supportFragmentManager!!.beginTransaction()
@@ -45,10 +46,7 @@ class FhViewAdapter(val datas : ArrayList<HomeData>?, val fragment_s:FragmentAct
     }
 
     override fun getItemCount(): Int {
-        if (datas != null) {
-            return datas.size
-        }
-        return 0
+        return datas.size
     }
 
     inner class MyViewholder(parent:ViewGroup) : RecyclerView.ViewHolder
@@ -58,20 +56,17 @@ class FhViewAdapter(val datas : ArrayList<HomeData>?, val fragment_s:FragmentAct
         val textSpace = itemView.text_register_spacies
 
         fun bind(item: HomeData, context : Context){
+            Log.d("TAG", "bind: 식물정보 어댑터 실행됨")
             //imageView.setImageResource()
-            storageRef.child(item.imgUrl).downloadUrl.addOnCompleteListener{ task ->
-                if (task.isSuccessful) {
-                    //glide를 이용해서 이미지뷰에 이미지 바로 넣기
-                    Glide.with(context) //쓸곳
-                        .load(task.result)  //이미지 받아올 경로
-                        .fitCenter()        // 가운데 잘라서 채우게 가져오기
-                        .into(imageView)    // 받아온 이미지를 받을 공간
-                } else {
-                    Toast.makeText(context, task.exception.toString(), Toast.LENGTH_SHORT).show()   // 이미지 못받았을때
-                }
-            }
+            val httpsReference = storage.getReferenceFromUrl(item.imgUrl)
+
+            Glide.with(context) //쓸곳
+                .load(item.imgUrl.toString())  //이미지 받아올 경로
+                .fitCenter()        // 가운데 잘라서 채우게 가져오기
+                .into(imageView)    // 받아온 이미지를 받을 공간
+
             textView.text = item.name
-            textSpace.text = item.spacies
+            textSpace.text = "#"+item.spacies
             Log.d(item.name, "바인드 실행 : ")
 
         }

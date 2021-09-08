@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.hs.emirim.w2015.stac_prr.JournalData
 import kr.hs.emirim.w2015.stac_prr.R
 
-class JournalTabAdapter(private val context: Context) :
+class JournalTabAdapter(private val context: Context, itemClickListener: ItemClickListener) :
     RecyclerView.Adapter<JournalTabAdapter.ViewHolder>() {
     var datas = mutableListOf<JournalData>()
-    lateinit var itemClickListener : ItemClickListener
+    var itemClickListener : ItemClickListener = itemClickListener
 
     interface ItemClickListener {
         fun onItemClick(position: String) : Unit
@@ -31,7 +31,7 @@ class JournalTabAdapter(private val context: Context) :
         holder.bind(datas[position])
     }
 
-    inner class ViewHolder(view: View, val itemClickListener: ItemClickListener) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View, private val itemClickListener: ItemClickListener) : RecyclerView.ViewHolder(view) {
         private val txtName: TextView = itemView.findViewById(R.id.plant_name)
         private val tab : ConstraintLayout = itemView.findViewById(R.id.journal_tab_item)
 
@@ -43,7 +43,6 @@ class JournalTabAdapter(private val context: Context) :
                 txtName.setTextColor(R.color.white)
 
                 itemClickListener.onItemClick(item.name)
-
             }
         }
     }
