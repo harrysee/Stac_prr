@@ -25,7 +25,12 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" >
+                <ImageView
+                    android:id="@+id/info_background_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -45,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="29dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="32dp">
 
                     <TextView
@@ -60,6 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:layout_gravity="bottom"
                         android:textColor="@color/pp_green"
                         android:text="식물종류"
                         android:textSize="16sp" />
@@ -108,6 +114,7 @@
                             android:background="@drawable/ic_date"
                             />
                         <TextView
+                            android:id="@+id/info_day"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="37.67dp"
@@ -127,6 +134,7 @@
                             android:layout_height="67.69dp"
                             android:background="@drawable/ic_repot" />
                         <TextView
+                            android:id="@+id/info_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="37.67dp"
@@ -145,6 +153,7 @@
                             android:layout_height="67.69dp"
                             android:background="@drawable/ic_water" />
                         <TextView
+                            android:id="@+id/info_water_icon_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="37.67dp"

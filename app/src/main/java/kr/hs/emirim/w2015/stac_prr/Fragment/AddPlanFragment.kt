@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Adapter
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
+import androidx.databinding.adapters.AdapterViewBindingAdapter
 import androidx.fragment.app.Fragment
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -31,6 +34,7 @@ class AddPlanFragment : Fragment() {
     val cal : Calendar = Calendar.getInstance()
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
+    lateinit var nadapter : ArrayAdapter<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -76,13 +80,20 @@ class AddPlanFragment : Fragment() {
             // 파이어스토어에 데이터 저장
             val uid: String = auth.uid!!
             val date: Date = cal.time
+            val planets_spinner : Spinner = view.findViewById(R.id.planets_spinner)
+            val plant_name_spinner : Spinner = view.findViewById(R.id.plant_name_spinner)
+            val str_date = SimpleDateFormat("yyyy/MM/dd").format(date)
+            //val str_date = cal.get(Calendar.YEAR).toString() + "/"+ cal.get(Calendar.MONTH).toString() +"/"+cal.get(Calendar.DAY_OF_MONTH).toString()
             // 올릴 필드 설정하기
             val docData = hashMapOf(
                 "title" to planets_spinner.selectedItem.toString(),
                 "name" to plant_name_spinner.selectedItem.toString(),
                 "checkbox" to false,
                 "date" to Timestamp(date),   // 날짜
+                "str_date" to str_date,
+                "memo" to addplan_memo.text.toString()
             )
+            Log.d("TAG", "onViewCreated: 일정에 저장된 날짜 : $str_date")
             // 콜렉션에 문서 생성하기
             db!!.collection("schedule").document(uid).collection("plans").document()
                 .set(docData)
@@ -94,7 +105,6 @@ class AddPlanFragment : Fragment() {
 
             activity.fragmentChange_for_adapter(CalenderFragment())
         }
-
 
         setSpinner()
         setTime()
@@ -130,6 +140,7 @@ class AddPlanFragment : Fragment() {
         }
     }
 
+    // 스피너 설정하는 함수
     fun setSpinner() {
 
         // title 부분
@@ -145,14 +156,14 @@ class AddPlanFragment : Fragment() {
 
         // 대상 부분
         val names_arr = getNames()
-        var nadapter = ArrayAdapter<String>(
+        nadapter = ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_custom_name,
             names_arr
         )
-        Log.d("TAG", "onViewCreated: 어댑터 완성")
         nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         plant_name_spinner.adapter = nadapter
+        nadapter.notifyDataSetChanged()
 
         // 알람 부분
         val alarm = resources.getStringArray(R.array.alram_arr)
@@ -166,17 +177,18 @@ class AddPlanFragment : Fragment() {
         alarm_spinner.adapter = adapter
     }
 
-    fun getNames(): ArrayList<String?> {
+    fun getNames(): ArrayList<String> {
         val auth = Firebase.auth.currentUser
-        val names = ArrayList<String?>()
+        val names = ArrayList<String>()
 
         db.collection("plant_info")
             .whereEqualTo("userId", auth?.uid)
             .get()
             .addOnSuccessListener {
                 for (doc in it) {
-                    names.add(doc["name"] as String?)
+                    names.add(doc["name"] as String)
                 }
+                nadapter.notifyDataSetChanged()
             }.addOnFailureListener {
                 Log.d("TAG", "getNames: spinner 식물 이름들 보여주기 실패")
             }

@@ -23,7 +23,6 @@ import kr.hs.emirim.w2015.stac_prr.R
 
 
 class FhViewAdapter(private val datas : ArrayList<HomeData>, val fragment_s:FragmentActivity?, val context:Context) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
-    var activity: MainActivity?= null
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewholder(parent)
@@ -35,10 +34,11 @@ class FhViewAdapter(private val datas : ArrayList<HomeData>, val fragment_s:Frag
             Log.d(">>>>."+position.toString(), "클릭됨 ")
             val fragment:Fragment= PlantInfoFragment()
             val bundle: Bundle = Bundle()
+            bundle.putString("imgUri",datas.get(position).imgUrl)
             bundle.putString("docId", datas.get(position).docId)
             fragment.arguments = bundle
 
-            activity?.supportFragmentManager!!.beginTransaction()
+            fragment_s?.supportFragmentManager!!.beginTransaction()
                 .replace(R.id.container,fragment)
                 .commit()
             Log.d("프레그먼트", "프레그먼트 갔다옴 ")

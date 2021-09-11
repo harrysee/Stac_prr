@@ -86,17 +86,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="5dp"
-                android:text="선택"
-                android:textColor="@color/day_gray"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@id/linear"
-                app:layout_constraintTop_toTopOf="@id/linear"/>
-
             <Spinner
                 android:id="@+id/choice_spinner"
                 android:layout_width="match_parent"

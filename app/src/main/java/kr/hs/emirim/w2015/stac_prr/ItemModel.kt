@@ -1,10 +1,10 @@
 package kr.hs.emirim.w2015.stac_prr
 
-import android.graphics.Paint
 import android.util.Log
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kr.hs.emirim.w2015.stac_prr.Adapter.PlanAdapter
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -12,41 +12,31 @@ class ItemModel {
     var items: ArrayList<ItemEntity?> = ArrayList()     // 여기가 데이터저장 배열
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
-    var date : Date = Calendar.getInstance().time
-
-    // 각자 선택 메서드
-    fun toggleEachItemClick(pos: Int) {
-        items[pos]?.let {
-            if(it.isChecked){
-                it.isChecked = false
-            }else if(!it.isChecked){
-                it.isChecked = true
-            }
-            //체크박스 선택부분 업데이트
-            db.collection("schedule")
-                .document(auth.uid.toString())
-                .collection("plans")
-                .document(it.docId)
-                .update("checkbox",it.isChecked)
-        }
-
-    }
+    var date : String = SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().time)
 
     fun makeTestItems() {    //테스트 아이템
         items.clear()
+        Log.d("TAG", "makeTestItems: 선택된 날짜 $date")
         db.collection("schedule")
             .document(auth.uid.toString())
             .collection("plans")
-            .whereEqualTo("date",Timestamp(date))
+            .whereEqualTo("str_date",date)
             .get()
             .addOnSuccessListener {
                 Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                 for (document in it){
                     var item = ItemEntity()
-                    item.contents = document["name"] as String
-                    item.name = document["title"] as String
-                    item.isChecked = document["chekbox"] as Boolean
-                    item.docId = document.id
+                    Log.d("TAG", "makeTestItems: ${document.data}")
+                    if (document["str_date"] != null) {
+                        Log.d("TAG", "makeTestItems: 모델 ${document.data}")
+                        item.contents = document["title"] as String?
+                        item.name = document["name"] as String?
+                        item.isChecked = document["checkbox"] as Boolean
+                        item.memo = document["memo"] as String?
+                        item.docId = document.id
+                        items.add(item)
+                    }
+                    Log.d("TAG", "makeTestItems: 추가된 아이템 : ${items[0]?.isChecked}")
                 }
             }
     }
@@ -55,6 +45,7 @@ class ItemModel {
         var isChecked: Boolean = false
         var name : String? = null
         var contents: String? = null
+        var memo : String? = null
         var docId : String=""
     }
 }

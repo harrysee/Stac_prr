@@ -5,9 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -36,7 +34,8 @@ class NewJournalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_journal, container, false)
+        val view = inflater.inflate(R.layout.fragment_new_journal, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,6 +73,9 @@ class NewJournalFragment : Fragment() {
             val uid: String = auth.uid!!
             val date: Date = cal.time
             // 올릴 필드 설정하기
+            val journal_content : EditText = view.findViewById(R.id.journal_content)
+            val choice_spinner : Spinner = view.findViewById(R.id.choice_spinner)
+
             val docData = hashMapOf(
                 "content" to journal_content.text,
                 "name" to choice_spinner.selectedItem.toString(),
@@ -100,6 +102,7 @@ class NewJournalFragment : Fragment() {
         Log.d("TAG", "onViewCreated: 어댑터 완성")
         nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         choice_spinner.adapter = nadapter
+        nadapter.notifyDataSetChanged()
 
     }
     fun getNames(): ArrayList<String?> {

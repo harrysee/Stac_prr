@@ -24,6 +24,8 @@ import kr.hs.emirim.w2015.stac_prr.Decorator.DotDecorator
 import kr.hs.emirim.w2015.stac_prr.ItemModel
 import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.databinding.FragmentCalenderBinding
+import java.lang.String.format
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,9 +38,11 @@ class CalenderFragment : Fragment(), View.OnClickListener {
     val auth = FirebaseAuth.getInstance()
     var model = ItemModel()
     val dotPlanDay = mutableListOf<CalendarDay>()
-    val selectDateFormat = SimpleDateFormat("yyyy. MM. dd")
-    var datetext = selectDateFormat.format(Date().time)
-    var selec_date : Date = Calendar.getInstance().time
+    var dotDecorator : DotDecorator? = null
+    val outDateFormat = SimpleDateFormat("yyyy. MM. dd")
+    val selectDateFormat = SimpleDateFormat("yyyy/MM/dd")
+    var datetext = outDateFormat.format(Date().time)
+    var selec_date: String = selectDateFormat.format(Calendar.getInstance().time)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,12 +65,39 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         binding.materialCalendar.setOnDateChangedListener { widget, date, selected ->
             val simpleDateFormat = SimpleDateFormat("MM월 dd일")
             val dateMd: String = simpleDateFormat.format(date.getCalendar().getTime())
-            datetext = selectDateFormat.format(date.getCalendar().getTime())
-            selec_date = date.calendar.time
+            datetext = outDateFormat.format(date.getCalendar().getTime())
+            selec_date = selectDateFormat.format(date.calendar.time)
             // 어댑터 새로고침
             model.date = selec_date
             adapter.date = selec_date
-            adapter.notifyDataSetChanged()
+
+            model.items.clear()
+            Log.d("TAG", "makeTestItems: 선택된 날짜 $selec_date")
+            db.collection("schedule")
+                .document(auth.uid.toString())
+                .collection("plans")
+                .whereEqualTo("str_date",selec_date)
+                .get()
+                .addOnSuccessListener {
+                    Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
+                    for (document in it){
+                        var item = model.ItemEntity()
+                        Log.d("TAG", "makeTestItems: ${document.data}")
+                        if (document["str_date"] != null) {
+                            Log.d("TAG", "makeTestItems: 모델 ${document.data}")
+                            item.contents = document["title"] as String?
+                            item.name = document["name"] as String?
+                            item.isChecked = document["checkbox"] as Boolean
+                            item.memo = document["memo"] as String?
+                            item.docId = document.id
+                            model.items.add(item)
+                        }
+                        adapter.items = model
+                        adapter.notifyDataSetChanged()
+                        Log.d("TAG", "makeTestItems: 추가된 아이템 : ${model.items[0]?.isChecked}")
+                    }
+                }
+
             binding.planTxt.text = dateMd
         }
 
@@ -96,35 +127,89 @@ class CalenderFragment : Fragment(), View.OnClickListener {
 
     // 여기부터 리사이클뷰 코드-------------------
     fun init() {
-        // 리사이클뷰 관련 변수 선언
-        model.makeTestItems()
+        getDotDate()
         adapter = PlanAdapter()
-        adapter.items = model
+        // 리사이클뷰 관련 변수 선언
+        model.items.clear()
+        Log.d("TAG", "makeTestItems: 선택된 날짜 $selec_date")
+        db.collection("schedule")
+            .document(auth.uid.toString())
+            .collection("plans")
+            .whereEqualTo("str_date",selec_date)
+            .get()
+            .addOnSuccessListener {
+                Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
+                for (document in it){
+                    var item = model.ItemEntity()
+                    Log.d("TAG", "makeTestItems: ${document.data}")
+                    if (document["str_date"] != null) {
+                        Log.d("TAG", "makeTestItems: 모델 ${document.data}")
+                        item.contents = document["title"] as String?
+                        item.name = document["name"] as String?
+                        item.isChecked = document["checkbox"] as Boolean
+                        item.memo = document["memo"] as String?
+                        item.docId = document.id
+                        model.items.add(item)
+                    }
+                    adapter.items=model
+                    adapter.notifyDataSetChanged()
+                    Log.d("TAG", "makeTestItems: 추가된 아이템 : ${model.items[0]?.isChecked}")
+                }
+            }
 
         var linearLayoutManager = LinearLayoutManager(activity)
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         binding.planRecyclerview.layoutManager = linearLayoutManager
         binding.planRecyclerview.adapter = adapter
+        Log.d("TAG", "init: 일정 어댑터 적용함 ${PlanAdapter()}")
     }
 
     override fun onClick(v: View?) {
         Log.d("", "onClick: 버튼이 없기때문에 없어도됨")
     }
 
-    fun getDotDate(){
+    /* fun getDate(timestamp: Long) :String {
+         val calendar = Calendar.getInstance(Locale.ENGLISH)
+         calendar.timeInMillis = timestamp * 1000L
+         val date = DateFormat.format("dd-MM-yyyy",calendar).toString()
+         return date
+     }*/
+
+    fun getDotDate() {
+        val cal = Calendar.getInstance()
         db.collection("schedule")
             .document(auth.uid.toString())
             .collection("plans")
             .get()
             .addOnSuccessListener {
                 Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                for (document in it){
-                    val date = document["date"] as Date
-                    dotPlanDay.add(CalendarDay.from(date))
-                    Log.d("TAG", "점날짜 ${document.id} => ${document.data}")
+                for (document in it) {
+                    /*val date = document["date"] as Timestamp
+                    val milliseconds = date.seconds * 1000 + date.nanoseconds / 1000000
+                    val netDate = Date(milliseconds)*/
+                    if (document["str_date"] != null) {
+                        val str_date = document["str_date"] as String?
+                        val cal_str = SimpleDateFormat("yyyy/MM/dd").parse(str_date)
+                        dotPlanDay.add(CalendarDay.from(cal_str))
+                    }
+                    val sundayDecorator = SundayDecorator()     // 일요일 빨간색
+                    val saturdayDecorator = SaturdayDecorator() // 토요일 파란색
+                    val todayDecorator = TodayDecorator(requireContext())   //오늘 배경설정
+                    dotDecorator = DotDecorator("#8EC057", dotPlanDay)  //일정있으면 점찍기
+
+                    //데코레이터 추가
+                    val decorator = binding.materialCalendar.addDecorators(
+                        sundayDecorator,
+                        saturdayDecorator,
+                        todayDecorator,
+                        dotDecorator
+                    )
+                    //dotDecorator = DotDecorator("#8EC057", dotPlanDay)
+                    Log.d("TAG", "점날짜 ${document.id} => ${dotPlanDay}")
                 }
             }
     }
+
     fun calendarOption() {
         // 캘린더 부분 변수선언
         var startTimeCalendar = Calendar.getInstance()
@@ -164,16 +249,16 @@ class CalenderFragment : Fragment(), View.OnClickListener {
     }
 
     fun addDecorator() {
-        getDotDate()    //점찍을 날짜 추가
+        //getDotDate()    //점찍을 날짜 추가
         Log.d("TAG", "onViewCreated: ${dotPlanDay}")
 
         val sundayDecorator = SundayDecorator()     // 일요일 빨간색
         val saturdayDecorator = SaturdayDecorator() // 토요일 파란색
         val todayDecorator = TodayDecorator(requireContext())   //오늘 배경설정
-        val dotDecorator = DotDecorator("#8EC057", dotPlanDay)  //일정있으면 점찍기
+        dotDecorator = DotDecorator("#8EC057", dotPlanDay)  //일정있으면 점찍기
 
         //데코레이터 추가
-        binding.materialCalendar.addDecorators(
+        val decorator = binding.materialCalendar.addDecorators(
             sundayDecorator,
             saturdayDecorator,
             todayDecorator,
