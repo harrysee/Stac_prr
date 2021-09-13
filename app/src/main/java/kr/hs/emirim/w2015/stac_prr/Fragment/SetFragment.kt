@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.fragment.app.Fragment
@@ -26,10 +27,12 @@ class SetFragment : Fragment() {
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
     private var alarmMgr: AlarmManager? = null
+    private lateinit var push: SharedPreferences
     private lateinit var alarmIntent: PendingIntent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        push = context?.getSharedPreferences("push", Context.MODE_PRIVATE)!!
     }
 
     override fun onCreateView(
@@ -46,6 +49,10 @@ class SetFragment : Fragment() {
         alarmIntent = Intent(context, AlarmReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(context, 0, intent, 0)
         }
+
+        // 알림 푸쉬 스위치버튼 설정하기
+        val isAlarm = push.getBoolean("isAlarm", false)
+        set_switch_alarm.isChecked = isAlarm
 
         // 버전 가져오기
         val versionName = BuildConfig.VERSION_NAME
@@ -76,7 +83,6 @@ class SetFragment : Fragment() {
                 set(Calendar.HOUR_OF_DAY, 8)
                 set(Calendar.MINUTE, 30)
             }
-
             val toastMessage = if (isChecked) {
                 auth.currentUser?.let {
                     db.collection("scadule")
@@ -97,11 +103,19 @@ class SetFragment : Fragment() {
                             }
                         }
                 }
+                with(push.edit()) {
+                    putBoolean("isAlarm", true)
+                    commit()
+                }
 
                 "해당시간에 알림이 울립니다"
             } else {
                 if (alarmIntent != null && alarmMgr != null) {
                     alarmMgr!!.cancel(alarmIntent)
+                }
+                with(push.edit()) {
+                    putBoolean("isAlarm", false)
+                    commit()
                 }
                 "알림 예약을 취소하였습니다."
             }

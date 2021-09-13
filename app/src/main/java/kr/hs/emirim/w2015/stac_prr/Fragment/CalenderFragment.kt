@@ -84,7 +84,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
                 .addOnSuccessListener {
                     Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                     for (document in it){
-                        var item = model.ItemEntity()
+                        val item = model.ItemEntity()
                         Log.d("TAG", "makeTestItems: ${document.data}")
                         if (document["str_date"] != null) {
                             Log.d("TAG", "makeTestItems: 모델 ${document.data}")
@@ -95,10 +95,9 @@ class CalenderFragment : Fragment(), View.OnClickListener {
                             item.docId = document.id
                             model.items.add(item)
                         }
-                        model.items.clear()
                         adapter.items = model
                         adapter.notifyDataSetChanged()
-                        Log.d("TAG", "makeTestItems: 추가된 아이템 : ${model.items[0]?.isChecked}")
+                        Log.d("TAG", "makeTestItems: 추가된 아이템 : ${item.isChecked}")
                     }
                 }
 

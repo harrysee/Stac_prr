@@ -1,7 +1,9 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -36,6 +38,7 @@ class NewPlantFragment : Fragment() {
     private lateinit var photoURI: Uri
     private val auth = Firebase.auth
     private val cal: Calendar = Calendar.getInstance()
+    private lateinit var pref : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,7 @@ class NewPlantFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_new_plant, container, false)
+        pref = context?.getSharedPreferences("pref",Context.MODE_PRIVATE)!!
         return view
     }
 
@@ -54,6 +58,7 @@ class NewPlantFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as MainActivity
         db = FirebaseFirestore.getInstance()
+        val pcnt = pref.getInt("PlantCnt",0)   // 처음 생성시 식물개수 0
         Log.d("TAG", "onViewCreated: ${auth.currentUser?.uid}")
         
         // 이미지 화살표 눌렀을때
@@ -136,6 +141,11 @@ class NewPlantFragment : Fragment() {
                     Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
                 }
             }// uploadtask end
+
+            with(pref.edit()){
+                putInt("PlantCnt",pcnt+1)
+                commit()
+            }
             activity.fragmentChange_for_adapter(HomeFragment())
         }
 
@@ -188,7 +198,6 @@ class NewPlantFragment : Fragment() {
                     e.printStackTrace()
                 }
             }
-
         }
 
     }

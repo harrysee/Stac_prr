@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
@@ -36,6 +37,9 @@ class HomeFragment : Fragment() {
     val auth = Firebase.auth
     var homedatas: ArrayList<HomeData>? = ArrayList<HomeData>()
     private var alarmMgr: AlarmManager? = null
+    private lateinit var pref : SharedPreferences
+    private lateinit var flower : SharedPreferences
+
     private lateinit var alarmIntent: PendingIntent
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,32 +51,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        // 알림 매니저 설정 : 실행시킬 브로드캐스트 설정
-        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmIntent = Intent(context, receiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(context, 0, intent, 0)
-        }
-
-        alarmMgr?.set(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,   // 진짜 시간기준 설정
-            SystemClock.elapsedRealtime() + 60 * 1000,  // 동일한 시간으로 반복
-            alarmIntent //반복 동작
-        )
-
-        // 알림 실행 시간 설정 : 00
-        val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 24)
-        }
-
-        //대략 00시에 기기의 절전 모드를 해제하여 알람을 실행하고 하루에 한 번씩 동일한 시간에 반복합니다.
-        alarmMgr?.setInexactRepeating(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            alarmIntent
-        )
-
+        pref = context?.getSharedPreferences("pref",Context.MODE_PRIVATE)!!
+        flower = context?.getSharedPreferences("flower",Context.MODE_PRIVATE)!!
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -125,10 +105,17 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(AlarmFragment())
         }
-        home_fab.setOnClickListener {
-            val activity = activity as MainActivity
-            activity.fragmentChange_for_adapter(NewPlantFragment())
+        home_fab.setOnClickListener {       //플러스 버튼 눌렀을때
+            val pcnt = pref.getInt("PlantCnt",0)   // 처음 생성시 식물개수 0
+            if (4>=pcnt){   // 식물개수 제한. 4개까지
+                val activity = activity as MainActivity
+                activity.fragmentChange_for_adapter(NewPlantFragment())
+            }else{
+                Toast.makeText(requireContext(),"식물은 4개까지만 추가할 수 있습니다",Toast.LENGTH_SHORT).show()
+            }
         }
+
+        setflower()     // 꽃말 업데이트
     }   // OnViewCreate end
 
     // 파이어스토어에서 데이터 가져와서 어댑터로 보내기 준비
@@ -158,36 +145,19 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
 
     // 식물이름 업데이트
     fun setflower(){
-        Log.d("TAG", "setflower: 함수실행됨")
-        val rd = Random()
-        val num = (rd.nextInt(10)).toString()
-        var name: String? = "푸르름의 꽃말은?"
-        var tag: String? = "#푸른#하늘#은하수"
+        val name = flower.getString("keyname","푸르름")
+        val tag = flower.getString("keytag","#성장#시작#푸르른")
 
-        //CollectionReference 는 파이어스토어의 컬렉션을 참조하는 객체다.
-        val productRef = db.collection("today_flower").document(num)
-        //get()을 통해서 해당 문서의 정보를 가져온다.
-        productRef.get().addOnCompleteListener(OnCompleteListener { task ->
-            //작업이 성공적으로 마쳤을때
-            if (task.isSuccessful) {
-                //문서의 데이터를 담을 DocumentSnapshot 에 작업의 결과를 담는다.
-                val document: DocumentSnapshot? = task.getResult()
-                name = document?.getString("name")
-                tag = document?.getString("tag")
-
-                text_flower_today.text = name + "의 꽃말은?"
-                text_flower_today_tag.text = tag
-                //그렇지 않을때
-            } else {
-                Log.d("TAG", "setflower: 파이어베이스 연결오류")
-            }
-        })
+        text_flower_today.text = name + "의 꽃말은?"
+        text_flower_today_tag.text = tag
     }
+
     fun getHomeData(homeData: ArrayList<HomeData>?){
         Log.d("TAG", "getData: 홈데이터 가져와보기 : $homeData" )
         homedatas = homeData
         viewPager.adapter?.notifyDataSetChanged()
     }
+
     /* 공식문서에 있는 코드 긁어온거임 */
     inner class ZoomOutPageTransformer : ViewPager2.PageTransformer {
         override fun transformPage(view: View, position: Float) {
@@ -227,35 +197,5 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             }
         }
     } // 공식문서 코드 끝
-
-    var receiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            Toast.makeText(context, "꽃말 Received Broadcast", Toast.LENGTH_SHORT).show()
-            Log.d("TAG", "setflower: 함수실행됨")
-            val rd = Random()
-            val num = (rd.nextInt(10)).toString()
-            var name: String? = "푸르름의 꽃말은?"
-            var tag: String? = "#푸른#하늘#은하수"
-
-            //CollectionReference 는 파이어스토어의 컬렉션을 참조하는 객체다.
-            val productRef = db.collection("today_flower").document(num)
-            //get()을 통해서 해당 문서의 정보를 가져온다.
-            productRef.get().addOnCompleteListener(OnCompleteListener { task ->
-                //작업이 성공적으로 마쳤을때
-                if (task.isSuccessful) {
-                    //문서의 데이터를 담을 DocumentSnapshot 에 작업의 결과를 담는다.
-                    val document: DocumentSnapshot? = task.getResult()
-                    name = document?.getString("name")
-                    tag = document?.getString("tag")
-
-                    text_flower_today.text = name + "의 꽃말은?"
-                    text_flower_today_tag.text = tag
-                    //그렇지 않을때
-                } else {
-                    Log.d("TAG", "setflower: 파이어베이스 연결오류")
-                }
-            })
-        }
-    }
 
 }

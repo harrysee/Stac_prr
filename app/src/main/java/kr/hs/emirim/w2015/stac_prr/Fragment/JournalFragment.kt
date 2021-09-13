@@ -97,7 +97,7 @@ class JournalFragment : Fragment() {
                     .addOnSuccessListener {
                         Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                         for (document in it){
-                            datas.add(JournalData(document["name"] as String,document["content"] as String,SimpleDateFormat("yy-MM-dd").format(document["date"])))
+                            datas.add(JournalData(document["name"] as String,document["content"] as String,SimpleDateFormat("yy-MM-dd").format(document["date"]), document["imgUri"] as String?))
                         }
                     }
                 journalAdapter.datas = datas
@@ -107,7 +107,7 @@ class JournalFragment : Fragment() {
         journalTabAdapter = JournalTabAdapter(requireContext(),obj)
         tab_recycler.adapter = journalTabAdapter
 
-        datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
+  /*      datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
         datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
         datas.add(JournalData(name = "완전멋진이름", journal = "일지", date="날짜"))
         datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
@@ -121,7 +121,7 @@ class JournalFragment : Fragment() {
         datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
         datas.add(JournalData(name = "완전멋진이름", journal = "일지", date="날짜"))
         datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
-        datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
+        datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))*/
 
         journalTabAdapter.datas = datas
         journalTabAdapter.notifyDataSetChanged()

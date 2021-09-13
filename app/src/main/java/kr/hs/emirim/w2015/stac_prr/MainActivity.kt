@@ -10,11 +10,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+import kr.hs.emirim.w2015.stac_prr.DataClass.Flowers
 import kr.hs.emirim.w2015.stac_prr.Fragment.CalenderFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
@@ -27,12 +29,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNaviLayout: View
     private val br: BroadcastReceiver = BroadcastReceiver()
     private lateinit var pref: SharedPreferences
+    private lateinit var flower: SharedPreferences
     private var auth: FirebaseAuth =FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         pref = this.getSharedPreferences("pref", Context.MODE_PRIVATE)
+        flower = this.getSharedPreferences("flower", Context.MODE_PRIVATE)
         onTabs()
 
         ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
@@ -117,6 +121,26 @@ class MainActivity : AppCompatActivity() {
             // 최초실행 후에는 그냥 값을 false로 넣는다.
             with(pref.edit()) {
                 putBoolean("isFirst", false)
+                commit()
+            }
+            // 꽃말 넣기
+            val flowers = ArrayList<Flowers>()
+            flowers.add(Flowers("행운목","#행운이#아닌#약속"))
+            flowers.add(Flowers("스파티필름","#세심한#사랑"))
+            flowers.add(Flowers("브로멜리아드","#미래#즐기며#만족"))
+            flowers.add(Flowers("산세베리아","#관용"))
+            flowers.add(Flowers("파","#인내"))
+            flowers.add(Flowers("페페로미아","#행운#사랑"))
+            flowers.add(Flowers("스킨답서스","#우아한#심성"))
+            flowers.add(Flowers("아레카야자","#승리#부활"))
+            flowers.add(Flowers("아디안텀","#애교"))
+            flowers.add(Flowers("선인장","#불타는#마음"))
+
+            flower.edit(){
+                for (n in 0..10){
+                    putString((n.toString()+"n"),flowers[n].name)
+                    putString((n.toString()+"s"),flowers[n].species)
+                }
                 commit()
             }
             Toast.makeText(this, "푸르름에 오신걸 환영합니다", Toast.LENGTH_SHORT).show()

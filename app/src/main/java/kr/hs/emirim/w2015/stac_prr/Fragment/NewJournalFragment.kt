@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_add_plan.*
 import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kotlinx.android.synthetic.main.fragment_new_plant.*
@@ -22,11 +24,14 @@ import kr.hs.emirim.w2015.stac_prr.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.util.*
+import kotlin.math.log
 
 
 class NewJournalFragment : Fragment() {
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
+    private var storage = FirebaseStorage.getInstance()
+    private var storageRef = storage.reference
 
     private val FROM_ALBUM = 200
     private lateinit var photoURI: Uri
@@ -83,19 +88,58 @@ class NewJournalFragment : Fragment() {
             val journal_content : EditText = view.findViewById(R.id.journal_content)
             val choice_spinner : Spinner = view.findViewById(R.id.choice_spinner)
 
+            // 파일 업로드
+            val filename = "_" + System.currentTimeMillis()
+            val imagesRef: StorageReference? = storageRef.child("journal/" + filename)
+            var downloadUri: String  // 다운로드 uri 저장변수
+
+            if(photoURI.path.equals("")){
+                Log.d("TAG", "onViewCreated: 사진 일지에 입력안됨")
+            }
+
+            //스토리지 업로드
+            var img :String? = null
+            var file: Uri? = null
+            try {
+                file = photoURI
+                val uploadTask = imagesRef?.putFile(file)
+                Toast.makeText(requireContext(), "업로드중...", Toast.LENGTH_LONG).show()
+
+                uploadTask?.continueWithTask { task ->
+                    Log.d("TAG", "onViewCreated: 새로운 일지 continue 들어옴")
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            Log.d("TAG", "onViewCreated: 일지 안올라감")
+                            throw it
+                        }
+                    }
+                    val uid: String? = auth.uid
+                    imagesRef.downloadUrl.addOnSuccessListener { task ->
+                        img= task.toString()
+                    }
+                }
+            }catch (e : java.lang.Exception){
+                Log.d("TAG", "onViewCreated: 사진 안넣음")
+            }
+            
+            //파이어베이스 업로드
             val docData = hashMapOf(
                 "content" to journal_content.text,
                 "name" to choice_spinner.selectedItem.toString(),
                 "date" to Timestamp(date),   // 날짜
+                "imgUri" to img
             )
             // 콜렉션에 문서 생성하기
-            db!!.collection("journals").document(uid).collection("journal").document()
-                .set(docData)
-                .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
-                .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
+            if (uid != null) {
+                db!!.collection("journals").document(uid).collection("journal").document()
+                    .set(docData)
+                    .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
+                    .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
+            }
 
-            Toast.makeText(requireContext(), "업로드 완료!", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "업로드 완료!", Toast.LENGTH_SHORT).show()
             Log.d("TAG", "onViewCreated: 파이어 업로드 완료 : journal")
+
             activity.fragmentChange_for_adapter(JournalFragment())
         }
         add_img_btn.setOnClickListener {
