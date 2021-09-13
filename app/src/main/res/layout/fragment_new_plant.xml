@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/nplant_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="51dp"
+        android:layout_height="56dp"
         android:background="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -36,7 +36,7 @@
             android:gravity="center"
             android:text="@string/complate"
             android:textColor="@color/pp_green"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </RelativeLayout>

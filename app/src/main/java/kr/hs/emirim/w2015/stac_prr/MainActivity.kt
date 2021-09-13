@@ -4,27 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.hs.emirim.w2015.stac_prr.Fragment.CalenderFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.SetFragment
-import java.util.jar.Manifest
+import kr.hs.emirim.w2015.stac_prr.Receiver.BroadcastReceiver
 
 
 class MainActivity : AppCompatActivity() {
@@ -92,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     // 브로드캐스트리시버 필터 추가 & 등록
     override fun onResume() {
         super.onResume()
-        var filter = IntentFilter()
+        val filter = IntentFilter()
         filter.addAction(Intent.ACTION_DATE_CHANGED)
         registerReceiver(br, filter)
     }

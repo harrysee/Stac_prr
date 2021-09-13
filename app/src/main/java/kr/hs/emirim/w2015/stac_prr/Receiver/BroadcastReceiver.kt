@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr
+package kr.hs.emirim.w2015.stac_prr.Receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

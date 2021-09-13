@@ -44,12 +44,12 @@ class PlantInfoFragment : Fragment(){
         val pdate: Calendar = Calendar.getInstance()
         getToday.setTime(Date()) //금일 날짜
 
+        Log.d("TAG,", "onViewCreated: 식물정보 가져온 이미지 uri $imgUri")
         val storage = FirebaseStorage.getInstance()
         val httpsReference = imgUri?.let { storage.getReferenceFromUrl(it) }
         val backgound = view.findViewById<ImageView>(R.id.info_background_img)
         Glide.with(requireContext()) //쓸곳
             .load(httpsReference)  //이미지 받아올 경로
-            .fitCenter()        // 가운데 잘라서 채우게 가져오기
             .into(backgound)    // 받아온 이미지를 받을 공간
 
         db.collection("plant_info").document(docId!!)
@@ -57,7 +57,7 @@ class PlantInfoFragment : Fragment(){
             .addOnSuccessListener {
                 Log.d("TAG", "onViewCreated: 식물 정보 가져오기 성!공!")
                 info_plant_name.text = it["name"] as String? // 식물 이름 재설정
-                info_plant_spacies.text = it["species"] as String?   // 식물 종류 재설정
+                info_plant_spacies.text = it["specise"] as String?  // 식물 종류 재설정
                 val sdf = SimpleDateFormat("yyyy-MM-dd")
                 //일자수 차이 구하기
                 val timestamp = it["date"] as Timestamp
@@ -69,7 +69,7 @@ class PlantInfoFragment : Fragment(){
                 //설정하기
                 info_day.text = diffDays.toString() +"일"
                 info_date_text.text = sdf.format(d)
-                info_water_icon_txt.text = it["water"] as String? + "일마다"
+                info_water_icon_txt.text = it["water"] as String? + "주기"
                 info_c_text.text = it["temperature"] as String?
                 info_led_text.text = it["led"] as String?
                 info_water_text.text = it["water"] as String?

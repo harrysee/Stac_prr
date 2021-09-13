@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="51dp"
+        android:layout_height="56dp"
         android:background="@color/white"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,8 +21,9 @@
             android:id="@+id/addplan_pass_btn"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_marginTop="1dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="13dp"
+            android:layout_gravity="center_vertical"
             android:background="@color/back_gray"
             android:backgroundTint="@color/transparent"
             android:padding="10dp"
@@ -36,7 +37,7 @@
             android:gravity="center"
             android:text="일정 추가"
             android:textColor="@color/pp_green"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <Button
@@ -48,7 +49,7 @@
             android:gravity="center"
             android:text="@string/complate"
             android:textColor="@color/pp_green"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -200,46 +201,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit3" />
 
-    <!--    알림 넣기   -->
-    <LinearLayout
-        android:id="@+id/edit4"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addplan_view_line3">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_gravity="center"
-            android:text="알림"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/alarm_spinner"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="70dp"
-            android:spinnerMode="dropdown"
-            android:background="@drawable/selector_spinner_view"
-            />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/addplan_view_line4"
-        android:layout_width="300dp"
-        android:layout_height="1dp"
-        android:background="@color/day_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit4" />
-
     <!--  내용 넣기   -->
     <LinearLayout
         android:id="@+id/edit5"
@@ -251,7 +212,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addplan_view_line4">
+        app:layout_constraintTop_toBottomOf="@+id/addplan_view_line3">
 
         <TextView
             android:layout_width="wrap_content"

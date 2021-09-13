@@ -112,7 +112,7 @@ class NewJournalFragment : Fragment() {
 
         // 스피너 설정
         val plantnames = getNames()
-        var nadapter = ArrayAdapter<String>(
+        val nadapter = ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_custom_name,
             plantnames
@@ -121,7 +121,6 @@ class NewJournalFragment : Fragment() {
         nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         choice_spinner.adapter = nadapter
         nadapter.notifyDataSetChanged()
-
     }
     // 사진 가져오기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
