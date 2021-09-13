@@ -1,6 +1,9 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_add_plan.*
 import kotlinx.android.synthetic.main.fragment_new_journal.*
+import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kr.hs.emirim.w2015.stac_prr.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
@@ -23,6 +27,9 @@ import java.util.*
 class NewJournalFragment : Fragment() {
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
+
+    private val FROM_ALBUM = 200
+    private lateinit var photoURI: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +98,17 @@ class NewJournalFragment : Fragment() {
             Log.d("TAG", "onViewCreated: 파이어 업로드 완료 : journal")
             activity.fragmentChange_for_adapter(JournalFragment())
         }
+        add_img_btn.setOnClickListener {
+            //앨범 열기
+            val intent = Intent(Intent.ACTION_PICK)
+
+            intent.type = MediaStore.Images.Media.CONTENT_TYPE
+            intent.type = "image/*"
+            //intent. setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+            startActivityForResult(intent, FROM_ALBUM)
+
+        }
+
 
         // 스피너 설정
         val plantnames = getNames()
@@ -105,6 +123,21 @@ class NewJournalFragment : Fragment() {
         nadapter.notifyDataSetChanged()
 
     }
+    // 사진 가져오기
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data?.data != null) {
+            try {
+                photoURI = data.data!!
+                val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, photoURI)
+                add_img_btn.setImageBitmap(bitmap)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    }
+
     fun getNames(): ArrayList<String?> {
         val auth = Firebase.auth.currentUser
         val names = ArrayList<String?>()
