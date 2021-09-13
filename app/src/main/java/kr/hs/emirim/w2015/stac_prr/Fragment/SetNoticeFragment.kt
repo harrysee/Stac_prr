@@ -40,6 +40,8 @@ class SetNoticeFragment : Fragment() {
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(SetFragment())
         }
+
+
     }
     private fun initRecycler() {
         noticeAdapter = SetNoticeAdapter(requireContext())

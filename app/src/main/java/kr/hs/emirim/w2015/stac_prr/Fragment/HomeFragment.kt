@@ -1,11 +1,18 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.tasks.OnCompleteListener
@@ -28,6 +35,8 @@ class HomeFragment : Fragment() {
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth = Firebase.auth
     var homedatas: ArrayList<HomeData>? = ArrayList<HomeData>()
+    private var alarmMgr: AlarmManager? = null
+    private lateinit var alarmIntent: PendingIntent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +47,31 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+        // 알림 매니저 설정 : 실행시킬 브로드캐스트 설정
+        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmIntent = Intent(context, receiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(context, 0, intent, 0)
+        }
+
+        alarmMgr?.set(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,   // 진짜 시간기준 설정
+            SystemClock.elapsedRealtime() + 60 * 1000,  // 동일한 시간으로 반복
+            alarmIntent //반복 동작
+        )
+
+        // 알림 실행 시간 설정 : 00
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 24)
+        }
+
+        //대략 00시에 기기의 절전 모드를 해제하여 알람을 실행하고 하루에 한 번씩 동일한 시간에 반복합니다.
+        alarmMgr?.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            alarmIntent
+        )
 
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
@@ -95,36 +129,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(NewPlantFragment())
         }
-        setflower() // 꽃말 갈아끼우기 : 테스트용
     }   // OnViewCreate end
-
-    @SuppressLint("SetTextI18n")
-    fun setflower() {
-        Log.d("TAG", "setflower: 함수실행됨")
-        val rd = Random()
-        val num = (rd.nextInt(10)).toString()
-        var name: String? = "푸르름의 꽃말은?"
-        var tag: String? = "#푸른#하늘#은하수"
-
-        //CollectionReference 는 파이어스토어의 컬렉션을 참조하는 객체다.
-        val productRef = db.collection("today_flower").document(num)
-        //get()을 통해서 해당 문서의 정보를 가져온다.
-        productRef.get().addOnCompleteListener(OnCompleteListener { task ->
-            //작업이 성공적으로 마쳤을때
-            if (task.isSuccessful) {
-                //문서의 데이터를 담을 DocumentSnapshot 에 작업의 결과를 담는다.
-                val document: DocumentSnapshot? = task.getResult()
-                name = document?.getString("name")
-                tag = document?.getString("tag")
-
-                text_flower_today.text = name + "의 꽃말은?"
-                text_flower_today_tag.text = tag
-                //그렇지 않을때
-            } else {
-                Log.d("TAG", "setflower: 파이어베이스 연결오류")
-            }
-        })
-    }
 
     // 파이어스토어에서 데이터 가져와서 어댑터로 보내기 준비
     private fun getDataList() {
@@ -151,6 +156,33 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
 
     }
 
+    // 식물이름 업데이트
+    fun setflower(){
+        Log.d("TAG", "setflower: 함수실행됨")
+        val rd = Random()
+        val num = (rd.nextInt(10)).toString()
+        var name: String? = "푸르름의 꽃말은?"
+        var tag: String? = "#푸른#하늘#은하수"
+
+        //CollectionReference 는 파이어스토어의 컬렉션을 참조하는 객체다.
+        val productRef = db.collection("today_flower").document(num)
+        //get()을 통해서 해당 문서의 정보를 가져온다.
+        productRef.get().addOnCompleteListener(OnCompleteListener { task ->
+            //작업이 성공적으로 마쳤을때
+            if (task.isSuccessful) {
+                //문서의 데이터를 담을 DocumentSnapshot 에 작업의 결과를 담는다.
+                val document: DocumentSnapshot? = task.getResult()
+                name = document?.getString("name")
+                tag = document?.getString("tag")
+
+                text_flower_today.text = name + "의 꽃말은?"
+                text_flower_today_tag.text = tag
+                //그렇지 않을때
+            } else {
+                Log.d("TAG", "setflower: 파이어베이스 연결오류")
+            }
+        })
+    }
     fun getHomeData(homeData: ArrayList<HomeData>?){
         Log.d("TAG", "getData: 홈데이터 가져와보기 : $homeData" )
         homedatas = homeData
@@ -196,5 +228,34 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
         }
     } // 공식문서 코드 끝
 
+    var receiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Toast.makeText(context, "꽃말 Received Broadcast", Toast.LENGTH_SHORT).show()
+            Log.d("TAG", "setflower: 함수실행됨")
+            val rd = Random()
+            val num = (rd.nextInt(10)).toString()
+            var name: String? = "푸르름의 꽃말은?"
+            var tag: String? = "#푸른#하늘#은하수"
+
+            //CollectionReference 는 파이어스토어의 컬렉션을 참조하는 객체다.
+            val productRef = db.collection("today_flower").document(num)
+            //get()을 통해서 해당 문서의 정보를 가져온다.
+            productRef.get().addOnCompleteListener(OnCompleteListener { task ->
+                //작업이 성공적으로 마쳤을때
+                if (task.isSuccessful) {
+                    //문서의 데이터를 담을 DocumentSnapshot 에 작업의 결과를 담는다.
+                    val document: DocumentSnapshot? = task.getResult()
+                    name = document?.getString("name")
+                    tag = document?.getString("tag")
+
+                    text_flower_today.text = name + "의 꽃말은?"
+                    text_flower_today_tag.text = tag
+                    //그렇지 않을때
+                } else {
+                    Log.d("TAG", "setflower: 파이어베이스 연결오류")
+                }
+            })
+        }
+    }
 
 }

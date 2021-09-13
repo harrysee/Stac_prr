@@ -25,11 +25,12 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
+                app:layout_constraintTop_toTopOf="parent">
+
                 <ImageView
                     android:id="@+id/info_background_img"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -41,33 +42,34 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:background="@drawable/drawer_background"
                 android:layout_width="match_parent"
-                android:layout_height="580dp">
+                android:layout_height="580dp"
+                android:background="@drawable/drawer_background">
 
                 <LinearLayout
                     android:id="@+id/linear1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="32dp">
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="13dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/info_plant_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
                         android:text="식물이름"
+                        android:textColor="@color/black"
                         android:textSize="18sp" />
+
                     <TextView
                         android:id="@+id/info_plant_spacies"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_gravity="bottom"
-                        android:textColor="@color/pp_green"
+                        android:layout_marginTop="5dp"
                         android:text="식물종류"
+                        android:textColor="@color/pp_green"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -75,53 +77,52 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="88dp"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="88dp"
                     android:orientation="horizontal">
 
                     <View
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:background="@drawable/back_circle"
-                        android:backgroundTint="#8EC057"/>
+                        android:backgroundTint="#8EC057" />
+
+
+
                     <View
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_marginLeft="28dp"
                         android:background="@drawable/back_circle"
-                        android:backgroundTint="#AF7266"/>
-                    <View
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginLeft="28dp"
-                        android:background="@drawable/back_circle"
-                        android:backgroundTint="#72B5E8"/>
+                        android:backgroundTint="#72B5E8" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="94dp"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="94dp"
                     android:orientation="horizontal">
 
                     <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <View
                             android:layout_width="67.69dp"
                             android:layout_height="67.69dp"
-                            android:background="@drawable/ic_date"
-                            />
+                            android:background="@drawable/ic_date" />
+
                         <TextView
                             android:id="@+id/info_day"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="37.67dp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="37.67dp"
                             android:text="0일째"
                             android:textColor="#8EC057"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -129,38 +130,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40.3dp"
                         android:orientation="vertical">
-                        <View
-                            android:layout_width="67.69dp"
-                            android:layout_height="67.69dp"
-                            android:background="@drawable/ic_repot" />
-                        <TextView
-                            android:id="@+id/info_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="37.67dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="0회"
-                            android:textColor="#AF7266"
-                            android:textStyle="bold"/>
-                    </FrameLayout>
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40.3dp"
-                        android:orientation="vertical">
+
                         <View
                             android:layout_width="67.69dp"
                             android:layout_height="67.69dp"
                             android:background="@drawable/ic_water" />
+
                         <TextView
                             android:id="@+id/info_water_icon_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="37.67dp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="37.67dp"
                             android:text="00일전"
                             android:textColor="#72B5E8"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </FrameLayout>
 
                 </LinearLayout>
@@ -172,30 +156,33 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="-10dp"
                     android:background="#cccccc" />
+
                 <LinearLayout
                     android:id="@+id/linear2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="196dp">
+                    android:layout_marginTop="196dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="심은 날짜"
                         android:textColor="@color/black"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="34dp" />
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/info_date_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="0000. 00. 00"
                         android:textColor="#cccccc"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="34dp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:id="@+id/linear2bt"
                     android:layout_width="350dp"
@@ -203,37 +190,39 @@
                     android:layout_below="@+id/linear2"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="6dp"
-                    android:background="#cccccc"/>
+                    android:background="#cccccc" />
 
                 <LinearLayout
                     android:id="@+id/linear3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_below="@+id/linear2bt"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@+id/linear2bt">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="최적 온도"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_marginLeft="34dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/info_c_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="00~00˚"
                         android:textColor="#cccccc"
                         android:textSize="16sp"
-                        android:layout_marginLeft="34dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </LinearLayout>
+
                 <View
                     android:id="@+id/linear3bt"
                     android:layout_width="350dp"
@@ -247,31 +236,33 @@
                     android:id="@+id/linear4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_below="@+id/linear3bt"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@+id/linear3bt">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="빛 요구도"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_marginLeft="34dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/info_led_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="빛 요구도"
                         android:textColor="#cccccc"
                         android:textSize="16sp"
-                        android:layout_marginLeft="34dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </LinearLayout>
+
                 <View
                     android:id="@+id/linear4bt"
                     android:layout_width="350dp"
@@ -285,31 +276,33 @@
                     android:id="@+id/linear5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_below="@+id/linear4bt"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@+id/linear4bt">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="급수 주기"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_marginLeft="34dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/info_water_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="00일"
                         android:textColor="#cccccc"
                         android:textSize="16sp"
-                        android:layout_marginLeft="34dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </LinearLayout>
+
                 <View
                     android:id="@+id/linear5bt"
                     android:layout_width="350dp"
@@ -323,31 +316,33 @@
                     android:id="@+id/linear6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_below="@+id/linear5bt"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@+id/linear5bt">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="메모"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_marginLeft="34dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/info_memo_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="64dp"
                         android:text="메모를 작성하세요\n(공간은 줄 수에 따라 유동적\n으로 변합니다.)"
                         android:textColor="#cccccc"
                         android:textSize="16sp"
-                        android:layout_marginLeft="64dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </LinearLayout>
+
                 <View
                     android:id="@+id/linear6bt"
                     android:layout_width="350dp"
@@ -361,18 +356,18 @@
                     android:id="@+id/linear7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_below="@+id/linear6bt"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@+id/linear6bt">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
                         android:text="갤러리"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_marginLeft="34dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

@@ -19,14 +19,13 @@
 
         <TextView
             android:id="@+id/content"
-            android:layout_width="0dp"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:minWidth="100dp"
             android:text="내용"
             android:textColor="@color/day_gray"
             android:textSize="15sp"
-            android:paddingRight="300dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/check_box"
             app:layout_constraintTop_toTopOf="parent" />

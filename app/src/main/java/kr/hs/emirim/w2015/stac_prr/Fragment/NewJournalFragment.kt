@@ -94,7 +94,7 @@ class NewJournalFragment : Fragment() {
 
         // 스피너 설정
         val plantnames = getNames()
-        var nadapter = ArrayAdapter<String>(
+        val nadapter = ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_custom_name,
             plantnames
@@ -103,7 +103,6 @@ class NewJournalFragment : Fragment() {
         nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         choice_spinner.adapter = nadapter
         nadapter.notifyDataSetChanged()
-
     }
     fun getNames(): ArrayList<String?> {
         val auth = Firebase.auth.currentUser

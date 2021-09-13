@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/set_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="51dp"
+        android:layout_height="56dp"
         android:layout_alignParentTop="true"
         android:background="@color/white"
         android:orientation="horizontal">
@@ -19,11 +19,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:gravity="center"
             android:text="설정"
             android:textColor="@color/pp_green"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -44,15 +44,18 @@
             android:text="@string/set_alarm"
             android:textColor="@color/black"
             android:textSize="17sp" />
-
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
         <Switch
             android:id="@+id/set_switch_alarm"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="240dp"
             android:checked="false"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="right"
             android:theme="@style/set_switch" />
-
     </LinearLayout>
 
     <LinearLayout

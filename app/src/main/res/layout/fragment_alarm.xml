@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/alarm_text"
         android:textColor="@color/pp_green"
-        android:textSize="19sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/imgbtn_back"
         app:layout_constraintTop_toTopOf="parent" />

@@ -165,16 +165,6 @@ class AddPlanFragment : Fragment() {
         plant_name_spinner.adapter = nadapter
         nadapter.notifyDataSetChanged()
 
-        // 알람 부분
-        val alarm = resources.getStringArray(R.array.alram_arr)
-        adapter = ArrayAdapter<String>(
-            requireContext(),
-            R.layout.spinner_custom_alarm,
-            alarm
-        )
-        Log.d("TAG", "onViewCreated: 어댑터 완성")
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        alarm_spinner.adapter = adapter
     }
 
     fun getNames(): ArrayList<String> {

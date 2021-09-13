@@ -115,12 +115,12 @@ class NewPlantFragment : Fragment() {
                     val newplant_memo : EditText =view.findViewById(R.id.newplant_memo)
 
                     val docData = hashMapOf(
-                        "name" to newplant_name.text.toString(),           //식물이름
-                        "specise" to newplant_spacies.text.toString(),                  // 종류
-                        "led" to newplant_led.text.toString(),                // 빛
-                        "water" to newplant_water.text.toString(),              //급수주기
-                        "temperature" to newplant_temperature.text.toString(),        // 온도
-                        "memo" to newplant_memo.text.toString(),               //메모
+                        "name" to newplant_name.text as String?,           //식물이름
+                        "specise" to newplant_spacies.text as String?,                  // 종류
+                        "led" to newplant_led.text as String?,                // 빛
+                        "water" to newplant_water.text as String?,              //급수주기
+                        "temperature" to newplant_temperature.text as String?,        // 온도
+                        "memo" to newplant_memo.text as String?,               //메모
                         "date" to Timestamp(date),   // 날짜
                         "imgUri" to downloadUri,        // 이미지 uri
                         "userId" to uid    // 식별가능한 유저 아이디

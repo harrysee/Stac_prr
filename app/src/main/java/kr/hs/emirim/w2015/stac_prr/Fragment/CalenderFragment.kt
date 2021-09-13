@@ -72,6 +72,9 @@ class CalenderFragment : Fragment(), View.OnClickListener {
             adapter.date = selec_date
 
             model.items.clear()
+            adapter.items = model
+            adapter.notifyDataSetChanged()
+
             Log.d("TAG", "makeTestItems: 선택된 날짜 $selec_date")
             db.collection("schedule")
                 .document(auth.uid.toString())
@@ -92,6 +95,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
                             item.docId = document.id
                             model.items.add(item)
                         }
+                        model.items.clear()
                         adapter.items = model
                         adapter.notifyDataSetChanged()
                         Log.d("TAG", "makeTestItems: 추가된 아이템 : ${model.items[0]?.isChecked}")
@@ -131,6 +135,9 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         adapter = PlanAdapter()
         // 리사이클뷰 관련 변수 선언
         model.items.clear()
+        adapter.items=model
+        adapter.notifyDataSetChanged()
+
         Log.d("TAG", "makeTestItems: 선택된 날짜 $selec_date")
         db.collection("schedule")
             .document(auth.uid.toString())
@@ -151,6 +158,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
                         item.docId = document.id
                         model.items.add(item)
                     }
+                    model.items.clear()
                     adapter.items=model
                     adapter.notifyDataSetChanged()
                     Log.d("TAG", "makeTestItems: 추가된 아이템 : ${model.items[0]?.isChecked}")

@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/tos_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="51dp"
+        android:layout_height="56dp"
         android:layout_alignParentTop="true"
         android:background="@color/white"
         android:orientation="horizontal">
@@ -34,7 +34,7 @@
             android:gravity="center"
             android:text="@string/set_tos"
             android:textColor="@color/pp_green"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
