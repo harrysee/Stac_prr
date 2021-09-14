@@ -34,6 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="일지 작성"
@@ -46,6 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="200dp"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
             android:background="@drawable/shape_nostrock"
             android:gravity="center"
             android:text="@string/complate"
@@ -54,12 +58,17 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <TextView
+    <Button
         android:id="@+id/now_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:layout_marginLeft="26dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/notosanscjkkr_regular"
+        android:includeFontPadding="false"
         android:text="날짜"
         android:textColor="@color/pp_green"
         android:textSize="18sp"
@@ -93,6 +102,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="14dp"
+                android:fontFamily="@font/notosanscjkkr_regular"
+                android:includeFontPadding="false"
                 android:spinnerMode="dropdown"
                 android:background="@drawable/selector_spinner_view"
                 />
@@ -113,6 +124,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:hint="새 일지를 작성하세요"
+        android:fontFamily="@font/notosanscjkkr_light"
+        android:includeFontPadding="false"
         android:background="@android:color/transparent"
         android:textColorHint="@color/day_gray"
         android:textSize="14sp"

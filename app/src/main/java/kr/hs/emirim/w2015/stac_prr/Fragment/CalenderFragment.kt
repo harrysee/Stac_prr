@@ -157,7 +157,6 @@ class CalenderFragment : Fragment(), View.OnClickListener {
                         item.docId = document.id
                         model.items.add(item)
                     }
-                    model.items.clear()
                     adapter.items=model
                     adapter.notifyDataSetChanged()
                     Log.d("TAG", "makeTestItems: 추가된 아이템 : ${model.items[0]?.isChecked}")

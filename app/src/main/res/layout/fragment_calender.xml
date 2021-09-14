@@ -41,6 +41,9 @@
             android:layout_marginBottom="7dp"
             android:layout_marginTop="10dp"
             android:background="@color/white"
+            app:mcv_headerTextAppearance="@font/notosanscjkkr_medium"
+            app:mcv_weekDayTextAppearance="@font/notosanscjkkr_regular"
+            app:mcv_dateTextAppearance="@font/notosanscjkkr_regular"
             android:backgroundTint="@color/transparent"
             android:padding="5dp"
             app:layout_constraintBottom_toTopOf="@+id/plan_card"
@@ -78,6 +81,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/notosanscjkkr_regular"
+                android:includeFontPadding="false"
                 android:text="@string/text_month_plan"
                 android:textColor="@color/pp_green"
                 android:textSize="18dp" />

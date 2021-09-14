@@ -18,6 +18,8 @@
             android:id="@+id/notice_title_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:fontFamily="@font/notosanscjkkr_demilight"
+            android:includeFontPadding="false"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
@@ -56,6 +58,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="15dp"
+                android:fontFamily="@font/notosanscjkkr_regular"
+                android:includeFontPadding="false"
                 android:textColor="#868686"
                 android:layout_marginLeft="16dp"
                 android:text="날짜"/>
@@ -66,6 +70,8 @@
                 android:paddingLeft="16dp"
                 android:paddingTop="10dp"
                 android:text="TextView"
+                android:fontFamily="@font/notosanscjkkr_light"
+                android:includeFontPadding="false"
                 android:textColor="#868686"
                 android:paddingBottom="10dp"
                 android:textSize="16sp" />

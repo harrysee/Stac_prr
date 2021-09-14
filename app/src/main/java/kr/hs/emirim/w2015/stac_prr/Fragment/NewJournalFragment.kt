@@ -32,7 +32,7 @@ class NewJournalFragment : Fragment() {
     val auth = FirebaseAuth.getInstance()
     private var storage = FirebaseStorage.getInstance()
     private var storageRef = storage.reference
-
+    private lateinit var nadapter : ArrayAdapter<String>
     private val FROM_ALBUM = 200
     private lateinit var photoURI: Uri
 
@@ -154,9 +154,9 @@ class NewJournalFragment : Fragment() {
         }
 
 
-        // 스피너 설정
+        // 등록된 식물 스피너 설정
         val plantnames = getNames()
-        val nadapter = ArrayAdapter<String>(
+        nadapter = ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_custom_name,
             plantnames
@@ -192,9 +192,11 @@ class NewJournalFragment : Fragment() {
                 for (doc in it) {
                     names.add(doc["name"] as String?)
                 }
+                nadapter.notifyDataSetChanged()
             }.addOnFailureListener {
                 Log.d("TAG", "getNames: spinner 식물 이름들 보여주기 실패")
             }
         return names
     }
 }
+

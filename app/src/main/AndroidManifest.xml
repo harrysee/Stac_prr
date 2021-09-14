@@ -13,10 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <receiver
-            android:name=".Receiver.AalarmReciever"
-            android:enabled="true"
-            android:exported="true"></receiver>
+
         <receiver
             android:name=".Receiver.BroadcastReceiver"
             android:enabled="true"
@@ -31,6 +28,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
+
+        <receiver android:name=".Receiver.DeviceBootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".Receiver.AlarmReceiver"/>
     </application>
 
 </manifest>

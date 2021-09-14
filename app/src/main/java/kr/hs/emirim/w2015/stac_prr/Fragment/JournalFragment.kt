@@ -100,6 +100,7 @@ class JournalFragment : Fragment() {
                             datas.add(JournalData(document["name"] as String,document["content"] as String,SimpleDateFormat("yy-MM-dd").format(document["date"]), document["imgUri"] as String?))
                         }
                     }
+                Log.i("파이어베이스데이터", datas.toString());
                 journalAdapter.datas = datas
                 journalAdapter.notifyDataSetChanged()
             }

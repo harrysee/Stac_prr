@@ -22,6 +22,8 @@
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
             android:minWidth="100dp"
             android:text="내용"
             android:textColor="@color/day_gray"
