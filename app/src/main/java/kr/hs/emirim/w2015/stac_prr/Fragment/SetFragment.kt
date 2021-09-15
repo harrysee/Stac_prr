@@ -112,7 +112,11 @@ class SetFragment : Fragment() {
                                 val receiver = ComponentName(requireContext(), DeviceBootReceiver::class.java)
                                 val alarmIntent = Intent(context, AlarmReceiver::class.java)
                                 alarmIntent.putExtra("title", doc["title"] as String?)
-                                alarmIntent.putExtra("name",plant_name_spinner.selectedItem.toString())
+                                if (plant_name_spinner.selectedItem as String? != null){
+                                    alarmIntent.putExtra("name",plant_name_spinner.selectedItem as String?)
+                                }else{
+                                    alarmIntent.putExtra("name","미정")
+                                }
                                 alarmIntent.putExtra("content",addplan_memo.text.toString())
                                 val pendingIntent = PendingIntent.getBroadcast(context, idCnt , alarmIntent, 0)
                                 val alarmManager = context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager

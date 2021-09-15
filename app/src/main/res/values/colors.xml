@@ -20,5 +20,6 @@
     <color name="set_bg">#E9E9E9</color>
     <color name="tos_gray_text">#7A7A7A</color>
     <color name="d">#BBD89C</color>
+    <color name="trans_black">#66000000</color>
 
 </resources>

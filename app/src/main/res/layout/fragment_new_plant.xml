@@ -33,7 +33,7 @@
             android:fontFamily="@font/notosanscjkkr_regular"
             android:includeFontPadding="false"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="-2dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/shape_nostrock"
             android:gravity="center"
             android:text="@string/insert_plant"

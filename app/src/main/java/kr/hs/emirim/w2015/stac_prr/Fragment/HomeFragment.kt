@@ -101,16 +101,14 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
 
         view_dots_indicator.setViewPager2(viewPager) // indicator 설정
 
-        btn_img_alram.setOnClickListener {
-            val activity = activity as MainActivity
-            activity.fragmentChange_for_adapter(AlarmFragment())
-        }
         home_fab.setOnClickListener {       //플러스 버튼 눌렀을때
             val pcnt = pref.getInt("PlantCnt",0)   // 처음 생성시 식물개수 0
             if (4>=pcnt){   // 식물개수 제한. 4개까지
                 val fragment = NewPlantFragment()
                 val bundle = Bundle()
                 bundle.putBoolean("isEdit",false)
+                bundle.putString("docId", "docId")
+                bundle.putString("imgUri", "imgUri")
                 fragment.arguments = bundle
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.container,fragment)

@@ -20,18 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.utils.widget.ImageFilterButton
-        android:id="@+id/btn_img_alram"
-        android:layout_width="18dp"
-        android:layout_height="22dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/ic_alram_icon"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/imageFilterView2"
         android:layout_width="wrap_content"
@@ -174,6 +162,7 @@
         app:fab_shadow="false"
         android:layout_gravity="end|bottom"
         app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@color/pp_green"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="16dp"
         android:backgroundTint="@color/pp_green"
