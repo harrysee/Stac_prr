@@ -12,8 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,10 +25,13 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kotlinx.android.synthetic.main.fragment_new_plant.*
+import kotlinx.android.synthetic.main.fragment_plant_info.*
 import kr.hs.emirim.w2015.stac_prr.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.properties.Delegates
 
 
 class NewPlantFragment : Fragment() {
@@ -37,6 +43,9 @@ class NewPlantFragment : Fragment() {
     private var storageRef = storage.reference
     private lateinit var photoURI: Uri
     private val auth = Firebase.auth
+    private var isEdit : Boolean?= null
+    private var docId : String? = null
+    private var imgUri :String? = null
     private val cal: Calendar = Calendar.getInstance()
     private lateinit var pref : SharedPreferences
 
@@ -50,6 +59,9 @@ class NewPlantFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_new_plant, container, false)
+        isEdit = arguments?.getBoolean("isEdit")
+        docId = arguments?.getString("docId")
+        imgUri = arguments?.getString("imgUri")
         pref = context?.getSharedPreferences("pref",Context.MODE_PRIVATE)!!
         return view
     }
@@ -60,7 +72,40 @@ class NewPlantFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         val pcnt = pref.getInt("PlantCnt",0)   // 처음 생성시 식물개수 0
         Log.d("TAG", "onViewCreated: ${auth.currentUser?.uid}")
-        
+
+        // 수정으로 인해서 호출됬을때 기본데이터 뿌리기
+        if (isEdit == true){
+            Log.d("TAG,", "onViewCreated: 수정 > 식물정보 가져온 이미지 uri $imgUri")
+            val backgound = view.findViewById<ImageButton>(R.id.newplant_upload_btn)
+            Glide.with(requireContext()) //쓸곳
+                .load(imgUri)  //이미지 받아올 경로
+                .into(backgound)    // 받아온 이미지를 받을 공간
+
+            db!!.collection("plant_info").document(docId!!)
+                .get()
+                .addOnSuccessListener {
+                    Log.d("TAG", "onViewCreated: 식물정보 수정을 위한 기본데이터 가져옴")
+                    newplant_name.hint = it["name"] as String? // 식물 이름 재설정
+                    newplant_spacies.hint = it["specise"] as String?  // 식물 종류 재설정
+                    val sdf = SimpleDateFormat("yyyy-MM-dd")
+                    //일자수 차이 구하기
+                    val timestamp = it["date"] as Timestamp
+                    val d : Date= timestamp.toDate()
+
+                    //설정하기
+                    newplant_date_btn.text = sdf.format(d)
+                    newplant_temperature.hint = it["temperature"] as String?
+                    newplant_led.hint = it["led"] as String?
+                    newplant_water.hint = it["water"] as String?
+                    newplant_memo.hint = it["memo"] as String?
+
+                }.addOnFailureListener {
+                    Log.d(it.toString(), "onViewCreated: 수정 > 식물정보를 가져오기 못함")
+                }
+            // 이름은 변경 못하게하기
+            newplant_name.isEnabled = false
+        }
+
         // 이미지 화살표 눌렀을때
         img_btn_backhome.setOnClickListener() {
             val dir = CustomDialog(requireContext())
@@ -142,9 +187,11 @@ class NewPlantFragment : Fragment() {
                 }
             }// uploadtask end
 
-            with(pref.edit()){
-                putInt("PlantCnt",pcnt+1)
-                commit()
+            if(isEdit==false) {
+                with(pref.edit()) {
+                    putInt("PlantCnt", pcnt + 1)
+                    commit()
+                }
             }
             activity.fragmentChange_for_adapter(HomeFragment())
         }
