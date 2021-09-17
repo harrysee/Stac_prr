@@ -1,12 +1,16 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
-import android.content.Intent
+import android.R.attr.button
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
+import androidx.core.app.NotificationCompat.getColor
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
@@ -64,6 +68,42 @@ class JournalFragment : Fragment() {
         down_btn.setOnClickListener{
             journal_recycler.scrollToPosition(journalAdapter.itemCount-1)
         }
+
+
+
+        plant_name_btn1.setOnClickListener() {
+            plant_name_btn1.isSelected = !plant_name_btn1.isSelected
+            if(plant_name_btn1.isSelected){
+                plant_name_btn2.isSelected = !plant_name_btn1.isSelected
+                plant_name_btn3.isSelected = !plant_name_btn1.isSelected
+                plant_name_btn4.isSelected = !plant_name_btn1.isSelected
+            }
+        }
+        plant_name_btn2.setOnClickListener() {
+            plant_name_btn2.isSelected = !plant_name_btn2.isSelected
+            if(plant_name_btn2.isSelected){
+                plant_name_btn1.isSelected = !plant_name_btn2.isSelected
+                plant_name_btn3.isSelected = !plant_name_btn2.isSelected
+                plant_name_btn4.isSelected = !plant_name_btn2.isSelected
+            }
+        }
+        plant_name_btn3.setOnClickListener() {
+            plant_name_btn3.isSelected = !plant_name_btn3.isSelected
+            if(plant_name_btn3.isSelected){
+                plant_name_btn1.isSelected = !plant_name_btn3.isSelected
+                plant_name_btn2.isSelected = !plant_name_btn3.isSelected
+                plant_name_btn4.isSelected = !plant_name_btn3.isSelected
+            }
+        }
+        plant_name_btn4.setOnClickListener() {
+            plant_name_btn4.isSelected = !plant_name_btn4.isSelected
+            if(plant_name_btn4.isSelected){
+                plant_name_btn1.isSelected = !plant_name_btn4.isSelected
+                plant_name_btn2.isSelected = !plant_name_btn4.isSelected
+                plant_name_btn3.isSelected = !plant_name_btn4.isSelected
+            }
+        }
+
     }
 
 
@@ -82,6 +122,7 @@ class JournalFragment : Fragment() {
             fab.show()
         }
     }
+
     private fun initRecycler(journalAdapter : JournalAdapter) {
         journal_recycler.adapter = journalAdapter
 
@@ -104,8 +145,6 @@ class JournalFragment : Fragment() {
                 journalAdapter.notifyDataSetChanged()
             }
         }
-        journalTabAdapter = JournalTabAdapter(requireContext(),obj)
-        tab_recycler.adapter = journalTabAdapter
 
   /*      datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
         datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))
@@ -123,8 +162,6 @@ class JournalFragment : Fragment() {
         datas.add(JournalData(name = "초록이", journal = "일지", date="날짜"))
         datas.add(JournalData(name = "무럭이", journal = "일지", date="날짜"))*/
 
-        journalTabAdapter.datas = datas
-        journalTabAdapter.notifyDataSetChanged()
 
 
     }

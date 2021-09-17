@@ -73,22 +73,105 @@
         app:layout_constraintBottom_toTopOf="@id/journal_recycler"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tab_recycler"
-            android:layout_width="0dp"
+
+        <HorizontalScrollView
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            app:layout_constraintWidth_percent="0.8"
-            android:layout_marginLeft="15dp"
-            android:orientation="horizontal"
-            android:foregroundGravity="center_vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginLeft="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/journal_date_sort"
-            tools:listitem="@layout/tab_item">
+            app:layout_constraintEnd_toStartOf="@id/journal_date_sort">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/plant_name_btn1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_corner"
+                    android:backgroundTint="@color/btn_color"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="8dp"
+                    android:text="text"
+                    android:textColor="@color/btn_text_color"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/plant_name_btn2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/shape_corner"
+                    android:backgroundTint="@color/btn_color"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="8dp"
+                    android:text="text"
+                    android:textColor="@color/btn_text_color"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/plant_name_btn1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/plant_name_btn3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/shape_corner"
+                    android:backgroundTint="@color/btn_color"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="8dp"
+                    android:text="text"
+                    android:textColor="@color/btn_text_color"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/plant_name_btn2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/plant_name_btn4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:background="@drawable/shape_corner"
+                    android:backgroundTint="@color/btn_color"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="8dp"
+                    android:text="text"
+                    android:textColor="@color/btn_text_color"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/plant_name_btn3"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/journal_date_sort"
@@ -98,10 +181,9 @@
             android:text="날짜순↓"
             android:textColor="@color/day_gray"
             android:textSize="12sp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginRight="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tab_recycler"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
