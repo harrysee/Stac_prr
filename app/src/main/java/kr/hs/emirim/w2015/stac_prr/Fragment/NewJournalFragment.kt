@@ -1,5 +1,6 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -35,6 +36,7 @@ class NewJournalFragment : Fragment() {
     private lateinit var nadapter : ArrayAdapter<String>
     private val FROM_ALBUM = 200
     private lateinit var photoURI: Uri
+    val cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +54,8 @@ class NewJournalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val activity = activity as MainActivity
 
-        val cal = Calendar.getInstance()
         var y = 0
         var m = 0
         var d = 0
@@ -62,9 +64,32 @@ class NewJournalFragment : Fragment() {
         m = cal[Calendar.MONTH] + 1
         d = cal[Calendar.DAY_OF_MONTH]
 
-        now_date.text = ("$y. $m. $d")
+        newjournal_date_btn.text = ("$y. $m. $d")
 
-        val activity = activity as MainActivity
+        newjournal_date_btn.setOnClickListener {
+            val setDateListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                cal.set(Calendar.YEAR,year)
+                cal.set(Calendar.MONTH,month)
+                cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+                newjournal_date_btn.text = "${year}. ${month+1}. ${dayOfMonth}"
+            }
+
+            Log.d("TAG", "onViewCreated: 현재 시간 :${cal.time}")
+            val now = System.currentTimeMillis() - 1000
+            val datepicker = DatePickerDialog(
+                activity,
+                R.style.DatePicker,
+                setDateListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH-1),
+                cal.get(Calendar.DAY_OF_MONTH)
+            )
+            datepicker.datePicker.spinnersShown = true
+            datepicker.datePicker.calendarViewShown = true
+            datepicker.datePicker.maxDate = now
+            datepicker.show()
+        }
+
         R.style.AlertDialog_AppCompat
 
         // 이미지 화살표 눌렀을때

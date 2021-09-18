@@ -59,7 +59,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/now_date"
+        android:id="@+id/newjournal_date_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
@@ -69,7 +69,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/notosanscjkkr_regular"
         android:includeFontPadding="false"
-        android:text="날짜"
+        android:text="날짜 선택"
         android:textColor="@color/pp_green"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
         android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/now_date"
+        app:layout_constraintTop_toBottomOf="@id/newjournal_date_btn"
         android:orientation="vertical">
 
         <LinearLayout
