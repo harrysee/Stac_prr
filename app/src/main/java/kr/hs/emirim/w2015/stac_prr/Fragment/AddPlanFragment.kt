@@ -43,11 +43,11 @@ import kotlin.collections.ArrayList
 
 class AddPlanFragment : Fragment() {
     var date_str: String? = null
-    val cal : Calendar = Calendar.getInstance()
+    val cal: Calendar = Calendar.getInstance()
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
-    lateinit var push : SharedPreferences
-    lateinit var nadapter : ArrayAdapter<String>
+    lateinit var push: SharedPreferences
+    lateinit var nadapter: ArrayAdapter<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -89,11 +89,11 @@ class AddPlanFragment : Fragment() {
         }
 
         // 완료 눌렀을 때
-        val planets_spinner : Spinner = view.findViewById(R.id.planets_spinner)
-        val plant_name_spinner : Spinner = view.findViewById(R.id.plant_name_spinner)
+        val planets_spinner: Spinner = view.findViewById(R.id.planets_spinner)
+        val plant_name_spinner: Spinner = view.findViewById(R.id.plant_name_spinner)
 
         addplan_complate_btn.setOnClickListener {
-            Toast.makeText(requireContext(),"업로드 중..",Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "업로드 중..", Toast.LENGTH_SHORT)
             // 파이어스토어에 데이터 저장
             val uid: String = auth.uid!!
             val date: Date = cal.time
@@ -118,39 +118,39 @@ class AddPlanFragment : Fragment() {
             Toast.makeText(requireContext(), "업로드 완료 !", Toast.LENGTH_LONG).show()
             Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
 
-            //알람을 넣는다고 했을때
-            if (isAlarm){
-                val idCnt = push.getInt("notifyid",0)
+            //알람 일단 등록
+            val idCnt = push.getInt("notifyid", 0)
 
-                val pm = context?.packageManager
-                val receiver = ComponentName(requireContext(), DeviceBootReceiver::class.java)
-                val alarmIntent = Intent(context, AlarmReceiver::class.java)
-                alarmIntent.putExtra("title",planets_spinner.selectedItem.toString())
-                alarmIntent.putExtra("name",plant_name_spinner.selectedItem.toString())
-                alarmIntent.putExtra("content",addplan_memo.text.toString())
-                val pendingIntent = PendingIntent.getBroadcast(context, idCnt , alarmIntent, 0)
-                val alarmManager = context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
+            val pm = context?.packageManager
+            val receiver = ComponentName(requireContext(), DeviceBootReceiver::class.java)
+            val alarmIntent = Intent(context, AlarmReceiver::class.java)
+            alarmIntent.putExtra("title", planets_spinner.selectedItem.toString())
+            alarmIntent.putExtra("name", plant_name_spinner.selectedItem.toString())
+            alarmIntent.putExtra("content", addplan_memo.text.toString())
+            val pendingIntent = PendingIntent.getBroadcast(context, idCnt, alarmIntent, 0)
+            val alarmManager =
+                context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
 
-                if (alarmManager != null) {
-                    push.edit()     //알림 등록 겹치지않게
-                        .putInt("notifyid",idCnt+1)
-                        .apply()
-                    
-                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.timeInMillis,
-                        AlarmManager.INTERVAL_DAY, pendingIntent)
-                    Log.d("TAG", "diaryNotification: 알림 이동시 : $idCnt")
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
-                            cal.timeInMillis,
-                            pendingIntent)
-                    }
-                    // 부팅 후 실행되는 리시버 사용가능하게 설정
-                    pm?.setComponentEnabledSetting(receiver,
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                        PackageManager.DONT_KILL_APP)
+            if (alarmManager != null) {
+                push.edit()     //알림 등록 겹치지않게
+                    .putInt("notifyid", idCnt + 1)
+                    .apply()
+
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.timeInMillis,
+                    AlarmManager.INTERVAL_DAY, pendingIntent)
+                Log.d("TAG", "diaryNotification: 알림 이동시 : $idCnt")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
+                        cal.timeInMillis,
+                        pendingIntent)
                 }
-
+                Log.d("TAG", "onViewCreated: 알림 시간 : ${cal.time}")
+                // 부팅 후 실행되는 리시버 사용가능하게 설정
+                pm?.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP)
             }
+            
             activity.fragmentChange_for_adapter(CalenderFragment())
         }
 
@@ -168,6 +168,7 @@ class AddPlanFragment : Fragment() {
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay - 12)
                 format = SimpleDateFormat("오후 HH:mm").format(cal.time)
             }
+            cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
             addplan_time.text = format
         }
 

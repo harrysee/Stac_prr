@@ -17,8 +17,7 @@
         <receiver
             android:name=".Receiver.BroadcastReceiver"
             android:enabled="true"
-            android:exported="true"
-            android:permission="TODO"></receiver>
+            android:exported="true"></receiver>
 
         <activity android:name=".SplashActivity">
             <intent-filter>

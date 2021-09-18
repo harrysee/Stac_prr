@@ -10,9 +10,8 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kr.hs.emirim.w2015.stac_prr.NoticeData
+import kr.hs.emirim.w2015.stac_prr.DataClass.NoticeData
 import kr.hs.emirim.w2015.stac_prr.R
-import kotlin.math.log
 
 
 class SetNoticeAdapter(private val context: Context) :

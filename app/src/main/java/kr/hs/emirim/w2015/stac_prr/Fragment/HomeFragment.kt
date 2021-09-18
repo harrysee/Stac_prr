@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.tasks.OnCompleteListener
@@ -103,7 +104,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
 
         home_fab.setOnClickListener {       //플러스 버튼 눌렀을때
             val pcnt = pref.getInt("PlantCnt",0)   // 처음 생성시 식물개수 0
-            if (4>=pcnt){   // 식물개수 제한. 4개까지
+            if (4>pcnt){   // 식물개수 제한. 4개까지
                 val fragment = NewPlantFragment()
                 val bundle = Bundle()
                 bundle.putBoolean("isEdit",false)
@@ -113,6 +114,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.container,fragment)
                     ?.commit()
+                Log.d("TAG", "onViewCreated: 식물 개수 현재 : $pcnt")
             }else{
                 Toast.makeText(requireContext(),"식물은 4개까지만 추가할 수 있습니다",Toast.LENGTH_SHORT).show()
             }

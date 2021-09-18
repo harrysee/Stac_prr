@@ -89,77 +89,19 @@ class SetFragment : Fragment() {
             var cal2: Calendar = Calendar.getInstance()
 
             val toastMessage = if (isChecked) {
-                auth.currentUser?.let {
-                    db.collection("schedule")
-                        .document(it.uid)
-                        .collection("plans")
-                        .get()
-                        .addOnSuccessListener {
-                            for (doc in it){
-                                val date = doc["date"] as Timestamp
-                                cal.time = date.toDate()
-                                cal2.time = Date(System.currentTimeMillis()) // 현재날짜
-                                
-                                // 날짜 지났는지 확인
-                                if (cal2.after(cal)){   //인자보다 미래인지 확인
-                                    continue
-                                }
-                                
-                                // 알림 설정
-                                val idCnt = push.getInt("notifyid",0)
-
-                                val pm = context?.packageManager
-                                val receiver = ComponentName(requireContext(), DeviceBootReceiver::class.java)
-                                val alarmIntent = Intent(context, AlarmReceiver::class.java)
-                                alarmIntent.putExtra("title", doc["title"] as String?)
-                                if (plant_name_spinner.selectedItem as String? != null){
-                                    alarmIntent.putExtra("name",plant_name_spinner.selectedItem as String?)
-                                }else{
-                                    alarmIntent.putExtra("name","미정")
-                                }
-                                alarmIntent.putExtra("content",addplan_memo.text.toString())
-                                val pendingIntent = PendingIntent.getBroadcast(context, idCnt , alarmIntent, 0)
-                                val alarmManager = context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
-
-                                if (alarmManager != null) {
-                                    push.edit()     //알림 등록 겹치지않게
-                                        .putInt("notifyid", idCnt + 1)
-                                        .apply()
-
-                                    alarmManager.setRepeating(
-                                        AlarmManager.RTC_WAKEUP,
-                                        cal.timeInMillis,
-                                        AlarmManager.INTERVAL_DAY,
-                                        pendingIntent)
-                                    Log.d("TAG", "diaryNotification: 알림 이동시 : $idCnt")
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
-                                            cal.timeInMillis,
-                                            pendingIntent)
-                                    }
-                                    // 부팅 후 실행되는 리시버 사용가능하게 설정
-                                    pm?.setComponentEnabledSetting(receiver,
-                                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                                        PackageManager.DONT_KILL_APP)
-                                } // alarmManager if 삭제
-                            }
-                        }
-                }
                 with(push.edit()) {
                     putBoolean("isAlarm", true)
                     commit()
                 }
-                
                 "알림설정을 활성화 했습니다"
             } else {
                 //알림 초기화
                 val notificationManager = context?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.cancelAll()
-                
+
                 //알림 인덱스 초기화, 토글버튼 false
                 with(push.edit()) {
                     putBoolean("isAlarm", false)
-                    putInt("notifyid",0)
                     commit()
                 }
                 "알림 예약을 취소하였습니다."

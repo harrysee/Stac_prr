@@ -58,10 +58,13 @@ class AlarmReceiver : BroadcastReceiver() {
             //알람 중복되지않게 카운트
             val push = context?.getSharedPreferences("push", Context.MODE_PRIVATE)!!
             val idcnt = push.getInt("notifyid", 0)
+            val isAlarm = push.getBoolean("isAlarm", false)
 
             // 노티피케이션 동작시킴
+            if (isAlarm){
+                notificationManager.notify(idcnt, builder.build())
+            }
             Log.d("TAG", "onReceive: 알림 : $idcnt")
-            notificationManager.notify(idcnt, builder.build())
         }
     }
 }

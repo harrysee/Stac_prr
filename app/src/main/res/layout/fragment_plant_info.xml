@@ -430,7 +430,7 @@
         android:id="@+id/info_del_linear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
+        android:padding="0dp"
         android:orientation="horizontal"
         android:background="@color/transparent"
         app:layout_constraintBottom_toBottomOf="@+id/info_fab"
@@ -458,6 +458,9 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#EA7159"
             android:rotation="45"
+            app:rippleColor="@color/pp_green"
+            android:elevation="0dp"
+            app:elevation="0dp"
             android:src="@drawable/ic_plant_edit"
             app:fab_shadow="false"
             app:layout_constraintBottom_toBottomOf="@+id/info_fab"
@@ -466,12 +469,12 @@
             app:layout_constraintTop_toTopOf="@+id/info_fab" />
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/info_edit_linear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@color/transparent"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/info_fab"
         app:layout_constraintEnd_toEndOf="@id/info_fab"
         app:layout_constraintLeft_toLeftOf="@+id/info_fab"
@@ -481,30 +484,27 @@
             android:id="@+id/info_edit_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
             android:elevation="0sp"
             android:fontFamily="@font/notosanscjkkr_regular"
             android:gravity="center_vertical"
             android:text="수정"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:visibility="invisible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/info_fab_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:rippleColor="@color/pp_green"
+            android:elevation="0dp"
+            app:elevation="0dp"
             android:src="@drawable/ic_plant_edit"
             app:fabSize="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:fab_shadow="false" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/info_fab"
@@ -520,6 +520,6 @@
         app:hideOnScroll="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/transparent" />
+        app:rippleColor="@color/pp_green" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

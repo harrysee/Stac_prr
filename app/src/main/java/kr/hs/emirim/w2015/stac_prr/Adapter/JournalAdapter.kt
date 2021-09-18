@@ -1,7 +1,6 @@
 package kr.hs.emirim.w2015.stac_prr.Adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
-import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
-import kr.hs.emirim.w2015.stac_prr.JournalData
+import kr.hs.emirim.w2015.stac_prr.DataClass.JournalData
 import kr.hs.emirim.w2015.stac_prr.R
 
 class JournalAdapter(private val context: Context) :
@@ -34,10 +32,12 @@ class JournalAdapter(private val context: Context) :
             private val txtName: TextView = itemView.findViewById(R.id.journal_title)
             private val txtJournal: TextView = itemView.findViewById(R.id.journal_content)
             private val journalimg : ImageView = itemView.findViewById(R.id.journal_img)
+            private val journaldate : TextView = itemView.findViewById(R.id.journal_item_date)
 
             fun bind(item: JournalData) {
                 txtName.text = item.name
                 txtJournal.text = item.journal
+                journaldate.text = item.date
 
                 if (item.imgUri != null){
                     Glide.with(context)

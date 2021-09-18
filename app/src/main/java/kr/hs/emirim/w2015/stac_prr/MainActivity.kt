@@ -1,5 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -22,6 +24,8 @@ import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.SetFragment
 import kr.hs.emirim.w2015.stac_prr.Receiver.BroadcastReceiver
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -91,15 +95,11 @@ class MainActivity : AppCompatActivity() {
     // 브로드캐스트리시버 필터 추가 & 등록
     override fun onResume() {
         super.onResume()
-        val filter = IntentFilter()
-        filter.addAction(Intent.ACTION_DATE_CHANGED)
-        registerReceiver(br, filter)
     }
 
     // 등록 삭제
     override fun onPause() {
         super.onPause()
-        unregisterReceiver(br)
     }
 
     //앱 실행시 로그인 하기
@@ -110,10 +110,51 @@ class MainActivity : AppCompatActivity() {
         }
         val currentUser = auth.currentUser
         Log.d("TAG", "onStart 유저 아이디 : ${currentUser?.uid} ")
-
         // Check if user is signed in (non-null) and update UI accordingly.
+        setflower()
     }
 
+    fun setflower(){
+        // 꽃말 넣기
+        val flowers = ArrayList<Flowers>()
+        flowers.add(Flowers("행운목","#행운이#아닌#약속"))
+        flowers.add(Flowers("스파티필름","#세심한#사랑"))
+        flowers.add(Flowers("브로멜리아드","#미래#즐기며#만족"))
+        flowers.add(Flowers("산세베리아","#관용"))
+        flowers.add(Flowers("파","#인내"))
+        flowers.add(Flowers("페페로미아","#행운#사랑"))
+        flowers.add(Flowers("스킨답서스","#우아한#심성"))
+        flowers.add(Flowers("아레카야자","#승리#부활"))
+        flowers.add(Flowers("아디안텀","#애교"))
+        flowers.add(Flowers("선인장","#불타는#마음"))
+        flower.edit(){
+            for (n in 0..9){
+                putString((n.toString()+"n"),flowers[n].name)
+                putString((n.toString()+"s"),flowers[n].species)
+            }
+            commit()
+        }
+        
+        //12시마다 업데이트
+        val alarmMgr = this.getSystemService(ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, BroadcastReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(this, 0, intent, 0)
+        }
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 24)
+            set(Calendar.MINUTE,0)
+        }
+
+        Log.d("TAG", "setflower: 예약 시간 꽃말 : ${calendar.time}")
+        // constants--in this case, AlarmManager.INTERVAL_DAY.
+        alarmMgr?.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            alarmIntent
+        )
+    }
     fun isFirstCheck() {
         // isFirst가 처음 만들어지지않았을때 넣으면 null이다 - null이면 true로 가져오기
         val isCheck = pref.getBoolean("isFirst", true)
@@ -123,26 +164,7 @@ class MainActivity : AppCompatActivity() {
                 putBoolean("isFirst", false)
                 commit()
             }
-            // 꽃말 넣기
-            val flowers = ArrayList<Flowers>()
-            flowers.add(Flowers("행운목","#행운이#아닌#약속"))
-            flowers.add(Flowers("스파티필름","#세심한#사랑"))
-            flowers.add(Flowers("브로멜리아드","#미래#즐기며#만족"))
-            flowers.add(Flowers("산세베리아","#관용"))
-            flowers.add(Flowers("파","#인내"))
-            flowers.add(Flowers("페페로미아","#행운#사랑"))
-            flowers.add(Flowers("스킨답서스","#우아한#심성"))
-            flowers.add(Flowers("아레카야자","#승리#부활"))
-            flowers.add(Flowers("아디안텀","#애교"))
-            flowers.add(Flowers("선인장","#불타는#마음"))
 
-            flower.edit(){
-                for (n in 0..10){
-                    putString((n.toString()+"n"),flowers[n].name)
-                    putString((n.toString()+"s"),flowers[n].species)
-                }
-                commit()
-            }
             Toast.makeText(this, "푸르름에 오신걸 환영합니다", Toast.LENGTH_SHORT).show()
         }
         // 첫 실행 시 가입 : signInAnonymously

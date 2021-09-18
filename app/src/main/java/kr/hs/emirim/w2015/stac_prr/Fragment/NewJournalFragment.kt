@@ -91,17 +91,13 @@ class NewJournalFragment : Fragment() {
             // 파일 업로드
             val filename = "_" + System.currentTimeMillis()
             val imagesRef: StorageReference? = storageRef.child("journal/" + filename)
-            var downloadUri: String  // 다운로드 uri 저장변수
-
-            if(photoURI.path.equals("")){
-                Log.d("TAG", "onViewCreated: 사진 일지에 입력안됨")
-            }
+            var downloadUri: String? = null // 다운로드 uri 저장변수
 
             //스토리지 업로드
-            var img :String? = null
             var file: Uri? = null
             try {
                 file = photoURI
+                Log.d("TAG", "onViewCreated: 사진 URI : $file")
                 val uploadTask = imagesRef?.putFile(file)
                 Toast.makeText(requireContext(), "업로드중...", Toast.LENGTH_LONG).show()
 
@@ -113,9 +109,9 @@ class NewJournalFragment : Fragment() {
                             throw it
                         }
                     }
-                    val uid: String? = auth.uid
                     imagesRef.downloadUrl.addOnSuccessListener { task ->
-                        img= task.toString()
+                        Log.d("TAG", "onViewCreated: 다운로드 Uri : ${task.toString()}")
+                        downloadUri = task.toString()
                     }
                 }
             }catch (e : java.lang.Exception){
@@ -124,14 +120,15 @@ class NewJournalFragment : Fragment() {
             
             //파이어베이스 업로드
             val docData = hashMapOf(
-                "content" to journal_content.text,
+                "content" to journal_content.text.toString(),
                 "name" to choice_spinner.selectedItem.toString(),
                 "date" to Timestamp(date),   // 날짜
-                "imgUri" to img
+                "imgUri" to downloadUri
             )
             // 콜렉션에 문서 생성하기
             if (uid != null) {
-                db!!.collection("journals").document(uid).collection("journal").document()
+                db!!.collection("journals").
+                    document(uid).collection("journal").document()
                     .set(docData)
                     .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
                     .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
@@ -142,6 +139,7 @@ class NewJournalFragment : Fragment() {
 
             activity.fragmentChange_for_adapter(JournalFragment())
         }
+
         add_img_btn.setOnClickListener {
             //앨범 열기
             val intent = Intent(Intent.ACTION_PICK)
@@ -178,6 +176,7 @@ class NewJournalFragment : Fragment() {
                 e.printStackTrace()
             }
         }
+        Log.d("TAG", "onActivityResult: 파일 업로드 : $photoURI")
 
     }
 

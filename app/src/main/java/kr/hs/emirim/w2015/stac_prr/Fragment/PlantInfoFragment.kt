@@ -1,6 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +16,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_plant_info.*
 import kr.hs.emirim.w2015.stac_prr.CustomDialog
-import kr.hs.emirim.w2015.stac_prr.JournalData
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.text.SimpleDateFormat
@@ -176,6 +176,12 @@ class PlantInfoFragment : Fragment() {
                                 }// journal for end
                             }// journal success end
                     }//auth null
+                    val pref = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
+                    val pcnt = pref.getInt("PlantCnt",0)   // 처음 생성시 식물개수 0
+                    with(pref.edit()) {
+                        putInt("PlantCnt", pcnt -1)
+                        commit()
+                    }
                     val activity = activity as MainActivity
                     activity.fragmentChange_for_adapter(HomeFragment())
                 }

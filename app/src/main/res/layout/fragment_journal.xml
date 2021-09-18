@@ -104,7 +104,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone"/>
+                    android:clickable="false"
+                    android:visibility="invisible"/>
 
                 <Button
                     android:id="@+id/plant_name_btn2"
@@ -125,7 +126,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/plant_name_btn1"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone"/>
+                    android:clickable="false"
+                    android:visibility="invisible"/>
 
                 <Button
                     android:id="@+id/plant_name_btn3"
@@ -146,7 +148,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/plant_name_btn2"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone"/>
+                    android:clickable="false"
+                    android:visibility="invisible"/>
 
                 <Button
                     android:id="@+id/plant_name_btn4"
@@ -167,7 +170,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/plant_name_btn3"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone"/>
+                    android:clickable="false"
+                    android:visibility="invisible"/>
 
             </LinearLayout>
 
