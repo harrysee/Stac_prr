@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import kr.hs.emirim.w2015.stac_prr.DataClass.JournalData
+import kr.hs.emirim.w2015.stac_prr.Fragment.PlantInfoFragment
+import kr.hs.emirim.w2015.stac_prr.JournalDialog
+import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
 class JournalAdapter(private val context: Context) :
@@ -26,6 +29,8 @@ class JournalAdapter(private val context: Context) :
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.bind(datas[position])
+
+
         }
 
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,6 +49,12 @@ class JournalAdapter(private val context: Context) :
                         .load(item.imgUri)
                         .fitCenter()
                         .into(journalimg)
+                }
+                itemView.setOnClickListener{
+                    val dir = JournalDialog(context)
+                        .setEditBtn("수정"){}
+                        .setDeleteBtn("삭제"){}
+                        .show()
                 }
             }
         }
