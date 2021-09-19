@@ -124,6 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
         android:hint="새 일지를 작성하세요"
         android:fontFamily="@font/notosanscjkkr_light"
         android:includeFontPadding="false"

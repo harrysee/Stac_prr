@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.os.HandlerCompat.postDelayed
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.journal_dialog.view.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.JournalAdapter
@@ -30,16 +31,30 @@ class JournalDialog(private val context: Context) {
     private var dialog: AlertDialog? = null
 
     // 터치 리스너 구현
-    @SuppressLint("ClickableViewAccessibility")
     private val onTouchListener = View.OnTouchListener { v, motionEvent ->
         if (motionEvent.action == MotionEvent.ACTION_UP) {
-            dismiss()
+            android.os.Handler().postDelayed({
+                dismiss()
+            }, 5)
         }
         false
     }
 
+    fun setImg(imgresourse: String?): JournalDialog {
+        if (imgresourse !=null){
+            Glide.with(context)
+                .load(imgresourse)
+                .into(view.journal_dialog_img)
+        }
+        return this
+    }
+
     fun setTitle(@StringRes titleId: Int): JournalDialog {
         view.journal_title.text = context.getText(titleId)
+        return this
+    }
+    fun setTitle(title : CharSequence): JournalDialog {
+        view.journal_title.text = title
         return this
     }
 

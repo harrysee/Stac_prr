@@ -57,7 +57,7 @@
             app:mcv_firstDayOfWeek="sunday"
             app:mcv_leftArrowMask="@drawable/calendar_prebtn"
             app:mcv_rightArrowMask="@drawable/calendar_forbtn"
-            app:mcv_selectionColor="#FFFDE4"
+            app:mcv_selectionColor="#19B5E483"
             app:mcv_titleAnimationOrientation="horizontal" />
 
 

@@ -95,6 +95,7 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
             Log.d("TAG", "onViewCreated: 식물정보 데이터리스트 null인지 : ${homedatas}")
             val viewAdapter = homedatas?.let { FhViewAdapter(it, activity, requireContext()) }  // 어댑터 생성
             viewPager.adapter = viewAdapter
+            viewAdapter.notifyDataSetChanged()
         }
         Log.i("어댑터소환", "어댑터 실행완료 ")
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로

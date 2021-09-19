@@ -41,13 +41,13 @@ class NewPlantFragment : Fragment() {
     private val FROM_ALBUM = 200
     private var storage = FirebaseStorage.getInstance()
     private var storageRef = storage.reference
-    private lateinit var photoURI: Uri
+    private var photoURI: Uri? = null
     private val auth = Firebase.auth
-    private var isEdit : Boolean?= null
-    private var docId : String? = null
-    private var imgUri :String? = null
+    private var isEdit: Boolean? = null
+    private var docId: String? = null
+    private var imgUri: String? = null
     private val cal: Calendar = Calendar.getInstance()
-    private lateinit var pref : SharedPreferences
+    private lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +62,7 @@ class NewPlantFragment : Fragment() {
         isEdit = arguments?.getBoolean("isEdit")
         docId = arguments?.getString("docId")
         imgUri = arguments?.getString("imgUri")
-        pref = context?.getSharedPreferences("pref",Context.MODE_PRIVATE)!!
+        pref = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
         return view
     }
 
@@ -70,11 +70,11 @@ class NewPlantFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as MainActivity
         db = FirebaseFirestore.getInstance()
-        val pcnt = pref.getInt("PlantCnt",0)   // 처음 생성시 식물개수 0
+        val pcnt = pref.getInt("PlantCnt", 0)   // 처음 생성시 식물개수 0
         Log.d("TAG", "onViewCreated: ${auth.currentUser?.uid}")
 
         // 수정으로 인해서 호출됬을때 기본데이터 뿌리기
-        if (isEdit == true){
+        if (isEdit == true) {
             Log.d("TAG,", "onViewCreated: 수정 > 식물정보 가져온 이미지 uri $imgUri")
             val backgound = view.findViewById<ImageButton>(R.id.newplant_upload_btn)
             Glide.with(requireContext()) //쓸곳
@@ -90,7 +90,7 @@ class NewPlantFragment : Fragment() {
                     val sdf = SimpleDateFormat("yyyy-MM-dd")
                     //일자수 차이 구하기
                     val timestamp = it["date"] as Timestamp
-                    val d : Date= timestamp.toDate()
+                    val d: Date = timestamp.toDate()
 
                     //설정하기
                     newplant_date_btn.text = sdf.format(d)
@@ -105,6 +105,7 @@ class NewPlantFragment : Fragment() {
                 }
             // 이름은 변경 못하게하기
             newplant_name.isEnabled = false
+            Toast.makeText(requireContext(), "이름은 수정할수 없습니다", Toast.LENGTH_SHORT).show()
         }
 
         // 이미지 화살표 눌렀을때
@@ -120,154 +121,196 @@ class NewPlantFragment : Fragment() {
 
         // 완료 눌렀을 때 - 올리기
         btn_completion.setOnClickListener {
+            var downloadUri: String? = null  // 다운로드 uri 저장변수
+            val uid: String? = auth.uid
 
-            if (isEdit == false){
+            val date: Date = cal.time
+            // 올릴 필드 설정하기
+            val newplant_name: EditText = view.findViewById(R.id.newplant_name)
+            val newplant_spacies: EditText = view.findViewById(R.id.newplant_spacies)
+            val newplant_led: EditText = view.findViewById(R.id.newplant_led)
+            val newplant_water: EditText = view.findViewById(R.id.newplant_water)
+            val newplant_temperature: EditText =
+                view.findViewById(R.id.newplant_temperature)
+            val newplant_memo: EditText = view.findViewById(R.id.newplant_memo)
+
+            if (photoURI != null) {
                 if (newplant_name.text == null || newplant_spacies.text == null || newplant_led.text == null
-                    || newplant_water.text == null ||newplant_temperature.text == null || newplant_memo.text == null ){
+                    || newplant_water.text == null || newplant_temperature.text == null || newplant_memo.text == null
+                ) {
                     Toast.makeText(requireContext(), "식물정보를 모두 입력하세요", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
                 val filename = "_" + System.currentTimeMillis()
                 val imagesRef: StorageReference? = storageRef.child("info/" + filename)
-                var downloadUri: String  // 다운로드 uri 저장변수
 
                 var file: Uri? = null
                 try {
                     file = photoURI
+
+                    // 잘올라갔으면 다운로드 url 가져오기
+                    Log.d("TAG", "onViewCreated: 사진 uri ${photoURI}")
+                    // 스토리지에 올리기
+                    val uploadTask = imagesRef?.putFile(file!!)
+                    Toast.makeText(requireContext(), "업로드중...", Toast.LENGTH_LONG).show()
+
+                    uploadTask?.continueWithTask { task ->
+                        Log.d("TAG", "onViewCreated: 새로운 식물 continue 들어옴")
+                        if (!task.isSuccessful) {
+                            task.exception?.let {
+                                Log.d("TAG", "onViewCreated: 사진 안올라감")
+                                throw it
+                            }
+                        }
+                        imagesRef.downloadUrl.addOnSuccessListener { task ->
+                            downloadUri = task.toString()  // 다운로드 uri string으로 가져오기
+                            Log.d(downloadUri.toString(), "onViewCreated: 사진 업로드 완료")
+
+                            val docData = hashMapOf(
+                                "name" to newplant_name.text.toString(),           //식물이름
+                                "specise" to newplant_spacies.text.toString(),                  // 종류
+                                "led" to newplant_led.text.toString(),                // 빛
+                                "water" to newplant_water.text.toString(),              //급수주기
+                                "temperature" to newplant_temperature.text.toString(),        // 온도
+                                "memo" to newplant_memo.text.toString(),               //메모
+                                "date" to Timestamp(date),   // 날짜
+                                "imgUri" to downloadUri,        // 이미지 uri
+                                "userId" to uid    // 식별가능한 유저 아이디
+                            )
+                            if (isEdit==false){// 콜렉션에 문서 생성하기
+                                db!!.collection("plant_info").document()
+                                    .set(docData)
+                                    .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감") }
+                                    .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류", e) }
+
+                                with(pref.edit()) {
+                                    putInt("PlantCnt", pcnt + 1)
+                                    commit()
+                                }
+                            }else{  // 수정일경우 업데이트
+                                docId?.let { it1 ->
+                                    val date: Date = cal.time
+                                    db!!.collection("plant_info").document(it1)
+                                        .update(mapOf(
+                                            "specise" to newplant_spacies.text.toString(),                  // 종류
+                                            "led" to newplant_led.text.toString(),                // 빛
+                                            "water" to newplant_water.text.toString(),              //급수주기
+                                            "temperature" to newplant_temperature.text.toString(),        // 온도
+                                            "memo" to newplant_memo.text.toString(),               //메모
+                                            "date" to Timestamp(date),   // 날짜
+                                            "imgUri" to downloadUri,        // 이미지 uri
+                                        ))
+                                        .addOnSuccessListener {
+                                            Log.d("TAG", "onViewCreated: 수정 성공 ")
+                                        }.addOnCanceledListener {
+                                            Log.d("TAG", "onViewCreated: 수정 성공 못함")
+                                        }
+                                }
+                            }
+                        }// 사진이 있으면 그냥 올리기
+                    }// uploadtask end
                 } catch (e: java.lang.Exception) {
-                    Toast.makeText(requireContext(), "이미지를 업로드하세요", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "업로드 실패", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
+            } else {        // 사진이 없을경우
+                val docData = hashMapOf(
+                    "name" to newplant_name.text.toString(),           //식물이름
+                    "specise" to newplant_spacies.text.toString(),                  // 종류
+                    "led" to newplant_led.text.toString(),                // 빛
+                    "water" to newplant_water.text.toString(),              //급수주기
+                    "temperature" to newplant_temperature.text.toString(),        // 온도
+                    "memo" to newplant_memo.text.toString(),               //메모
+                    "date" to Timestamp(date),   // 날짜
+                    "imgUri" to downloadUri,        // 이미지 uri
+                    "userId" to uid    // 식별가능한 유저 아이디
+                )
+                if (isEdit==false){// 콜렉션에 문서 생성하기
+                    db!!.collection("plant_info").document()
+                        .set(docData)
+                        .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감") }
+                        .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류", e) }
 
-                Log.d("TAG", "onViewCreated: 사진 uri ${photoURI}")
-                // 스토리지에 올리기
-                val uploadTask = imagesRef?.putFile(file!!)
-                Toast.makeText(requireContext(), "업로드중...", Toast.LENGTH_LONG).show()
-
-                // 잘올라갔으면 다운로드 url 가져오기
-                uploadTask?.continueWithTask { task ->
-                    Log.d("TAG", "onViewCreated: 새로운 식물 continue 들어옴")
-                    if (!task.isSuccessful) {
-                        task.exception?.let {
-                            Log.d("TAG", "onViewCreated: 사진 안올라감")
-                            throw it
-                        }
+                    with(pref.edit()) {
+                        putInt("PlantCnt", pcnt + 1)
+                        commit()
                     }
-                    val uid: String? = auth.uid
-                    imagesRef.downloadUrl.addOnSuccessListener { task ->
-                        downloadUri = task.toString()  // 다운로드 uri string으로 가져오기
-                        Log.d(downloadUri.toString(), "onViewCreated: 사진 업로드 완료")
-
+                }else{  // 수정일경우 업데이트
+                    docId?.let { it1 ->
                         val date: Date = cal.time
-                        // 올릴 필드 설정하기
-                        val newplant_name: EditText = view.findViewById(R.id.newplant_name)
-                        val newplant_spacies: EditText = view.findViewById(R.id.newplant_spacies)
-                        val newplant_led: EditText = view.findViewById(R.id.newplant_led)
-                        val newplant_water: EditText = view.findViewById(R.id.newplant_water)
-                        val newplant_temperature: EditText =
-                            view.findViewById(R.id.newplant_temperature)
-                        val newplant_memo: EditText = view.findViewById(R.id.newplant_memo)
-
-                        val docData = hashMapOf(
-                            "name" to newplant_name.text.toString(),           //식물이름
-                            "specise" to newplant_spacies.text.toString(),                  // 종류
-                            "led" to newplant_led.text.toString(),                // 빛
-                            "water" to newplant_water.text.toString(),              //급수주기
-                            "temperature" to newplant_temperature.text.toString(),        // 온도
-                            "memo" to newplant_memo.text.toString(),               //메모
-                            "date" to Timestamp(date),   // 날짜
-                            "imgUri" to downloadUri,        // 이미지 uri
-                            "userId" to uid    // 식별가능한 유저 아이디
-                        )
-                        // 콜렉션에 문서 생성하기
-                        db!!.collection("plant_info").document()
-                            .set(docData)
-                            .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감") }
-                            .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류", e) }
-
-                        Toast.makeText(activity, "업로드 완료 !", Toast.LENGTH_LONG).show()
-                        Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
-
-                        with(pref.edit()) {
-                            putInt("PlantCnt", pcnt + 1)
-                            commit()
-                        }
-                    }// 수정이 아닐때 그냥 올리기
-                }// uploadtask end
-            }else{
-                docId?.let { it1 ->
-                    val date: Date = cal.time
-                    db!!.collection("plant_info").document(it1)
-                        .update(mapOf(
-                            "specise" to newplant_spacies.text.toString(),                  // 종류
-                            "led" to newplant_led.text.toString(),                // 빛
-                            "water" to newplant_water.text.toString(),              //급수주기
-                            "temperature" to newplant_temperature.text.toString(),        // 온도
-                            "memo" to newplant_memo.text.toString(),               //메모
-                            "date" to Timestamp(date),   // 날짜
-                        ))
-                        .addOnSuccessListener {
-                            Log.d("TAG", "onViewCreated: 수정 성공 ")
-                        }.addOnCanceledListener {
-                            Log.d("TAG", "onViewCreated: 수정 성공 못함")
-                        }
+                        db!!.collection("plant_info").document(it1)
+                            .update(mapOf(
+                                "specise" to newplant_spacies.text.toString(),                  // 종류
+                                "led" to newplant_led.text.toString(),                // 빛
+                                "water" to newplant_water.text.toString(),              //급수주기
+                                "temperature" to newplant_temperature.text.toString(),        // 온도
+                                "memo" to newplant_memo.text.toString(),               //메모
+                                "date" to Timestamp(date),   // 날짜
+                            ))
+                            .addOnSuccessListener {
+                                Log.d("TAG", "onViewCreated: 수정 성공 ")
+                            }.addOnCanceledListener {
+                                Log.d("TAG", "onViewCreated: 수정 성공 못함")
+                            }
+                    }
                 }
-            }
+            }// 업로드 끝
+            Toast.makeText(activity, "업로드 완료 !", Toast.LENGTH_LONG).show()
+            Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
+
             activity.fragmentChange_for_adapter(HomeFragment())
         }
 
-            newplant_upload_btn.setOnClickListener {
-                //앨범 열기
-                if (isEdit==false){
-                    val intent = Intent(Intent.ACTION_PICK)
+        newplant_upload_btn.setOnClickListener {
+            //앨범 열기
+            val intent = Intent(Intent.ACTION_PICK)
 
-                    intent.type = MediaStore.Images.Media.CONTENT_TYPE
-                    intent.type = "image/*"
-                    //intent. setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                    startActivityForResult(intent, FROM_ALBUM)
-                }else{
-                    Toast.makeText(requireContext(),"사진과 애칭은 수정할수 없습니다",Toast.LENGTH_SHORT).show()
-                }
-            }
+            intent.type = MediaStore.Images.Media.CONTENT_TYPE
+            intent.type = "image/*"
+            //intent. setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+            startActivityForResult(intent, FROM_ALBUM)
 
-            // 날짜 선택 다이얼로그
-            newplant_date_btn.setOnClickListener {
-                val setDateListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-                        cal.set(Calendar.YEAR,year)
-                        cal.set(Calendar.MONTH,month)
-                        cal.set(Calendar.DAY_OF_MONTH,dayOfMonth)
-                        newplant_date_btn.text = "${year}-${month+1}-${dayOfMonth}"
-                    }
-
-                Log.d("TAG", "onViewCreated: 현재 시간 :${cal.time}")
-                val now = System.currentTimeMillis() - 1000
-                val datepicker = DatePickerDialog(
-                    activity,
-                    R.style.DatePicker,
-                    setDateListener,
-                    cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH-1),
-                    cal.get(Calendar.DAY_OF_MONTH)
-                )
-                datepicker.datePicker.spinnersShown = true
-                datepicker.datePicker.calendarViewShown = true
-                datepicker.datePicker.maxDate = now
-                datepicker.show()
-            }
         }
 
-        // 사진 가져오기
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
-            if (data?.data != null) {
-                try {
-                    photoURI = data.data!!
-                    val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, photoURI)
-                    newplant_upload_btn.setImageBitmap(bitmap)
-                } catch (e: Exception) {
-                    e.printStackTrace()
+        // 날짜 선택 다이얼로그
+        newplant_date_btn.setOnClickListener {
+            val setDateListener =
+                DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                    cal.set(Calendar.YEAR, year)
+                    cal.set(Calendar.MONTH, month)
+                    cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    newplant_date_btn.text = "${year}-${month + 1}-${dayOfMonth}"
                 }
-            }
-        }
 
+            Log.d("TAG", "onViewCreated: 현재 시간 :${cal.time}")
+            val now = System.currentTimeMillis() - 1000
+            val datepicker = DatePickerDialog(
+                activity,
+                R.style.DatePicker,
+                setDateListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH - 1),
+                cal.get(Calendar.DAY_OF_MONTH)
+            )
+            datepicker.datePicker.spinnersShown = true
+            datepicker.datePicker.calendarViewShown = true
+            datepicker.datePicker.maxDate = now
+            datepicker.show()
+        }
     }
+
+    // 사진 가져오기
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data?.data != null) {
+            try {
+                photoURI = data.data!!
+                val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, photoURI)
+                newplant_upload_btn.setImageBitmap(bitmap)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+}

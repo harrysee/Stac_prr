@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_journal.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.JournalAdapter
@@ -30,6 +31,8 @@ class JournalFragment : Fragment() {
     private lateinit var btnArr: List<Button>
     private lateinit var journalAdapter: JournalAdapter
     private lateinit var pNames : ArrayList<String?>
+    private var dateSort = false    //초기값 오름차순
+    private var name : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +50,7 @@ class JournalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        journalAdapter = JournalAdapter(requireContext())
+        journalAdapter = JournalAdapter(requireContext(),activity)
         journal_recycler.setOnScrollListener(onScrollListener)
         val btn1 = view.findViewById<Button>(R.id.plant_name_btn1)
         val btn2 = view.findViewById<Button>(R.id.plant_name_btn2)
@@ -74,6 +77,9 @@ class JournalFragment : Fragment() {
         fab.setOnClickListener() {
             val fragment = NewJournalFragment(); // Fragment 생성
             val bundle = Bundle()
+            bundle.putBoolean("isEdit",false)
+            bundle.putString("docId", "docId")
+            bundle.putString("imgUri", "imgUri")
             fragment.arguments = bundle
             Log.i(bundle.toString(), "onViewCreated: bundle")
             //activity.fragmentChange_for_adapter(AddPlanFragment())
@@ -81,15 +87,23 @@ class JournalFragment : Fragment() {
             activity?.supportFragmentManager!!.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit()
-        }
+        }   //일지 플러스 버튼
 
         up_btn.setOnClickListener {
             journal_recycler.scrollToPosition(0)
-        }
-        down_btn.setOnClickListener {
+        }   //맨위로
+        down_btn.setOnClickListener {   //맨아래로
             journal_recycler.scrollToPosition(journalAdapter.itemCount - 1)
         }
-
+        journal_date_sort.setOnClickListener(){
+            if (dateSort==false){   //오름차순이면
+                journal_date_sort.text ="날짜순↡"
+            }else{  //내림차순이면
+                journal_date_sort.text ="날짜순↑"
+            }
+            dateSort = !dateSort
+            initRecycler(name)
+        }
     }
 
     fun setTab() {   //탭 개수 정하기
@@ -100,6 +114,10 @@ class JournalFragment : Fragment() {
             btnArr[i].isClickable = true
             btnArr[i].visibility = View.VISIBLE
             btnArr[i].text = pNames[i]
+            if (i==0){
+                btnArr[0].isSelected = true
+                initRecycler(btnArr[0].text as String)
+            }
         }
     }
 
@@ -111,7 +129,8 @@ class JournalFragment : Fragment() {
                 plant_name_btn2.isSelected = !plant_name_btn1.isSelected
                 plant_name_btn3.isSelected = !plant_name_btn1.isSelected
                 plant_name_btn4.isSelected = !plant_name_btn1.isSelected
-                initRecycler(plant_name_btn1.text as String)
+                name = plant_name_btn1.text as String
+                initRecycler(name)
             }
         }
         plant_name_btn2.setOnClickListener() {
@@ -120,7 +139,8 @@ class JournalFragment : Fragment() {
                 plant_name_btn1.isSelected = !plant_name_btn2.isSelected
                 plant_name_btn3.isSelected = !plant_name_btn2.isSelected
                 plant_name_btn4.isSelected = !plant_name_btn2.isSelected
-                initRecycler(plant_name_btn2.text as String)
+                name = plant_name_btn2.text as String
+                initRecycler(name)
             }
         }
         plant_name_btn3.setOnClickListener() {
@@ -129,7 +149,8 @@ class JournalFragment : Fragment() {
                 plant_name_btn1.isSelected = !plant_name_btn3.isSelected
                 plant_name_btn2.isSelected = !plant_name_btn3.isSelected
                 plant_name_btn4.isSelected = !plant_name_btn3.isSelected
-                initRecycler(plant_name_btn3.text as String)
+                name = plant_name_btn3.text as String
+                initRecycler(name)
             }
         }
         plant_name_btn4.setOnClickListener() {
@@ -138,7 +159,8 @@ class JournalFragment : Fragment() {
                 plant_name_btn1.isSelected = !plant_name_btn4.isSelected
                 plant_name_btn2.isSelected = !plant_name_btn4.isSelected
                 plant_name_btn3.isSelected = !plant_name_btn4.isSelected
-                initRecycler(plant_name_btn4.text as String)
+                name = plant_name_btn4.text as String
+                initRecycler(name)
             }
         }
     }
@@ -166,24 +188,51 @@ class JournalFragment : Fragment() {
         journalAdapter.datas.clear()
         journalAdapter.notifyDataSetChanged()
         // 일지 목록 리사이클 설정
-        db.collection("journals")
-            .document(auth.uid.toString())
-            .collection("journal")
-            .whereEqualTo("name", name)
-            .get()
-            .addOnSuccessListener {
-                Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                for (document in it) {
-                    val date = document["date"] as Timestamp
-                    datas.add(JournalData(document["name"] as String,
-                        document["content"] as String,
-                        SimpleDateFormat("yy-MM-dd").format(date.toDate()),
-                        document["imgUri"] as String?))
+        if (dateSort==false){   //오름차순으로 가져오기
+            db.collection("journals")
+                .document(auth.uid.toString())
+                .collection("journal")
+                .whereEqualTo("name", name)
+                .orderBy("date")
+                .get()
+                .addOnSuccessListener {
+                    Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
+                    for (document in it) {
+                        val date = document["date"] as Timestamp
+                        datas.add(JournalData(
+                            document["name"] as String,
+                            document["content"] as String,
+                            SimpleDateFormat("yy-MM-dd").format(date.toDate()),
+                            document["imgUri"] as String?,
+                            document.id))
+                    }
+                    Log.i("파이어베이스데이터", datas.toString());
+                    journalAdapter.datas = datas
+                    journalAdapter.notifyDataSetChanged()
                 }
-                Log.i("파이어베이스데이터", datas.toString());
-                journalAdapter.datas = datas
-                journalAdapter.notifyDataSetChanged()
-            }
+        }else{  //내림차순으로 가져오기
+            db.collection("journals")
+                .document(auth.uid.toString())
+                .collection("journal")
+                .whereEqualTo("name", name)
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener {
+                    Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
+                    for (document in it) {
+                        val date = document["date"] as Timestamp
+                        datas.add(JournalData(
+                            document["name"] as String,
+                            document["content"] as String,
+                            SimpleDateFormat("yy-MM-dd").format(date.toDate()),
+                            document["imgUri"] as String?,
+                            document.id))
+                    }
+                    Log.i("파이어베이스데이터", datas.toString());
+                    journalAdapter.datas = datas
+                    journalAdapter.notifyDataSetChanged()
+                }
+        }
     }
 
 }
