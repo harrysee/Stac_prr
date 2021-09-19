@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kr.hs.emirim.w2015.stac_prr.ImageDialog
+import kr.hs.emirim.w2015.stac_prr.JournalDialog
 import kr.hs.emirim.w2015.stac_prr.R
 
 class GalleryAdapter(private val context: Context) :
@@ -34,6 +36,11 @@ class GalleryAdapter(private val context: Context) :
                     .load(item)
                     .fitCenter()
                     .into(gallery)
+            }
+            itemView.setOnClickListener{
+                val dir = ImageDialog(context)
+                    .setImg(item)
+                    .show()
             }
         }
     }
