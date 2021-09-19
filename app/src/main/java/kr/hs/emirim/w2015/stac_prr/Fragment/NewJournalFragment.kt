@@ -19,11 +19,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.fragment_add_plan.*
 import kotlinx.android.synthetic.main.fragment_new_journal.*
-import kotlinx.android.synthetic.main.fragment_new_plant.*
-import kotlinx.android.synthetic.main.plan_item_view.*
-import kr.hs.emirim.w2015.stac_prr.CustomDialog
+import kr.hs.emirim.w2015.stac_prr.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.text.SimpleDateFormat

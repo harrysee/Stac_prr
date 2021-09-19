@@ -1,16 +1,14 @@
-package kr.hs.emirim.w2015.stac_prr
+package kr.hs.emirim.w2015.stac_prr.Dialog
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.view.*
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.Constraints
-import androidx.core.content.ContextCompat.getSystemService
 import kotlinx.android.synthetic.main.custom_dialog.view.*
+import kr.hs.emirim.w2015.stac_prr.R
 
 class CustomDialog(private val context: Context) {
 
@@ -18,7 +16,7 @@ class CustomDialog(private val context: Context) {
         AlertDialog.Builder(context).setView(view)
     }
     private val view : View by lazy {
-        View.inflate(context,R.layout.custom_dialog,null)
+        View.inflate(context, R.layout.custom_dialog,null)
     }
     private var dialog : AlertDialog? =null
 
@@ -33,17 +31,17 @@ class CustomDialog(private val context: Context) {
     }
     
     //메시지 text 넣기
-    fun setMessage(@StringRes msgId:Int) : CustomDialog{
+    fun setMessage(@StringRes msgId:Int) : CustomDialog {
         view.messageTextView.text = context.getText(msgId)
         return this
     }
-    fun setMessage(msg : CharSequence):CustomDialog{
+    fun setMessage(msg : CharSequence): CustomDialog {
         view.messageTextView.text = msg
         return this
     }
     
     //부정버튼 text 넣기
-    fun setNegativeBtn(@StringRes btnId : Int,listener: (view: View) -> (Unit)):CustomDialog{
+    fun setNegativeBtn(@StringRes btnId : Int,listener: (view: View) -> (Unit)): CustomDialog {
         view.negativeButton.apply {
             this.text = context.getText(btnId)
             setOnClickListener(listener)
@@ -51,7 +49,7 @@ class CustomDialog(private val context: Context) {
         }
         return this
     }
-    fun setNegativeBtn(btntxt : CharSequence,listener: (view: View) -> (Unit)):CustomDialog{
+    fun setNegativeBtn(btntxt : CharSequence,listener: (view: View) -> (Unit)): CustomDialog {
         view.negativeButton.apply {
             this.text = btntxt
             setOnClickListener(listener)
@@ -60,7 +58,7 @@ class CustomDialog(private val context: Context) {
         return this
     }
     //긍정버튼 text 넣기
-    fun setPositiveBtn(@StringRes btnId : Int,listener: (view: View) -> (Unit)):CustomDialog{
+    fun setPositiveBtn(@StringRes btnId : Int,listener: (view: View) -> (Unit)): CustomDialog {
         view.positiveButton.apply {
             this.text = context.getText(btnId)
             setOnClickListener(listener)
@@ -68,7 +66,7 @@ class CustomDialog(private val context: Context) {
         }
         return this
     }
-    fun setPositiveBtn(btntxt : CharSequence,listener: (view: View) -> (Unit)):CustomDialog{
+    fun setPositiveBtn(btntxt : CharSequence,listener: (view: View) -> (Unit)): CustomDialog {
         view.positiveButton.apply {
             this.text = btntxt
             setOnClickListener(listener)

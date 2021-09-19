@@ -1,8 +1,6 @@
-package kr.hs.emirim.w2015.stac_prr
+package kr.hs.emirim.w2015.stac_prr.Dialog
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,15 +8,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.core.os.HandlerCompat.postDelayed
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.custom_dialog.view.*
 import kotlinx.android.synthetic.main.journal_dialog.view.*
-import kr.hs.emirim.w2015.stac_prr.Adapter.JournalAdapter
-import java.util.logging.Handler
+import kr.hs.emirim.w2015.stac_prr.R
 
 class JournalDialog(private val context: Context) {
 
@@ -58,12 +51,12 @@ class JournalDialog(private val context: Context) {
         return this
     }
 
-    fun setMessage(@StringRes msgId:Int) : JournalDialog{
+    fun setMessage(@StringRes msgId:Int) : JournalDialog {
         view.journal_content.text = context.getText(msgId)
         return this
     }
 
-    fun setMessage(msg : CharSequence):JournalDialog{
+    fun setMessage(msg : CharSequence): JournalDialog {
         view.journal_content.text = msg
         return this
     }
@@ -77,7 +70,7 @@ class JournalDialog(private val context: Context) {
         return this
     }
 
-    fun setDeleteBtn(btntxt : CharSequence,listener: (view: View) -> (Unit)):JournalDialog{
+    fun setDeleteBtn(btntxt : CharSequence,listener: (view: View) -> (Unit)): JournalDialog {
         view.delete_btn.apply {
             this.text = btntxt
             setOnClickListener(listener)
@@ -86,7 +79,7 @@ class JournalDialog(private val context: Context) {
         return this
     }
 
-    fun setEditBtn(@StringRes btnId : Int, listener: (view: View) -> (Unit)):JournalDialog{
+    fun setEditBtn(@StringRes btnId : Int, listener: (view: View) -> (Unit)): JournalDialog {
         view.edit_btn.apply {
             this.text = context.getText(btnId)
             setOnClickListener(listener)
@@ -95,7 +88,7 @@ class JournalDialog(private val context: Context) {
         return this
     }
 
-    fun setEditBtn(btntxt : CharSequence,listener: (view: View) -> (Unit)):JournalDialog{
+    fun setEditBtn(btntxt : CharSequence,listener: (view: View) -> (Unit)): JournalDialog {
         view.edit_btn.apply {
             this.text = btntxt
             setOnClickListener(listener)

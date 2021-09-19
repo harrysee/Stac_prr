@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kr.hs.emirim.w2015.stac_prr.ImageDialog
-import kr.hs.emirim.w2015.stac_prr.JournalDialog
+import kr.hs.emirim.w2015.stac_prr.Dialog.ImageDialog
 import kr.hs.emirim.w2015.stac_prr.R
 
 class GalleryAdapter(private val context: Context) :
@@ -42,6 +40,6 @@ class GalleryAdapter(private val context: Context) :
                     .setImg(item)
                     .show()
             }
-        }
+        }// bind end
     }
 }

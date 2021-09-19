@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -26,12 +25,11 @@ import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kotlinx.android.synthetic.main.fragment_plant_info.*
-import kr.hs.emirim.w2015.stac_prr.CustomDialog
+import kr.hs.emirim.w2015.stac_prr.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.properties.Delegates
 
 
 class NewPlantFragment : Fragment() {

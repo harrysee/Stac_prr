@@ -34,7 +34,7 @@
                 <ImageView
                     android:id="@+id/info_background_img"
                     android:layout_width="match_parent"
-                    android:minHeight="400dp"
+                    android:minHeight="350dp"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY" />
             </LinearLayout>

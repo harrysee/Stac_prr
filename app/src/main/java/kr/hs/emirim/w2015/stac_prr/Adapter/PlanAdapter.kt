@@ -62,7 +62,7 @@ class PlanAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     }else{
                         binding.content.setPaintFlags(0)
                     }
-                    binding.content.text = it.name.toString()+" : "+it.contents.toString() +" : "+it.memo.toString()
+                    binding.content.text = it.name.toString()+" 에게 "+it.contents.toString() +" | "+it.memo.toString()
                     
                     //체크 확인하기
                     binding.checkBox.setOnClickListener {

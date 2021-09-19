@@ -16,11 +16,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kr.hs.emirim.w2015.stac_prr.DataClass.JournalData
-import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.NewJournalFragment
-import kr.hs.emirim.w2015.stac_prr.Fragment.PlantInfoFragment
-import kr.hs.emirim.w2015.stac_prr.JournalDialog
-import kr.hs.emirim.w2015.stac_prr.MainActivity
+import kr.hs.emirim.w2015.stac_prr.Dialog.JournalDialog
 import kr.hs.emirim.w2015.stac_prr.R
 
 class JournalAdapter(private val context: Context, private val activity: FragmentActivity?) :

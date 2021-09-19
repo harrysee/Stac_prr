@@ -24,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_add_plan.*
 import kotlinx.android.synthetic.main.fragment_set.*
 import kr.hs.emirim.w2015.stac_prr.BuildConfig
+import kr.hs.emirim.w2015.stac_prr.DataClass.NoticeData
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.Receiver.AlarmReceiver
@@ -37,6 +38,8 @@ class SetFragment : Fragment() {
     private var alarmMgr: AlarmManager? = null
     private lateinit var push: SharedPreferences
     private lateinit var alarmIntent: PendingIntent
+    private var isOpen : Boolean? = null
+    private var noticeSize : Int =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +55,9 @@ class SetFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        isOpen = push.getBoolean("isOpen",false)
+        noticeSize = push.getInt("noticeSize",0)
+        setNoticeDot()  // 점 표시여부
         // 알림 푸쉬 스위치버튼 설정하기
         val isAlarm = push.getBoolean("isAlarm", false)
         set_switch_alarm.isChecked = isAlarm
@@ -70,6 +75,13 @@ class SetFragment : Fragment() {
             main.fragmentChange_for_adapter(SetIotFragment())
         }
         set_imgbtn_notice.setOnClickListener(){
+            //열었을때 점 사라지게
+            push.edit()
+                .putBoolean("isOpen",true)
+                .apply()
+            if (isOpen ==false){
+                set_notice_dot.visibility=View.INVISIBLE
+            }
             main.fragmentChange_for_adapter(SetNoticeFragment())
         }
         set_imgbtn_ask.setOnClickListener(){
@@ -109,6 +121,26 @@ class SetFragment : Fragment() {
             Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show()
         }
 
+    }
+    fun setNoticeDot(){
+        db.collection("noticed")
+            .get()
+            .addOnSuccessListener { result ->
+                Log.d("TAG", "setNoticeDot: 공지사항 가지러옴 : ${result.size()} /$noticeSize")
+                if (noticeSize < result.size()){
+                    Log.d("TAG", "setNoticeDot: 공지사항 가지러옴 개수 : ${result.size()} / $noticeSize")
+                    push.edit()
+                        .putInt("noticeSize",result.size())
+                        .putBoolean("isOpen",false)
+                        .apply()
+                    Log.d("TAG", "setNoticeDot: 오픈햇냐 : $isOpen")
+                    set_notice_dot.visibility=View.VISIBLE
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(requireContext(),"공지사항 불러오기 실패", Toast.LENGTH_SHORT).show()
+                Log.d("TAG", "Error getting documents: ", exception)
+            }
     }
 
 }
