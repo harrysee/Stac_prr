@@ -31,7 +31,7 @@ class JournalFragment : Fragment() {
     private lateinit var btnArr: List<Button>
     private lateinit var journalAdapter: JournalAdapter
     private lateinit var pNames : ArrayList<String?>
-    private var dateSort = false    //초기값 오름차순
+    private var dateSort = false    //초기값 내림차순
     private var name : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,10 +95,10 @@ class JournalFragment : Fragment() {
             journal_recycler.scrollToPosition(journalAdapter.itemCount - 1)
         }
         journal_date_sort.setOnClickListener(){
-            if (dateSort==false){   //오름차순이면
-                journal_date_sort.text ="날짜순↓"
-            }else{  //내림차순이면
+            if (dateSort==false){   //내림차순이면 오름차순으로 바꾸기
                 journal_date_sort.text ="날짜순↑"
+            }else{  //내림차순이면
+                journal_date_sort.text ="날짜순↓"
             }
             dateSort = !dateSort
             initRecycler(name)
@@ -187,12 +187,12 @@ class JournalFragment : Fragment() {
         journalAdapter.datas.clear()
         journalAdapter.notifyDataSetChanged()
         // 일지 목록 리사이클 설정
-        if (dateSort==false){   //오름차순으로 가져오기
+        if (dateSort==false){   //내림차순으로 가져오기
             db.collection("journals")
                 .document(auth.uid.toString())
                 .collection("journal")
                 .whereEqualTo("name", name)
-                .orderBy("date")
+                .orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener {
                     Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
@@ -209,12 +209,12 @@ class JournalFragment : Fragment() {
                     journalAdapter.datas = datas
                     journalAdapter.notifyDataSetChanged()
                 }
-        }else{  //내림차순으로 가져오기
+        }else{  //오름차순으로 가져오기
             db.collection("journals")
                 .document(auth.uid.toString())
                 .collection("journal")
                 .whereEqualTo("name", name)
-                .orderBy("date", Query.Direction.DESCENDING)
+                .orderBy("date")
                 .get()
                 .addOnSuccessListener {
                     Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")

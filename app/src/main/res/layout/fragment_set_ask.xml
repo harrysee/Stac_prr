@@ -47,7 +47,7 @@
         android:id="@+id/ask_text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/notosanscjkkr_medium"
+        android:fontFamily="@font/notosanscjkkr_regular"
         android:gravity="center"
         android:includeFontPadding="false"
         android:text="문의 이메일주소"

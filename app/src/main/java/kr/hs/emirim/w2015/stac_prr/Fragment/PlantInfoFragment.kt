@@ -81,7 +81,7 @@ class PlantInfoFragment : Fragment() {
                 //설정하기
                 info_day.text = diffDays.toString() + "일"
                 info_date_text.text = sdf.format(d)
-                info_water_icon_txt.text = it["water"] as String? + "마다"
+                info_water_icon_txt.text = it["water"] as String? + "일"
                 info_c_text.text = it["temperature"] as String?
                 info_led_text.text = it["led"] as String?
                 info_water_text.text = it["water"] as String?

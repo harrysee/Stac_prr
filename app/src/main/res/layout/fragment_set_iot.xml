@@ -50,10 +50,12 @@
         android:fontFamily="@font/notosanscjkkr_regular"
         android:includeFontPadding="false"
         android:textSize="50dp"
-        android:text="아이오티를 할 수 있다 ㅎㅎ!"
+        android:gravity="center"
+        android:text="-"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iot_top_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

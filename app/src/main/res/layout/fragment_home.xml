@@ -11,7 +11,7 @@
         android:id="@+id/imageFilterView"
         android:layout_width="59dp"
         android:layout_height="22dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="7dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:padding="-10dp"

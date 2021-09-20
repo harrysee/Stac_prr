@@ -105,7 +105,7 @@ class JournalDialog(private val context: Context) {
         dialog = builder.create()
         dialog?.show()
         val window: Window? = dialog?.window
-        dialog?.window?.setLayout(860, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setLayout(950, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 

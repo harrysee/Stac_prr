@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="12dp"
+    android:background="@color/white"
     android:backgroundTint="@color/white"
     android:elevation="0dp"
     android:gravity="center"
@@ -24,6 +25,7 @@
             android:layout_height="0dp"
             android:scaleType="fitXY"
             app:cardCornerRadius="30dp"
+            android:background="@color/back_gray"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline8"
             app:layout_constraintDimensionRatio="124:145"
@@ -83,12 +85,13 @@
 
         <ImageButton
             android:id="@+id/btn_icon_passvar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="39dp"
             android:layout_marginRight="5dp"
             android:background="@color/transparent"
             android:maxWidth="7dp"
             android:maxHeight="14dp"
+            android:foregroundGravity="bottom|right"
             android:padding="7dp"
             android:src="@drawable/pass"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -97,7 +100,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/linearLayout3"
             app:layout_constraintTop_toTopOf="@+id/guideline8"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintVertical_bias="0.85"
+            android:layout_marginEnd="5dp" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier5"
