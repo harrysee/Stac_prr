@@ -89,6 +89,7 @@ class NewPlantFragment : Fragment() {
                     //일자수 차이 구하기
                     val timestamp = it["date"] as Timestamp
                     val d: Date = timestamp.toDate()
+                    cal.time = d
 
                     //설정하기
                     newplant_date_btn.text = sdf.format(d)

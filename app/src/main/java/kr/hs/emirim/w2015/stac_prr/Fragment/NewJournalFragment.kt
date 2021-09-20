@@ -263,6 +263,7 @@ class NewJournalFragment : Fragment() {
                     val date = it["date"] as Timestamp
                     val pos = nadapter.getPosition(it["name"] as String?)
                     newjournal_date_btn.text = SimpleDateFormat("yy-MM-dd").format(date.toDate())
+                    cal.time = date.toDate()
                     journal_content.setText(it["content"] as String?)
                     choice_spinner.setSelection(pos)
 
