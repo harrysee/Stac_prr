@@ -43,4 +43,17 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tos_txt"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="@font/notosanscjkkr_regular"
+        android:includeFontPadding="false"
+        android:textSize="50dp"
+        android:text="아이오티를 할 수 있다 ㅎㅎ!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iot_top_bar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

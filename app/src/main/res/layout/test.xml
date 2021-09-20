@@ -325,6 +325,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="66dp"
+                android:maxWidth="200dp"
                 android:fontFamily="@font/notosanscjkkr_light"
                 android:includeFontPadding="false"
                 android:text="메모를 작성하세요\n(공간은 줄 수에 따라 유동적\n으로 변합니다.)"

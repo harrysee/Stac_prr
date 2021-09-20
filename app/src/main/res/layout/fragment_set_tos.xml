@@ -45,14 +45,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tos_top_bar"
-        android:padding="20dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:padding="20dp"
+        android:layout_alignParentLeft="true">
 
         <TextView
             android:id="@+id/tos_txt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/tos_top_bar"
-            android:textColor="@color/tos_gray_text"
             android:fontFamily="@font/notosanscjkkr_regular"
             android:includeFontPadding="false"
             android:text="
@@ -133,7 +137,7 @@
 4. 경찰청 : (국번없이) 182 (cyberbureau.police.go.kr)\n
 
 「개인정보보호법」제35조(개인정보의 열람), 제36조(개인정보의 정정·삭제), 제37조(개인정보의 처리정지 등)의 규정에 의한 요구에 대 하여 공공기관의 장이 행한 처분 또는 부작위로 인하여 권리 또는 이익의 침해를 받은 자는 행정심판법이 정하는 바에 따라 행정심판을 청구할 수 있습니다."
-            />
+            android:textColor="@color/tos_gray_text" />
 
     </ScrollView>
 

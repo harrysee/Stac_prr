@@ -60,7 +60,7 @@ class JournalFragment : Fragment() {
 
         //식물이름들 가져오기
         db.collection("plant_info")
-            .whereEqualTo("userId", "laZH3OOFL7fdk1MZjir8QkSPc0B3")
+            .whereEqualTo("userId", auth.uid)
             .get()
             .addOnSuccessListener {
                 for (doc in it) {
@@ -71,7 +71,6 @@ class JournalFragment : Fragment() {
             }.addOnFailureListener {
                 Log.d("TAG", "getNames: spinner 식물 이름들 보여주기 실패")
             }
-
         onTabClickListener()    // 탭 클릭할때 리스너
 
         fab.setOnClickListener() {
@@ -97,7 +96,7 @@ class JournalFragment : Fragment() {
         }
         journal_date_sort.setOnClickListener(){
             if (dateSort==false){   //오름차순이면
-                journal_date_sort.text ="날짜순↡"
+                journal_date_sort.text ="날짜순↓"
             }else{  //내림차순이면
                 journal_date_sort.text ="날짜순↑"
             }

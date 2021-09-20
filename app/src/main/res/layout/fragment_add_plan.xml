@@ -41,12 +41,15 @@
             android:textColor="@color/pp_green"
             android:textSize="18sp"
             android:textStyle="bold" />
-
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
         <Button
             android:id="@+id/addplan_complate_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="200dp"
+            android:layout_gravity="right"
             android:background="@drawable/shape_nostrock"
             android:gravity="center"
             android:fontFamily="@font/notosanscjkkr_regular"
