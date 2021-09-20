@@ -42,5 +42,32 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nugu_top_bar">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanscjkkr_bold"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/pp_green"
+            android:text="NUGU는"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:textSize="14sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:text="사용자의 질문을 받아 대답을 해주는 인공지능 스피커입니다. \n식물의 재배 방법이 궁금하다면 '알로에 키우는 방법 알려줘'와 같이 말하거나 내 식물의 습도가 궁금하면 '습도 알려줘'와 같이 말할 수 있습니다. 또한 식물을 키울 때 유용한 팁을 '오늘의 팁'이라고 말하면 얻을 수 있습니다. "/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
