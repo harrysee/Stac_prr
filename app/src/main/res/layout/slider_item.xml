@@ -94,8 +94,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="7:13"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout3"
             app:layout_constraintTop_toTopOf="@+id/guideline8"
-            app:layout_constraintVertical_bias="0.89" />
+            app:layout_constraintVertical_bias="0.75" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier5"

@@ -121,17 +121,20 @@
         app:layout_constraintStart_toStartOf="@id/linear"/>
     <EditText
         android:id="@+id/journal_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginRight="30dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
         android:hint="새 일지를 작성하세요"
+        android:maxLines="5"
         android:fontFamily="@font/notosanscjkkr_light"
         android:includeFontPadding="false"
         android:background="@android:color/transparent"
         android:textColorHint="@color/day_gray"
         android:textSize="14sp"
         android:textColor="@color/day_gray"
+        app:layout_constraintRight_toRightOf="@+id/linear"
         app:layout_constraintTop_toBottomOf="@id/line1"
         app:layout_constraintStart_toStartOf="@id/linear"/>
 

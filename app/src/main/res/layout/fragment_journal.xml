@@ -83,6 +83,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_corner"
                     android:backgroundTint="@color/btn_color"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:paddingLeft="12dp"
@@ -103,6 +105,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
                     android:background="@drawable/shape_corner"
                     android:backgroundTint="@color/btn_color"
                     android:minWidth="0dp"
@@ -125,6 +129,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
                     android:background="@drawable/shape_corner"
                     android:backgroundTint="@color/btn_color"
                     android:minWidth="0dp"
@@ -147,6 +153,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
                     android:background="@drawable/shape_corner"
                     android:backgroundTint="@color/btn_color"
                     android:minWidth="0dp"
@@ -174,6 +182,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="날짜순↑"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
             android:textColor="@color/day_gray"
             android:textSize="12sp"
             android:layout_marginRight="16dp"
@@ -195,7 +205,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_linear"
         tools:listitem="@layout/journal_item">
-
     </androidx.recyclerview.widget.RecyclerView>
 
     <com.melnykov.fab.FloatingActionButton
