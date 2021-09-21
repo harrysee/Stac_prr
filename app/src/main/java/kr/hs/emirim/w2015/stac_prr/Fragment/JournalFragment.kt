@@ -22,7 +22,6 @@ import kr.hs.emirim.w2015.stac_prr.DataClass.JournalData
 import kr.hs.emirim.w2015.stac_prr.R
 import java.text.SimpleDateFormat
 
-
 class JournalFragment : Fragment() {
     private val datas = mutableListOf<JournalData>()
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -60,7 +59,7 @@ class JournalFragment : Fragment() {
 
         //식물이름들 가져오기
         db.collection("plant_info")
-            .whereEqualTo("userId", auth.uid)
+            .whereEqualTo("userId", auth.uid.toString())
             .get()
             .addOnSuccessListener {
                 for (doc in it) {

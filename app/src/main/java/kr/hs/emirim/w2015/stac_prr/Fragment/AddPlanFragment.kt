@@ -192,7 +192,7 @@ class AddPlanFragment : Fragment() {
         val title = resources.getStringArray(R.array.title_arr)
         var adapter = ArrayAdapter<String>(
             requireContext(),
-            R.layout.spinner_custom,
+            R.layout.spinner_plan_title,
             title
         )
         Log.d("TAG", "onViewCreated: 어댑터 완성")
@@ -203,7 +203,7 @@ class AddPlanFragment : Fragment() {
         val names_arr = getNames()
         nadapter = ArrayAdapter<String>(
             requireContext(),
-            R.layout.spinner_custom_name,
+            R.layout.spinner_custom,
             names_arr
         )
         nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

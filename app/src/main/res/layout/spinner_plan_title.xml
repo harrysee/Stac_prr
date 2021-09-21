@@ -4,8 +4,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="size"
+    android:fontFamily="@font/notosanscjkkr_regular"
+    android:includeFontPadding="false"
     android:textColor="@color/day_gray"
-    android:textSize="14sp"
+    android:textSize="18sp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
 

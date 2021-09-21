@@ -107,8 +107,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="14dp"
-                android:fontFamily="@font/notosanscjkkr_regular"
-                android:includeFontPadding="false"
                 android:spinnerMode="dropdown"
                 android:background="@drawable/selector_spinner_view"
                 />
