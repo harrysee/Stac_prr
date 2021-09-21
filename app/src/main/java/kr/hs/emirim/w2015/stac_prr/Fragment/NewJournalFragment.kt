@@ -1,7 +1,9 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -42,7 +44,6 @@ class NewJournalFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -60,6 +61,7 @@ class NewJournalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as MainActivity
+
         // 등록된 식물 스피너 설정
         val plantnames = getNames()
         nadapter = ArrayAdapter<String>(

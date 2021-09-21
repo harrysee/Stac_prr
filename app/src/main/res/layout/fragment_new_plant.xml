@@ -68,9 +68,9 @@
             android:id="@+id/newplant_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
             android:fontFamily="@font/notosanscjkkr_regular"
             android:includeFontPadding="false"
-            android:layout_gravity="bottom|center_horizontal"
             android:paddingBottom="7dp"
             android:text="대표 사진 수정"
             android:textColor="#f5f5f5" />
@@ -94,19 +94,21 @@
 
             <LinearLayout
                 android:id="@+id/linear1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/nameText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="34dp"
+                    android:layout_weight="1"
                     android:fontFamily="@font/notosanscjkkr_regular"
                     android:includeFontPadding="false"
+                    android:paddingLeft="34dp"
                     android:text="애칭"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -116,13 +118,13 @@
 
                 <EditText
                     android:id="@+id/newplant_name"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="64dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.1"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/notosanscjkkr_light"
-                    android:includeFontPadding="false"
                     android:hint="애칭"
+                    android:includeFontPadding="false"
                     android:singleLine="true"
                     android:textColor="@color/day_gray"
                     android:textColorHint="@color/day_gray"
@@ -143,18 +145,20 @@
 
             <LinearLayout
                 android:id="@+id/linear2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear1">
 
                 <TextView
                     android:id="@+id/kindText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="34dp"
+                    android:paddingLeft="34dp"
+                    android:layout_weight="1"
                     android:fontFamily="@font/notosanscjkkr_regular"
                     android:includeFontPadding="false"
                     android:text="종류"
@@ -166,12 +170,12 @@
 
                 <EditText
                     android:id="@+id/newplant_spacies"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="64dp"
+                    android:layout_weight="2.1"
                     android:background="@android:color/transparent"
-                    android:hint="종류"
                     android:fontFamily="@font/notosanscjkkr_light"
+                    android:hint="종류"
                     android:includeFontPadding="false"
                     android:singleLine="true"
                     android:textColor="@color/day_gray"
@@ -192,17 +196,19 @@
 
             <LinearLayout
                 android:id="@+id/linear3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear2">
 
                 <TextView
                     android:id="@+id/dateText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="34dp"
+                    android:paddingLeft="34dp"
+                    android:layout_weight="1"
                     android:fontFamily="@font/notosanscjkkr_regular"
                     android:includeFontPadding="false"
                     android:text="심은 날짜"
@@ -214,14 +220,14 @@
 
                 <Button
                     android:id="@+id/newplant_date_btn"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
                     android:layout_height="28dp"
-                    android:layout_marginLeft="31dp"
-                    android:gravity="left|center_vertical"
+                    android:layout_weight="2.1"
                     android:background="@android:color/transparent"
-                    android:text="0000. 00. 00"
                     android:fontFamily="@font/notosanscjkkr_light"
+                    android:gravity="left|center_vertical"
                     android:includeFontPadding="false"
+                    android:text="0000. 00. 00"
                     android:textColor="@color/day_gray"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/dateText"
@@ -239,21 +245,23 @@
 
             <LinearLayout
                 android:id="@+id/linear4"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear3">
 
                 <TextView
                     android:id="@+id/tmprtText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="34dp"
-                    android:text="최적 온도"
+                    android:paddingLeft="34dp"
+                    android:layout_weight="1"
                     android:fontFamily="@font/notosanscjkkr_regular"
                     android:includeFontPadding="false"
+                    android:text="최적 온도"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -262,14 +270,14 @@
 
                 <EditText
                     android:id="@+id/newplant_temperature"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="31dp"
+                    android:layout_weight="2.1"
                     android:background="@android:color/transparent"
-                    android:hint="00~00˚"
-                    android:singleLine="true"
                     android:fontFamily="@font/notosanscjkkr_light"
+                    android:hint="00~00˚"
                     android:includeFontPadding="false"
+                    android:singleLine="true"
                     android:textColor="@color/day_gray"
                     android:textColorHint="@color/day_gray"
                     android:textSize="14sp"
@@ -288,22 +296,24 @@
 
             <LinearLayout
                 android:id="@+id/linear5"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear4">
 
                 <TextView
                     android:id="@+id/lightText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="34dp"
-                    android:text="빛 요구도"
-                    android:textColor="@color/black"
+                    android:paddingLeft="34dp"
+                    android:layout_weight="1"
                     android:fontFamily="@font/notosanscjkkr_regular"
                     android:includeFontPadding="false"
+                    android:text="빛 요구도"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -311,12 +321,12 @@
 
                 <EditText
                     android:id="@+id/newplant_led"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="2.1"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="31dp"
                     android:background="@android:color/transparent"
-                    android:hint="빛 요구도"
                     android:fontFamily="@font/notosanscjkkr_light"
+                    android:hint="빛 요구도"
                     android:includeFontPadding="false"
                     android:singleLine="true"
                     android:textColor="@color/day_gray"
@@ -337,21 +347,23 @@
 
             <LinearLayout
                 android:id="@+id/linear6"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear5">
 
                 <TextView
                     android:id="@+id/waterText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="34dp"
-                    android:text="급수 주기"
+                    android:paddingLeft="34dp"
                     android:fontFamily="@font/notosanscjkkr_regular"
                     android:includeFontPadding="false"
+                    android:text="급수 주기"
+                    android:layout_weight="1"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -360,15 +372,15 @@
 
                 <EditText
                     android:id="@+id/newplant_water"
-                    android:layout_width="100dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="31dp"
+                    android:layout_weight="2.1"
                     android:background="@android:color/transparent"
-                    android:hint="00일"
                     android:fontFamily="@font/notosanscjkkr_light"
+                    android:hint="00일"
                     android:includeFontPadding="false"
-                    android:singleLine="true"
                     android:inputType="number"
+                    android:singleLine="true"
                     android:textColor="@color/day_gray"
                     android:textColorHint="@color/day_gray"
                     android:textSize="14sp"
@@ -387,21 +399,23 @@
 
             <LinearLayout
                 android:id="@+id/linear7"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linear6">
 
                 <TextView
                     android:id="@+id/memoText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="34dp"
-                    android:text="메모"
+                    android:paddingLeft="34dp"
+                    android:layout_weight="1"
                     android:fontFamily="@font/notosanscjkkr_regular"
                     android:includeFontPadding="false"
+                    android:text="메모"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -410,12 +424,12 @@
 
                 <EditText
                     android:id="@+id/newplant_memo"
-                    android:layout_width="200dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="64dp"
+                    android:layout_weight="2.1"
                     android:background="@android:color/transparent"
-                    android:hint="메모를 작성하세요."
                     android:fontFamily="@font/notosanscjkkr_light"
+                    android:hint="메모를 작성하세요."
                     android:includeFontPadding="false"
                     android:singleLine="true"
                     android:textColor="@color/day_gray"
@@ -429,6 +443,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

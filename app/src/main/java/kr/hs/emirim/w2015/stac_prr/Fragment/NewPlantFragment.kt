@@ -105,8 +105,11 @@ class NewPlantFragment : Fragment() {
             // 이름은 변경 못하게하기
             newplant_name.isEnabled = false
         }
-        newplant_name.setOnClickListener(){
-            Toast.makeText(requireContext(), "이름은 수정할수 없습니다", Toast.LENGTH_SHORT).show()
+        // 이름변경 안되는거 안내
+        newplant_name.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                Toast.makeText(requireContext(), "이름은 나중에 수정할수 없습니다", Toast.LENGTH_SHORT).show()
+            }
         }
         // 이미지 화살표 눌렀을때
         img_btn_backhome.setOnClickListener() {
@@ -228,10 +231,6 @@ class NewPlantFragment : Fragment() {
                         .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감") }
                         .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류", e) }
 
-                    with(pref.edit()) {
-                        putInt("PlantCnt", pcnt + 1)
-                        commit()
-                    }
                 }else{  // 수정일경우 업데이트
                     docId?.let { it1 ->
                         val date: Date = cal.time

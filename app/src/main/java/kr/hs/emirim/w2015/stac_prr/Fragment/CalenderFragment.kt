@@ -1,6 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr.Fragment
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,10 +32,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CalenderFragment : Fragment(), View.OnClickListener {
+class CalenderFragment : Fragment(){
     private var _binding: FragmentCalenderBinding? = null//<layout></layout>으로 감싼 것만 바인딩가능
     private val binding get() = _binding!!
-    lateinit var adapter: PlanAdapter
+    private lateinit var adapter: PlanAdapter
+    private lateinit var pref : SharedPreferences
     val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
     var model = ItemModel()
@@ -49,6 +52,7 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?,
     ): View? {
         // onCreateView에서 바인딩을 시켜주고 binding 객체의 root를 리턴
+        pref = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
         _binding = FragmentCalenderBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -106,13 +110,17 @@ class CalenderFragment : Fragment(), View.OnClickListener {
 
         //plus btn listener
         binding.planPlusBtn.setOnClickListener() {
+            val pcnt = pref.getInt("PlantCnt", 0)
+            if (pcnt <= 0){
+                Toast.makeText(requireContext(),"식물을 등록하세요", Toast.LENGTH_SHORT ).show()
+                return@setOnClickListener
+            }
             Log.i(datetext, "onViewCreated: datetext")
             //val activity = activity as MainActivity
             val fragment = AddPlanFragment(); // Fragment 생성
             val bundle = Bundle()
             bundle.putString("date", datetext); //Key, Value
             fragment.arguments = bundle
-            Log.i(bundle.toString(), "onViewCreated: bundle")
             //activity.fragmentChange_for_adapter(AddPlanFragment())
             Log.d(fragment.arguments.toString(), "plus버튼 클릭됨")
             activity?.supportFragmentManager!!.beginTransaction()
@@ -144,7 +152,6 @@ class CalenderFragment : Fragment(), View.OnClickListener {
             .whereEqualTo("str_date",selec_date)
             .get()
             .addOnSuccessListener {
-                Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                 for (document in it){
                     var item = model.ItemEntity()
                     Log.d("TAG", "makeTestItems: ${document.data}")
@@ -167,11 +174,6 @@ class CalenderFragment : Fragment(), View.OnClickListener {
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         binding.planRecyclerview.layoutManager = linearLayoutManager
         binding.planRecyclerview.adapter = adapter
-        Log.d("TAG", "init: 일정 어댑터 적용함 ${PlanAdapter()}")
-    }
-
-    override fun onClick(v: View?) {
-        Log.d("", "onClick: 버튼이 없기때문에 없어도됨")
     }
 
     /* fun getDate(timestamp: Long) :String {

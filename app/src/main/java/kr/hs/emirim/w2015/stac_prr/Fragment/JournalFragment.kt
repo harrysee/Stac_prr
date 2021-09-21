@@ -32,8 +32,8 @@ class JournalFragment : Fragment() {
     private lateinit var journalAdapter: JournalAdapter
     private lateinit var pNames : ArrayList<String?>
     private var dateSort = false    //초기값 내림차순
+    private var pcnt : Int =0
     private var name : String? = null
-    private var pcnt : Int = 0  // 식물개수 가져오기
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +61,6 @@ class JournalFragment : Fragment() {
         val btn4 = view.findViewById<Button>(R.id.plant_name_btn4)
         btnArr = listOf<Button>(btn1, btn2, btn3, btn4)
 
-        //식물 한개도 없으면 식물 추가하라고 토스트
-        if (pcnt <= 0){
-            Toast.makeText(requireContext(),"식물을 추가하세요", Toast.LENGTH_SHORT ).show()
-        }
         //식물이름들 가져오기
         db.collection("plant_info")
             .whereEqualTo("userId", auth.uid.toString())
@@ -81,6 +77,11 @@ class JournalFragment : Fragment() {
         onTabClickListener()    // 탭 클릭할때 리스너
 
         fab.setOnClickListener() {
+            //식물 한개도 없으면 식물 추가하라고 토스트
+            if (pcnt <= 0){
+                Toast.makeText(requireContext(),"식물을 등록하세요", Toast.LENGTH_SHORT ).show()
+                return@setOnClickListener
+            }
             val fragment = NewJournalFragment(); // Fragment 생성
             val bundle = Bundle()
             bundle.putBoolean("isEdit",false)
@@ -117,6 +118,7 @@ class JournalFragment : Fragment() {
     }
 
     fun setTab() {   //탭 개수 정하기
+        pcnt = pref.getInt("PlantCnt", 0)
         Log.d("TAG", "setTab: 현재 식물개수 : $pcnt")
         Log.d("TAG", "setTab: 현재 식물이름: $pNames")
         for (i in 0..pcnt-1) {
@@ -132,7 +134,7 @@ class JournalFragment : Fragment() {
     fun onTabClickListener() {
         // 버튼 클릭시
         plant_all_btn.setOnClickListener(){
-            plant_all_btn.isSelected = !plant_all_btn.isSelected
+            plant_all_btn.isSelected = true
             if (plant_all_btn.isSelected) {
                 plant_name_btn1.isSelected = false
                 plant_name_btn2.isSelected = false
@@ -142,7 +144,7 @@ class JournalFragment : Fragment() {
             }
         }
         plant_name_btn1.setOnClickListener() {
-            plant_name_btn1.isSelected = !plant_name_btn1.isSelected
+            plant_name_btn1.isSelected = true
             if (plant_name_btn1.isSelected) {
                 plant_name_btn2.isSelected = false
                 plant_name_btn3.isSelected = false
@@ -153,7 +155,7 @@ class JournalFragment : Fragment() {
             }
         }
         plant_name_btn2.setOnClickListener() {
-            plant_name_btn2.isSelected = !plant_name_btn2.isSelected
+            plant_name_btn2.isSelected = true
             if (plant_name_btn2.isSelected) {
                 plant_name_btn1.isSelected = false
                 plant_name_btn3.isSelected = false
@@ -164,7 +166,7 @@ class JournalFragment : Fragment() {
             }
         }
         plant_name_btn3.setOnClickListener() {
-            plant_name_btn3.isSelected = !plant_name_btn3.isSelected
+            plant_name_btn3.isSelected = true
             if (plant_name_btn3.isSelected) {
                 plant_name_btn1.isSelected = false
                 plant_name_btn2.isSelected = false
@@ -175,7 +177,7 @@ class JournalFragment : Fragment() {
             }
         }
         plant_name_btn4.setOnClickListener() {
-            plant_name_btn4.isSelected = !plant_name_btn4.isSelected
+            plant_name_btn4.isSelected = true
             if (plant_name_btn4.isSelected) {
                 plant_name_btn1.isSelected = false
                 plant_name_btn2.isSelected = false
@@ -266,7 +268,6 @@ class JournalFragment : Fragment() {
                 .orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener {
-                    Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                     for (document in it) {
                         val date = document["date"] as Timestamp
                         datas.add(JournalData(

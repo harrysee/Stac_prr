@@ -59,7 +59,7 @@ class SetFragment : Fragment() {
         noticeSize = push.getInt("noticeSize",0)
         setNoticeDot()  // 점 표시여부
         // 알림 푸쉬 스위치버튼 설정하기
-        val isAlarm = push.getBoolean("isAlarm", false)
+        val isAlarm = push.getBoolean("isAlarm", true)
         set_switch_alarm.isChecked = isAlarm
 
         // 버전 가져오기

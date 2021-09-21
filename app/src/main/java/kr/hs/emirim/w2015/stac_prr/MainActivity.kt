@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         Log.d("TAG", "onStart 유저 아이디 : ${currentUser?.uid} ")
         // Check if user is signed in (non-null) and update UI accordingly.
-        //setflower()
+        setflower()
     }
 
     fun setflower(){
@@ -182,7 +182,6 @@ class MainActivity : AppCompatActivity() {
     fun isFirstCheck() {
         // isFirst가 처음 만들어지지않았을때 넣으면 null이다 - null이면 true로 가져오기
         val isCheck = pref.getBoolean("isFirst", true)
-        setflower()
         if (isCheck) {
             // 최초실행 후에는 그냥 값을 false로 넣는다.
             with(pref.edit()) {

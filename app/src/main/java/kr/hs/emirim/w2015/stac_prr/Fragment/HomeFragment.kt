@@ -66,26 +66,6 @@ class HomeFragment : Fragment() {
 
         viewPager.setPageTransformer { page, position ->
             page.translationX = position * -offsetPx
-            /*val myOffset = position * - offsetPx
-
-            if (position < -1) {
-                page.translationX=-myOffset
-            } else if (position <= 1) {
-                var scaleFactor = Math.max(0.7f, 1-Math.abs(position-0.14285715f))
-                page.translationX=myOffset
-                page.scaleY=scaleFactor
-            } else {
-                page.translationX=myOffset
-profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListener{
-            override fun onItemClick(v: View, data: ProfileData, pos : Int) {
-                Intent(this@MainActivity, ProfileDetailActivity::class.java).apply {
-                    putExtra("data", data)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }.run { startActivity(this) }
-            }
-
-})
-            }*/
         }
         /* 여백, 너비에 대한 정의 */
         viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
@@ -139,6 +119,14 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
                             document.id))
                         Log.d("TAG", "getDataList: 홈데이터 담기 : $homedatas")
                         //this.homedatas = homedatas
+                    }
+                    with(pref.edit()) {
+                        putInt("PlantCnt", it.size())
+                        commit()
+                    }
+                    val pcnt = pref.getInt("PlantCnt", 0)
+                    if (pcnt <= 0){     // 식물등록 안됐을때 등록시키기
+                        Toast.makeText(requireContext(),"식물을 등록하세요", Toast.LENGTH_SHORT ).show()
                     }
                     getHomeData(homedatas)
                     Log.d(it.toString(), "setflower: 식물 데이터 홈에서 불러오기 성공 $homedatas")
