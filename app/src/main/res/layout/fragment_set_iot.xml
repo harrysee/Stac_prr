@@ -21,9 +21,9 @@
             android:id="@+id/iot_pass_btn"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="1dp"
-            android:layout_gravity="center_vertical"
             android:background="@color/back_gray"
             android:backgroundTint="@color/transparent"
             android:padding="10dp"
@@ -43,19 +43,60 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tos_txt"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fontFamily="@font/notosanscjkkr_regular"
-        android:includeFontPadding="false"
-        android:textSize="50dp"
-        android:gravity="center"
-        android:text="-"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iot_top_bar" />
+        app:layout_constraintTop_toBottomOf="@id/iot_top_bar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
+            android:text="푸르름과 IOT를 함께 사용해보세요!"
+            android:textColor="@color/pp_green"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
+            android:text="[아두이노 자동 급수 키트로\n\t\t\t 간편한 물주기와 토양습도 체크]"
+            android:textColor="@color/tos_gray_text"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/notosanscjkkr_light"
+            android:includeFontPadding="false"
+            android:text="아두이노 자동 급수 키트는 식물의 습도에 따라 자동으로 급수하는 IOT기기입니다. 키트에 NUGU를 연결하면 식물의 토양 습도 또한 물을 수 있습니다. 예시로 푸르름을 부른 뒤 ‘다육이 습도 알려줘’라고 말해보세요. 연결된 다육이의 토양습도를 IOT로 체크하여 ‘매우 마름’, ‘마름’, ‘촉촉’, ‘매우 촉촉’ 중 하나로 답변해줄 것입니다. 마른 상태를 유지해야하는 다육이의 토양습도가 매우 촉촉한 상태라면 관리를 해줘야할 필요가 있겠죠?"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
+            android:text="\t[NUGU 스마트플러그로 \n\t\t\t\t\t\t스마트하게 식물등 사용하기]"
+            android:textColor="@color/tos_gray_text"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanscjkkr_light"
+            android:text="NUGU 스마트플러그를 사용하면 식물을 더 효율적으로 관리할 수 있습니다. NUGU 스마트홈 앱에서 식물등이 연결된 NUGU 스마트플러그와 NUGU를 연동하여 식물등의 전원을 쉽고 빠르게 ON/OFF가 가능합니다. NUGU에게 ‘스마트플러그 꺼줘’ 혹은 ‘스마트플러그 꺼줘’라고 말해보세요. 스피커 없이도 앱에서 전원 조절을 할 수 있으며, 예약 설정을 통하여 주기적으로 식물에게 조명을 쐬어줄 수 있습니다."
+            android:textSize="13sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

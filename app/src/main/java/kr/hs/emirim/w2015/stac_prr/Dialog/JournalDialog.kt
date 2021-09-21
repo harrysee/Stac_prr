@@ -33,12 +33,14 @@ class JournalDialog(private val context: Context) {
         false
     }
 
-    fun setImg(imgresourse: String?): JournalDialog {
+    fun setImg(imgresourse: String?,listener: (view: View) -> (Unit)): JournalDialog {
         if (imgresourse !=null){
             Glide.with(context)
                 .load(imgresourse)
                 .into(view.journal_dialog_img)
         }
+        view.journal_dialog_img.setOnClickListener(listener)
+        view.journal_dialog_img.setOnTouchListener(onTouchListener)
         return this
     }
 

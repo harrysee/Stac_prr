@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kr.hs.emirim.w2015.stac_prr.DataClass.JournalData
+import kr.hs.emirim.w2015.stac_prr.Dialog.ImageDialog
 import kr.hs.emirim.w2015.stac_prr.Fragment.NewJournalFragment
 import kr.hs.emirim.w2015.stac_prr.Dialog.JournalDialog
 import kr.hs.emirim.w2015.stac_prr.R
@@ -60,7 +61,11 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
                     val dir = JournalDialog(context)
                         .setTitle(item.name)
                         .setMessage(item.journal)
-                        .setImg(item.imgUri)
+                        .setImg(item.imgUri){
+                            ImageDialog(context)
+                                .setImg(item.imgUri)
+                                .show()
+                        }
                         .setEditBtn("수정"){
                             Log.d("TAG", "bind: 수정 클릭됨 일지")
                             val fragment = NewJournalFragment(); // Fragment 생성

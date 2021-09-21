@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,7 @@ class JournalFragment : Fragment() {
     private lateinit var pNames : ArrayList<String?>
     private var dateSort = false    //초기값 내림차순
     private var name : String? = null
+    private var pcnt : Int = 0  // 식물개수 가져오기
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class JournalFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         pref = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
+        pcnt = pref.getInt("PlantCnt", 0)
         pNames = ArrayList<String?>()
         return inflater.inflate(R.layout.fragment_journal, container, false)
     }
@@ -57,6 +60,10 @@ class JournalFragment : Fragment() {
         val btn4 = view.findViewById<Button>(R.id.plant_name_btn4)
         btnArr = listOf<Button>(btn1, btn2, btn3, btn4)
 
+        //식물 한개도 없으면 식물 추가하라고 토스트
+        if (pcnt <= 0){
+            Toast.makeText(requireContext(),"식물을 추가하세요", Toast.LENGTH_SHORT ).show()
+        }
         //식물이름들 가져오기
         db.collection("plant_info")
             .whereEqualTo("userId", auth.uid.toString())
@@ -105,7 +112,6 @@ class JournalFragment : Fragment() {
     }
 
     fun setTab() {   //탭 개수 정하기
-        val pcnt = pref.getInt("PlantCnt", 0)   // 식물개수 가져오기
         Log.d("TAG", "setTab: 현재 식물개수 : $pcnt")
         Log.d("TAG", "setTab: 현재 식물이름: $pNames")
         for (i in 0..pcnt-1) {

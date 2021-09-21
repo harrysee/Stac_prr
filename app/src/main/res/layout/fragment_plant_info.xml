@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
+        android:elevation="0dp"
         app:umanoDragView="@id/dragView"
         app:umanoOverlay="true"
         app:umanoPanelHeight="435dp">
@@ -45,6 +46,8 @@
             android:id="@+id/dragView"
             android:layout_width="match_parent"
             android:layout_height="580dp"
+            android:elevation="0sp"
+            app:elevation ="0sp"
             android:orientation="vertical">
 
             <RelativeLayout
