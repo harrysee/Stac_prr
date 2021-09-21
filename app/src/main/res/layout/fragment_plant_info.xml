@@ -362,6 +362,7 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:maxLines="3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -370,7 +371,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="66dp"
-                        android:maxWidth="200dp"
                         android:fontFamily="@font/notosanscjkkr_light"
                         android:includeFontPadding="false"
                         android:text="메모를 작성하세요\n(공간은 줄 수에 따라 유동적\n으로 변합니다.)"
@@ -503,7 +503,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:elevation="0sp"
-            android:visibility="invisible"
             android:fontFamily="@font/notosanscjkkr_regular"
             android:gravity="center_vertical"
             android:text="수정"
