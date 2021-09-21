@@ -58,13 +58,14 @@ class FhViewAdapter(private val datas : ArrayList<HomeData>, val fragment_s:Frag
         fun bind(item: HomeData, context : Context){
             Log.d("TAG", "bind: 식물정보 어댑터 실행됨")
             //imageView.setImageResource()
-            val httpsReference = storage.getReferenceFromUrl(item.imgUrl)
-
-            Glide.with(context) //쓸곳
-                .load(item.imgUrl.toString())  //이미지 받아올 경로
-                .fitCenter()        // 가운데 잘라서 채우게 가져오기
-                .placeholder(R.drawable.ic_home_emty_item)
-                .into(imageView)    // 받아온 이미지를 받을 공간
+            imageView.setImageResource(R.drawable.ic_home_emty_item)
+            if (item.imgUrl != null){
+                Glide.with(context) //쓸곳
+                    .load(item.imgUrl.toString())  //이미지 받아올 경로
+                    .fitCenter()        // 가운데 잘라서 채우게 가져오기
+                    .placeholder(R.drawable.ic_home_emty_item)
+                    .into(imageView)    // 받아온 이미지를 받을 공간
+            }
 
             textView.text = item.name
             textSpace.text = "#"+item.spacies

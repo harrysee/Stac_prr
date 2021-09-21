@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
+        android:elevation="0dp"
         app:umanoDragView="@id/dragView"
         app:umanoOverlay="true"
         app:umanoPanelHeight="435dp">
@@ -45,6 +46,8 @@
             android:id="@+id/dragView"
             android:layout_width="match_parent"
             android:layout_height="580dp"
+            android:elevation="0sp"
+            app:elevation ="0sp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -371,7 +374,7 @@
                         android:fontFamily="@font/notosanscjkkr_light"
                         android:includeFontPadding="false"
                         android:text="메모를 작성하세요\n(공간은 줄 수에 따라 유동적\n으로 변합니다.)"
-                        android:maxLines="3"
+                        android:maxLines="2"
                         android:textColor="#cccccc"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"

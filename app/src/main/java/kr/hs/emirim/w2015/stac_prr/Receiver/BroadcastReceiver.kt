@@ -18,7 +18,7 @@ open class BroadcastReceiver : BroadcastReceiver() {
         flower.getString("keytag", "#새로운#시작#준비")
 
         val rd = Random()
-        val num = (rd.nextInt(10)).toString()
+        val num = (rd.nextInt(16)).toString()
 
         val kname: String = num.toString() + "n"
         val kspece: String = num.toString() + "s"

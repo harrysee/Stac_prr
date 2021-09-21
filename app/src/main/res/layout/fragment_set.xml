@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_below="@+id/set_top_bar"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/shape_set_linear"
         android:orientation="horizontal">
 
@@ -139,7 +139,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_below="@+id/set_linear_iot"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/shape_set_linear"
         android:orientation="horizontal">
 

@@ -133,9 +133,9 @@ profileAdapter.setOnItemClickListener(object : ProfileAdapter.OnItemClickListene
                 .addOnSuccessListener {
                     for (document in it) {
                         Log.i("TAG", "getDataList: 식물 데이터 보여주기 ${document.data}")
-                        homedatas?.add(HomeData(document["name"] as String,
-                            document["specise"] as String,
-                            document["imgUri"] as String,
+                        homedatas?.add(HomeData(document["name"] as String?,
+                            document["specise"] as String?,
+                            document["imgUri"] as String?,
                             document.id))
                         Log.d("TAG", "getDataList: 홈데이터 담기 : $homedatas")
                         //this.homedatas = homedatas

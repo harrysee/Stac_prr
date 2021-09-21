@@ -4,12 +4,13 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.edit
@@ -18,7 +19,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.journal_dialog.*
 import kr.hs.emirim.w2015.stac_prr.DataClass.Flowers
+import kr.hs.emirim.w2015.stac_prr.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.Fragment.CalenderFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
 import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
@@ -102,6 +105,19 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onBackPressed() {
+        val dial = CustomDialog(this)
+            .setMessage("앱을 종료하시겠습니까?")
+            .setPositiveBtn("네"){
+                moveTaskToBack(true) // 태스크를 백그라운드로 이동
+                finishAndRemoveTask() // 액티비티 종료 + 태스크 리스트에서 지우기
+                System.exit(0)
+            }
+            .setNegativeBtn("아니오"){ }
+            .show()
+    }
+
     //앱 실행시 로그인 하기
     public override fun onStart() {
         super.onStart()
@@ -111,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         Log.d("TAG", "onStart 유저 아이디 : ${currentUser?.uid} ")
         // Check if user is signed in (non-null) and update UI accordingly.
-        setflower()
+        //setflower()
     }
 
     fun setflower(){
@@ -166,13 +182,14 @@ class MainActivity : AppCompatActivity() {
     fun isFirstCheck() {
         // isFirst가 처음 만들어지지않았을때 넣으면 null이다 - null이면 true로 가져오기
         val isCheck = pref.getBoolean("isFirst", true)
+        setflower()
         if (isCheck) {
             // 최초실행 후에는 그냥 값을 false로 넣는다.
             with(pref.edit()) {
                 putBoolean("isFirst", false)
+                putInt("PlantCnt", 0)
                 commit()
             }
-            setflower()
             Toast.makeText(this, "푸르름에 오신걸 환영합니다", Toast.LENGTH_SHORT).show()
         }
         // 첫 실행 시 가입 : signInAnonymously

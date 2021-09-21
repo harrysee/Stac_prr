@@ -132,14 +132,11 @@ class NewPlantFragment : Fragment() {
             val newplant_temperature: EditText =
                 view.findViewById(R.id.newplant_temperature)
             val newplant_memo: EditText = view.findViewById(R.id.newplant_memo)
-
+            if (newplant_name.text == null || newplant_spacies.text == null) {
+                Toast.makeText(requireContext(), "식물정보를 모두 입력하세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             if (photoURI != null) {
-                if (newplant_name.text == null || newplant_spacies.text == null || newplant_led.text == null
-                    || newplant_water.text == null || newplant_temperature.text == null || newplant_memo.text == null
-                ) {
-                    Toast.makeText(requireContext(), "식물정보를 모두 입력하세요", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
                 val filename = "_" + System.currentTimeMillis()
                 val imagesRef: StorageReference? = storageRef.child("info/" + filename)
 

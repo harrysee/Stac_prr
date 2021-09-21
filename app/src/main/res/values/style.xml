@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="CalendarWidgetHeader">
+    <style name="CalendarWidgetHeader" parent="TextAppearance.MaterialCalendarWidget.Header">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/notosanscjkkr_medium</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/pp_green</item>
     </style>
-    <style name="CalendarWidgetWeek">
+    <style name="CalendarWidgetWeek" parent="TextAppearance.MaterialCalendarWidget.WeekDay">
         <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/notosanscjkkr_regular</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">#686868</item>
     </style>
-    <style name="CalendarWidgetDate">
+    <style name="CalendarWidgetDate" parent="TextAppearance.MaterialCalendarWidget.Date">
         <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/notosanscjkkr_regular</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/day_gray</item>
     </style>
     <style name="OtherDay">
         <item name="android:textColor">@color/other_day_gray</item>
+        <item name="fontFamily">@font/notosanscjkkr_regular</item>
         <item name="android:textSize">10sp</item>
     </style>
 

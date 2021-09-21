@@ -68,13 +68,13 @@ class SetFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val main = activity as MainActivity
-        set_imgbtn_nugu.setOnClickListener(){
+        set_linear_nugu.setOnClickListener{   //누구 클릭
             main.fragmentChange_for_adapter(SetNuguFragment())
         }
-        set_imgbtn_iot.setOnClickListener(){
+        set_linear_iot.setOnClickListener(){    //아이오티 클릭
             main.fragmentChange_for_adapter(SetIotFragment())
         }
-        set_imgbtn_notice.setOnClickListener(){
+        set_linear_notice.setOnClickListener(){ //공지사항 클릭
             //열었을때 점 사라지게
             push.edit()
                 .putBoolean("isOpen",true)
@@ -84,10 +84,10 @@ class SetFragment : Fragment() {
             }
             main.fragmentChange_for_adapter(SetNoticeFragment())
         }
-        set_imgbtn_ask.setOnClickListener(){
+        set_linear_ask.setOnClickListener(){     // 문의하기 클릭
             main.fragmentChange_for_adapter(SetAskFragment())
         }
-        set_imgbtn_tos.setOnClickListener(){
+        set_linear_tos.setOnClickListener(){      //이용약관 클릭
             main.fragmentChange_for_adapter(SetTosFragment())
         }
 
@@ -127,7 +127,7 @@ class SetFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 Log.d("TAG", "setNoticeDot: 공지사항 가지러옴 : ${result.size()} /$noticeSize")
-                if (noticeSize < result.size()){
+                if (noticeSize < result.size() || noticeSize> result.size()){
                     Log.d("TAG", "setNoticeDot: 공지사항 가지러옴 개수 : ${result.size()} / $noticeSize")
                     push.edit()
                         .putInt("noticeSize",result.size())
