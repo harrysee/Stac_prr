@@ -46,28 +46,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nugu_top_bar">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/notosanscjkkr_bold"
+            android:fontFamily="@font/notosanscjkkr_regular"
             android:includeFontPadding="false"
-            android:textSize="16sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="13dp"
-            android:layout_marginRight="10dp"
+            android:textSize="18sp"
             android:textColor="@color/pp_green"
-            android:text="NUGU는"/>
+            android:text="푸르름을 SKT NUGU에서 사용해보세요!"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanscjkkr_light"
+            android:textSize="14sp"
+            android:text="SKT NUGU를 가지고 계신다면 NUGU에게 ‘푸르름 서비스 실행해줘’라고 말해보세요. 푸르름은 식물과 관련된 여러가지 질문에 답을 해줄 것입니다! 서비스는 ‘푸르름 서비스 종료해줘’, ‘푸르름 종료해’로 종료할 수 있습니다."/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/notosanscjkkr_regular"
-            android:textSize="14sp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="10dp"
-            android:text="사용자의 질문을 받아 대답을 해주는 인공지능 스피커입니다. \n식물의 재배 방법이 궁금하다면 '알로에 키우는 방법 알려줘'와 같이 말하거나 내 식물의 습도가 궁금하면 '습도 알려줘'와 같이 말할 수 있습니다. 또한 식물을 키울 때 유용한 팁을 '오늘의 팁'이라고 말하면 얻을 수 있습니다. "/>
-
+            android:includeFontPadding="false"
+            android:textSize="15sp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/tos_gray_text"
+            android:text="\t[이렇게 물어보세요]"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanscjkkr_light"
+            android:textSize="13sp"
+            android:text="1) 재배 방법 \n\t\t  - 다육이는 어떻게 키워? \n\t\t  - 알로에 어떻게 키워? \n\t\t  - 장미 재배 방법 알려줘 등\n
+2) 오늘의 팁 \n\t\t  - 오늘의 팁 알려줘 \n\t\t  - 식물 키울 때 참고할 점 알려줘 등\n
+3) 식물 정보 \n\t\t  - 수경 재배 알려줘 \n\t\t  - 수경 재배가 뭐야?\n
+4) 푸르름 사용법 \n\t\t  - 푸르름 사용법 알려줘 \n\t\t  - 앱 사용법 알려줘 \n\t\t - 누구 사용법 알려줘
+"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

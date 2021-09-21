@@ -52,7 +52,6 @@
         android:layout_marginTop="15dp"
         android:background="@color/transparent"
         app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/newplant_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nplant_top_bar"
@@ -77,8 +76,8 @@
             android:textColor="#f5f5f5" />
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/newplant_input"
+    <ScrollView
+        android:id="@+id/newplant_input_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="18dp"
@@ -88,338 +87,348 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView3">
 
-        <LinearLayout
-            android:id="@+id/linear1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/newplant_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/nameText"
+            <LinearLayout
+                android:id="@+id/linear1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
-                android:fontFamily="@font/notosanscjkkr_regular"
-                android:includeFontPadding="false"
-                android:text="애칭"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/newplant_name"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/notosanscjkkr_light"
-                android:includeFontPadding="false"
-                android:hint="애칭"
-                android:singleLine="true"
-                android:textColor="@color/day_gray"
-                android:textColorHint="@color/day_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/nameText"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/nameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
+                    android:text="애칭"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/view2"
-            android:layout_width="350dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:background="#cccccc"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear1" />
+                <EditText
+                    android:id="@+id/newplant_name"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="64dp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/notosanscjkkr_light"
+                    android:includeFontPadding="false"
+                    android:hint="애칭"
+                    android:singleLine="true"
+                    android:textColor="@color/day_gray"
+                    android:textColorHint="@color/day_gray"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/nameText"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear1">
+            <View
+                android:id="@+id/view2"
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear1" />
 
-            <TextView
-                android:id="@+id/kindText"
+            <LinearLayout
+                android:id="@+id/linear2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
-                android:fontFamily="@font/notosanscjkkr_regular"
-                android:includeFontPadding="false"
-                android:text="종류"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/linear1">
 
-            <EditText
-                android:id="@+id/newplant_spacies"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
-                android:background="@android:color/transparent"
-                android:hint="종류"
-                android:fontFamily="@font/notosanscjkkr_light"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:textColor="@color/day_gray"
-                android:textColorHint="@color/day_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/kindText"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/kindText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
+                    android:text="종류"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="350dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:background="#cccccc"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear2" />
+                <EditText
+                    android:id="@+id/newplant_spacies"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="64dp"
+                    android:background="@android:color/transparent"
+                    android:hint="종류"
+                    android:fontFamily="@font/notosanscjkkr_light"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:textColor="@color/day_gray"
+                    android:textColorHint="@color/day_gray"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/kindText"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear2">
+            <View
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear2" />
 
-            <TextView
-                android:id="@+id/dateText"
+            <LinearLayout
+                android:id="@+id/linear3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
-                android:fontFamily="@font/notosanscjkkr_regular"
-                android:includeFontPadding="false"
-                android:text="심은 날짜"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/linear2">
 
-            <Button
-                android:id="@+id/newplant_date_btn"
-                android:layout_width="100dp"
-                android:layout_height="28dp"
-                android:layout_marginLeft="31dp"
-                android:gravity="left|center_vertical"
-                android:background="@android:color/transparent"
-                android:text="0000. 00. 00"
-                android:fontFamily="@font/notosanscjkkr_light"
-                android:includeFontPadding="false"
-                android:textColor="@color/day_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/dateText"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/dateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
+                    android:text="심은 날짜"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="350dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:background="#cccccc"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear3" />
+                <Button
+                    android:id="@+id/newplant_date_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="31dp"
+                    android:gravity="left|center_vertical"
+                    android:background="@android:color/transparent"
+                    android:text="0000. 00. 00"
+                    android:fontFamily="@font/notosanscjkkr_light"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/day_gray"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/dateText"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear3">
+            <View
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear3" />
 
-            <TextView
-                android:id="@+id/tmprtText"
+            <LinearLayout
+                android:id="@+id/linear4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
-                android:text="최적 온도"
-                android:fontFamily="@font/notosanscjkkr_regular"
-                android:includeFontPadding="false"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/linear3">
 
-            <EditText
-                android:id="@+id/newplant_temperature"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="31dp"
-                android:background="@android:color/transparent"
-                android:hint="00~00˚"
-                android:singleLine="true"
-                android:fontFamily="@font/notosanscjkkr_light"
-                android:includeFontPadding="false"
-                android:textColor="@color/day_gray"
-                android:textColorHint="@color/day_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/tmprtText"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tmprtText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:text="최적 온도"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="350dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:background="#cccccc"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear4" />
+                <EditText
+                    android:id="@+id/newplant_temperature"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="31dp"
+                    android:background="@android:color/transparent"
+                    android:hint="00~00˚"
+                    android:singleLine="true"
+                    android:fontFamily="@font/notosanscjkkr_light"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/day_gray"
+                    android:textColorHint="@color/day_gray"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/tmprtText"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear4">
+            <View
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear4" />
 
-            <TextView
-                android:id="@+id/lightText"
+            <LinearLayout
+                android:id="@+id/linear5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
-                android:text="빛 요구도"
-                android:textColor="@color/black"
-                android:fontFamily="@font/notosanscjkkr_regular"
-                android:includeFontPadding="false"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/linear4">
 
-            <EditText
-                android:id="@+id/newplant_led"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="31dp"
-                android:background="@android:color/transparent"
-                android:hint="빛 요구도"
-                android:fontFamily="@font/notosanscjkkr_light"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:textColor="@color/day_gray"
-                android:textColorHint="@color/day_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/lightText"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/lightText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:text="빛 요구도"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="350dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:background="#cccccc"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear5" />
+                <EditText
+                    android:id="@+id/newplant_led"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="31dp"
+                    android:background="@android:color/transparent"
+                    android:hint="빛 요구도"
+                    android:fontFamily="@font/notosanscjkkr_light"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:textColor="@color/day_gray"
+                    android:textColorHint="@color/day_gray"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/lightText"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear5">
+            <View
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear5" />
 
-            <TextView
-                android:id="@+id/waterText"
+            <LinearLayout
+                android:id="@+id/linear6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
-                android:text="급수 주기"
-                android:fontFamily="@font/notosanscjkkr_regular"
-                android:includeFontPadding="false"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/linear5">
 
-            <EditText
-                android:id="@+id/newplant_water"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="31dp"
-                android:background="@android:color/transparent"
-                android:hint="00일"
-                android:fontFamily="@font/notosanscjkkr_light"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:inputType="number"
-                android:textColor="@color/day_gray"
-                android:textColorHint="@color/day_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/waterText"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/waterText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:text="급수 주기"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="350dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:background="#cccccc"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear6" />
+                <EditText
+                    android:id="@+id/newplant_water"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="31dp"
+                    android:background="@android:color/transparent"
+                    android:hint="00일"
+                    android:fontFamily="@font/notosanscjkkr_light"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:textColor="@color/day_gray"
+                    android:textColorHint="@color/day_gray"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/waterText"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear6">
+            <View
+                android:layout_width="350dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="6dp"
+                android:background="#cccccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linear6" />
 
-            <TextView
-                android:id="@+id/memoText"
+            <LinearLayout
+                android:id="@+id/linear7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
-                android:text="메모"
-                android:fontFamily="@font/notosanscjkkr_regular"
-                android:includeFontPadding="false"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/linear6">
 
-            <EditText
-                android:id="@+id/newplant_memo"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
-                android:background="@android:color/transparent"
-                android:hint="메모를 작성하세요."
-                android:fontFamily="@font/notosanscjkkr_light"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:textColor="@color/day_gray"
-                android:textColorHint="@color/day_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/memoText"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/memoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp"
+                    android:text="메모"
+                    android:fontFamily="@font/notosanscjkkr_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/newplant_memo"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="64dp"
+                    android:background="@android:color/transparent"
+                    android:hint="메모를 작성하세요."
+                    android:fontFamily="@font/notosanscjkkr_light"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:textColor="@color/day_gray"
+                    android:textColorHint="@color/day_gray"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/memoText"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

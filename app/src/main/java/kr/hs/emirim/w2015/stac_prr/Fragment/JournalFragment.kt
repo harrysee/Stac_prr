@@ -122,6 +122,15 @@ class JournalFragment : Fragment() {
 
     fun onTabClickListener() {
         // 버튼 클릭시
+        plant_all_btn.setOnClickListener(){
+            plant_all_btn.isSelected = !plant_all_btn.isSelected
+            if (plant_all_btn.isSelected) {
+                plant_name_btn1.isSelected = !plant_name_btn1.isSelected
+                plant_name_btn2.isSelected = !plant_name_btn1.isSelected
+                plant_name_btn3.isSelected = !plant_name_btn1.isSelected
+                plant_name_btn4.isSelected = !plant_name_btn1.isSelected
+            }
+        }
         plant_name_btn1.setOnClickListener() {
             plant_name_btn1.isSelected = !plant_name_btn1.isSelected
             if (plant_name_btn1.isSelected) {
