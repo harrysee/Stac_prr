@@ -61,16 +61,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/notosanscjkkr_light"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:text="SKT NUGU를 가지고 계신다면 NUGU에게 ‘푸르름 서비스 실행해줘’라고 말해보세요. 푸르름은 식물과 관련된 여러가지 질문에 답을 해줄 것입니다! 서비스는 ‘푸르름 서비스 종료해줘’, ‘푸르름 종료해’로 종료할 수 있습니다."/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/notosanscjkkr_regular"
             android:includeFontPadding="false"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:layout_marginTop="3dp"
-            android:textColor="@color/tos_gray_text"
+            android:textColor="@color/day_gray"
             android:text="\t[이렇게 물어보세요]"/>
         <TextView
             android:layout_width="match_parent"

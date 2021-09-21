@@ -104,7 +104,6 @@ class NewPlantFragment : Fragment() {
                 }
             // 이름은 변경 못하게하기
             newplant_name.isEnabled = false
-            Toast.makeText(requireContext(), "이름은 수정할수 없습니다", Toast.LENGTH_SHORT).show()
         }
         newplant_name.setOnClickListener(){
             Toast.makeText(requireContext(), "이름은 수정할수 없습니다", Toast.LENGTH_SHORT).show()
