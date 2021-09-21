@@ -106,7 +106,9 @@ class NewPlantFragment : Fragment() {
             newplant_name.isEnabled = false
             Toast.makeText(requireContext(), "이름은 수정할수 없습니다", Toast.LENGTH_SHORT).show()
         }
-
+        newplant_name.setOnClickListener(){
+            Toast.makeText(requireContext(), "이름은 수정할수 없습니다", Toast.LENGTH_SHORT).show()
+        }
         // 이미지 화살표 눌렀을때
         img_btn_backhome.setOnClickListener() {
             val dir = CustomDialog(requireContext())
