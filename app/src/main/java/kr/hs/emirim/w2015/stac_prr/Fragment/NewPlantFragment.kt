@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
@@ -61,6 +62,7 @@ class NewPlantFragment : Fragment() {
         docId = arguments?.getString("docId")
         imgUri = arguments?.getString("imgUri")
         pref = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN) //키보드 열린상태 스크롤
         return view
     }
 

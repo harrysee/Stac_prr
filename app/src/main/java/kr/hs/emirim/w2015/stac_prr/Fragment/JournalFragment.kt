@@ -97,10 +97,10 @@ class JournalFragment : Fragment() {
         }   //일지 플러스 버튼
 
         up_btn.setOnClickListener {
-            journal_recycler.scrollToPosition(0)
+            journal_recycler.smoothScrollToPosition(0)
         }   //맨위로
         down_btn.setOnClickListener {   //맨아래로
-            journal_recycler.scrollToPosition(journalAdapter.itemCount - 1)
+            journal_recycler.smoothScrollToPosition(journalAdapter.itemCount - 1)
         }
         journal_date_sort.setOnClickListener(){
             if (dateSort==false){   //내림차순이면 오름차순으로 바꾸기
