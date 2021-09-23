@@ -70,6 +70,7 @@ class NewPlantFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         val pcnt = pref.getInt("PlantCnt", 0)   // 처음 생성시 식물개수 0
         Log.d("TAG", "onViewCreated: ${auth.currentUser?.uid}")
+        newplant_input_scroll.bringToFront()
 
         // 수정으로 인해서 호출됬을때 기본데이터 뿌리기
         if (isEdit == true) {

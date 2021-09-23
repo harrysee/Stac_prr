@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kotlinx.android.synthetic.main.fragment_plant_info.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.GalleryAdapter
 import kr.hs.emirim.w2015.stac_prr.Dialog.CustomDialog
@@ -59,10 +60,13 @@ class PlantInfoFragment : Fragment() {
 
         Log.d("TAG,", "onViewCreated: 식물정보 가져온 이미지 uri $imgUri")
         val backgound = view.findViewById<ImageView>(R.id.info_background_img)
-        Glide.with(requireContext()) //쓸곳
-            .load(imgUri)  //이미지 받아올 경로
-            .into(backgound)    // 받아온 이미지를 받을 공간
-
+        backgound.setImageResource(R.drawable.ic_home_emty_item)
+        if (imgUri != null){
+            Glide.with(requireContext()) //쓸곳
+                .load(imgUri)  //이미지 받아올 경로
+                .into(backgound)    // 받아온 이미지를 받을 공간
+        }
+        var waterday = "0일"
         db.collection("plant_info").document(docId!!)
             .get()
             .addOnSuccessListener {
@@ -81,7 +85,8 @@ class PlantInfoFragment : Fragment() {
                 //설정하기
                 info_day.text = diffDays.toString() + "일"
                 info_date_text.text = sdf.format(d)
-                info_water_icon_txt.text = it["water"] as String? + "일"
+                if (it["water"] as String? != "") waterday = it["water"] as String? + "일"
+                info_water_icon_txt.text = waterday
                 info_c_text.text = it["temperature"] as String?
                 info_led_text.text = it["led"] as String?
                 info_water_text.text = it["water"] as String?
