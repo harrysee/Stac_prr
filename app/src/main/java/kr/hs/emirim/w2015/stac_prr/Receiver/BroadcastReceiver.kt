@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.edit
-import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
 import java.util.*
 
 open class BroadcastReceiver : BroadcastReceiver() {

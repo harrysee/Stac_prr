@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr
+package kr.hs.emirim.w2015.stac_prr.Controller.Activity
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -19,13 +19,13 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.journal_dialog.*
-import kr.hs.emirim.w2015.stac_prr.DataClass.Flowers
+import kr.hs.emirim.w2015.stac_prr.Model.Flowers
 import kr.hs.emirim.w2015.stac_prr.Dialog.CustomDialog
-import kr.hs.emirim.w2015.stac_prr.Fragment.CalenderFragment
-import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
-import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
-import kr.hs.emirim.w2015.stac_prr.Fragment.SetFragment
+import kr.hs.emirim.w2015.stac_prr.Controller.Fragment.CalenderFragment
+import kr.hs.emirim.w2015.stac_prr.Controller.Fragment.HomeFragment
+import kr.hs.emirim.w2015.stac_prr.Controller.Fragment.JournalFragment
+import kr.hs.emirim.w2015.stac_prr.Controller.Fragment.SetFragment
+import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.Receiver.BroadcastReceiver
 import java.util.*
 import kotlin.collections.ArrayList

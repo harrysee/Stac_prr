@@ -5,20 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.firestore.DocumentId
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.slider_item.view.*
-import kr.hs.emirim.w2015.stac_prr.DataClass.HomeData
-import kr.hs.emirim.w2015.stac_prr.Fragment.NewPlantFragment
-import kr.hs.emirim.w2015.stac_prr.MainActivity
-import kr.hs.emirim.w2015.stac_prr.Fragment.PlantInfoFragment
+import kr.hs.emirim.w2015.stac_prr.Model.HomeData
+import kr.hs.emirim.w2015.stac_prr.Controller.Fragment.PlantInfoFragment
 import kr.hs.emirim.w2015.stac_prr.R
 
 

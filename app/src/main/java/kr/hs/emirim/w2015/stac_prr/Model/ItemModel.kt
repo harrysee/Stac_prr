@@ -1,9 +1,8 @@
-package kr.hs.emirim.w2015.stac_prr
+package kr.hs.emirim.w2015.stac_prr.Model
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kr.hs.emirim.w2015.stac_prr.Adapter.PlanAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

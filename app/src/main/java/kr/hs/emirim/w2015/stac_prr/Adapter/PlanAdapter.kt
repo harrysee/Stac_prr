@@ -4,11 +4,10 @@ import android.graphics.Paint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kr.hs.emirim.w2015.stac_prr.ItemModel
+import kr.hs.emirim.w2015.stac_prr.Model.ItemModel
 import kr.hs.emirim.w2015.stac_prr.databinding.PlanItemViewBinding
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr.Fragment
+package kr.hs.emirim.w2015.stac_prr.Controller.Fragment
 
 import android.os.Bundle
 import kotlinx.android.synthetic.main.fragment_set_tos.*
@@ -14,7 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kr.hs.emirim.w2015.stac_prr.MainActivity
+import kr.hs.emirim.w2015.stac_prr.Controller.Activity.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
 class SetTosFragment : Fragment() {
@@ -56,7 +56,6 @@ class SetTosFragment : Fragment() {
         }
 
        // setTitleColor("제1조(개인정보의 처리 목적)")
-
         tos_pass_btn.setOnClickListener(){
             val main = activity as MainActivity
             main.fragmentChange_for_adapter(SetFragment())

@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr.Fragment
+package kr.hs.emirim.w2015.stac_prr.Controller.Fragment
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -15,11 +15,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kotlinx.android.synthetic.main.fragment_plant_info.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.GalleryAdapter
 import kr.hs.emirim.w2015.stac_prr.Dialog.CustomDialog
-import kr.hs.emirim.w2015.stac_prr.MainActivity
+import kr.hs.emirim.w2015.stac_prr.Controller.Activity.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.text.SimpleDateFormat
 import java.util.*

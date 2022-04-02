@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kr.hs.emirim.w2015.stac_prr.DataClass.NoticeData
+import kr.hs.emirim.w2015.stac_prr.Model.NoticeData
 import kr.hs.emirim.w2015.stac_prr.R
 
 

@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr.Fragment
+package kr.hs.emirim.w2015.stac_prr.Controller.Fragment
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.prolificinteractive.materialcalendarview.*
@@ -23,11 +22,9 @@ import kotlinx.android.synthetic.main.fragment_calender.*
 import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.PlanAdapter
 import kr.hs.emirim.w2015.stac_prr.Decorator.DotDecorator
-import kr.hs.emirim.w2015.stac_prr.ItemModel
+import kr.hs.emirim.w2015.stac_prr.Model.ItemModel
 import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.databinding.FragmentCalenderBinding
-import java.lang.String.format
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 

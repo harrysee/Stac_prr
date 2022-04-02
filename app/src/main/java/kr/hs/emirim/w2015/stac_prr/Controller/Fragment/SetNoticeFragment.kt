@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr.Fragment
+package kr.hs.emirim.w2015.stac_prr.Controller.Fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +10,8 @@ import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_set_notice.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.SetNoticeAdapter
-import kr.hs.emirim.w2015.stac_prr.MainActivity
-import kr.hs.emirim.w2015.stac_prr.DataClass.NoticeData
+import kr.hs.emirim.w2015.stac_prr.Controller.Activity.MainActivity
+import kr.hs.emirim.w2015.stac_prr.Model.NoticeData
 import kr.hs.emirim.w2015.stac_prr.R
 
 class SetNoticeFragment : Fragment() {
@@ -39,8 +39,6 @@ class SetNoticeFragment : Fragment() {
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(SetFragment())
         }
-
-
     }
     private fun initRecycler() {
         noticeAdapter = SetNoticeAdapter(requireContext())

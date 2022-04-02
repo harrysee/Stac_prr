@@ -1,6 +1,7 @@
-package kr.hs.emirim.w2015.stac_prr.Fragment
+package kr.hs.emirim.w2015.stac_prr.Controller.Fragment
 
 import android.app.AlarmManager
+
 import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.ComponentName
@@ -18,6 +19,7 @@ import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.Timestamp
@@ -27,7 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_add_plan.*
 import kr.hs.emirim.w2015.stac_prr.Dialog.CustomDialog
-import kr.hs.emirim.w2015.stac_prr.MainActivity
+import kr.hs.emirim.w2015.stac_prr.Controller.Activity.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.Receiver.AlarmReceiver
 import kr.hs.emirim.w2015.stac_prr.Receiver.DeviceBootReceiver
@@ -48,6 +50,7 @@ class AddPlanFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -89,7 +92,7 @@ class AddPlanFragment : Fragment() {
         val plant_name_spinner: Spinner = view.findViewById(R.id.plant_name_spinner)
 
         addplan_complate_btn.setOnClickListener {
-            Toast.makeText(requireContext(), "업로드 중..", Toast.LENGTH_SHORT)
+            Toast.makeText(activity, "업로드 중..", Toast.LENGTH_SHORT)
             // 파이어스토어에 데이터 저장
             val uid: String = auth.uid!!
             val date: Date = cal.time

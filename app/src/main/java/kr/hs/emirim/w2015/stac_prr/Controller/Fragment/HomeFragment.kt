@@ -1,33 +1,24 @@
-package kr.hs.emirim.w2015.stac_prr.Fragment
+package kr.hs.emirim.w2015.stac_prr.Controller.Fragment
 
-import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.FhViewAdapter
-import kr.hs.emirim.w2015.stac_prr.DataClass.HomeData
-import kr.hs.emirim.w2015.stac_prr.MainActivity
+import kr.hs.emirim.w2015.stac_prr.Model.HomeData
 import kr.hs.emirim.w2015.stac_prr.R
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -134,7 +125,6 @@ class HomeFragment : Fragment() {
                     Log.d(it.toString(), "setflower: 식물 데이터 홈에서 불러오기 실패")
                 }
         }
-
     }
 
     // 식물이름 업데이트
@@ -152,7 +142,7 @@ class HomeFragment : Fragment() {
         viewPager.adapter?.notifyDataSetChanged()
     }
 
-    /* 공식문서에 있는 코드 긁어온거임 */
+    /* 뷰 애니매이션 넘기기 */
     inner class ZoomOutPageTransformer : ViewPager2.PageTransformer {
         override fun transformPage(view: View, position: Float) {
             view.apply {

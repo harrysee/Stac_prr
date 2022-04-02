@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr.Fragment
+package kr.hs.emirim.w2015.stac_prr.Controller.Fragment
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kotlinx.android.synthetic.main.fragment_plant_info.*
 import kr.hs.emirim.w2015.stac_prr.Dialog.CustomDialog
-import kr.hs.emirim.w2015.stac_prr.MainActivity
+import kr.hs.emirim.w2015.stac_prr.Controller.Activity.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import java.text.SimpleDateFormat
 import java.util.*

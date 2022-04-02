@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back_gray"
-    tools:context=".Fragment.HomeFragment">
+    tools:context=".Controller.Fragment.HomeFragment">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/imageFilterView"

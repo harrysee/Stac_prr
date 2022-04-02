@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr.Fragment
+package kr.hs.emirim.w2015.stac_prr.Controller.Fragment
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -19,7 +19,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_journal.*
 import kr.hs.emirim.w2015.stac_prr.Adapter.JournalAdapter
-import kr.hs.emirim.w2015.stac_prr.DataClass.JournalData
+import kr.hs.emirim.w2015.stac_prr.Model.JournalData
 import kr.hs.emirim.w2015.stac_prr.R
 import java.text.SimpleDateFormat
 

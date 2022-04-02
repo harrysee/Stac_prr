@@ -1,17 +1,16 @@
-package kr.hs.emirim.w2015.stac_prr.Fragment
+package kr.hs.emirim.w2015.stac_prr.Controller.Fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_set_iot.*
-import kotlinx.android.synthetic.main.fragment_set_notice.*
-import kotlinx.android.synthetic.main.fragment_set_notice.notice_pass_btn
-import kr.hs.emirim.w2015.stac_prr.MainActivity
+import kotlinx.android.synthetic.main.fragment_set_ask.*
+import kr.hs.emirim.w2015.stac_prr.Controller.Activity.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
-class SetIotFragment : Fragment() {
+
+class SetAskFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,13 +21,13 @@ class SetIotFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_set_iot, container, false)
+        return inflater.inflate(R.layout.fragment_set_ask, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iot_pass_btn.setOnClickListener(){
+        ask_pass_btn.setOnClickListener(){
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(SetFragment())
         }

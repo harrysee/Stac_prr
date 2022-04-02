@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back_gray"
-    tools:context=".Fragment.NewPlantFragment">
+    tools:context=".Controller.Fragment.NewPlantFragment">
 
     <RelativeLayout
         android:id="@+id/nplant_top_bar"

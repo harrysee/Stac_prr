@@ -1,10 +1,10 @@
-package kr.hs.emirim.w2015.stac_prr
+package kr.hs.emirim.w2015.stac_prr.Controller.Activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import androidx.core.os.postDelayed
+import kr.hs.emirim.w2015.stac_prr.R
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

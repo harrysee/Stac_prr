@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr.DataClass
+package kr.hs.emirim.w2015.stac_prr.Model
 
 data class JournalData (
     val name : String,

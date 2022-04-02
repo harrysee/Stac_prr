@@ -1,6 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr.DataClass
-
-import android.widget.ImageView
+package kr.hs.emirim.w2015.stac_prr.Model
 
 data class HomeData (
     val name:String?,
