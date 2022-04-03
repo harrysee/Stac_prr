@@ -59,14 +59,12 @@ class CalenderFragment : Fragment(){
         calendarOption()    //캘린더 기본세팅
         addDecorator()      // 추가 커스텀
         binding.planRecyclerview.addItemDecoration(RecyclerViewDecoration(18))
-        val plans = getPlan()
-        adapter = PlanAdapter(plans,model)
+        val plans = getPlan()   // 해당 일정들
+        adapter = PlanAdapter(plans,model)      // 일정목록 어댑터 생성
         val linearLayoutManager = LinearLayoutManager(activity)
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         binding.planRecyclerview.layoutManager = linearLayoutManager
         binding.planRecyclerview.adapter = adapter
-         // recycleview 설정
-
 
         //날짜 클릭했을때
         binding.materialCalendar.setOnDateChangedListener { widget, date, selected ->
@@ -75,7 +73,7 @@ class CalenderFragment : Fragment(){
             datetext = outDateFormat.format(date.getCalendar().getTime())
             selec_date = selectDateFormat.format(date.calendar.time)    // 선택한 날짜 업데이트
             Log.d("TAG", "makeTestItems: 선택된 날짜 $selec_date")
-            adapter.items =getPlan()
+            adapter.items = getPlan()
             // 어댑터 새로고침
             adapter.date = selec_date
             adapter.notifyDataSetChanged()

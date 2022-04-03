@@ -74,16 +74,17 @@ class NewJournalFragment : Fragment() {
         if (isEdit == true) {
             putData()
         }
+
+        // 기본 날짜 세팅
         var y = 0
         var m = 0
         var d = 0
-
         y = cal[Calendar.YEAR]
         m = cal[Calendar.MONTH] + 1
         d = cal[Calendar.DAY_OF_MONTH]
-
         newjournal_date_btn.text = ("$y. $m. $d")
 
+        // 날짜 선택기
         newjournal_date_btn.setOnClickListener {
             val setDateListener =
                 DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
@@ -108,7 +109,6 @@ class NewJournalFragment : Fragment() {
             datepicker.datePicker.maxDate = now
             datepicker.show()
         }
-
         R.style.AlertDialog_AppCompat
 
         // 이미지 화살표 눌렀을때

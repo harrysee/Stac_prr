@@ -84,7 +84,7 @@ class PlantInfoFragment : Fragment() {
             info_plant_spacies.text = it.specise as String?  // 식물 종류 재설정]
             info_day.text = diffDays.toString() + "일"
             info_date_text.text = sdf.format(it.date)
-            if (it.water != 0) waterday = it.water.toString() + "일"
+            if (it.water != "") waterday = it.water.toString() + "일"
             info_water_icon_txt.text = waterday
             info_c_text.text = it.temperate as String?
             info_led_text.text = it.led as String?

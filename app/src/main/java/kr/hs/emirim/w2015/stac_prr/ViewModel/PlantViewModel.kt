@@ -12,13 +12,9 @@ import kr.hs.emirim.w2015.stac_prr.Repository.PlantRepository
 class PlantViewModel :ViewModel(){
     private var plantLiveData = MutableLiveData<PlantModel>()
     private var imgs = MutableLiveData<ArrayList<String?>>()
-    val plantRepository = PlantRepository()
-    val journalRepository = JournalRepository()
-    val planRepository = PlanRepository()
-
-    init {
-
-    }
+    val plantRepository = PlantRepository
+    val journalRepository = JournalRepository
+    val planRepository = PlanRepository
 
     fun getPlant(docId : String): MutableLiveData<PlantModel> {
         viewModelScope.launch {

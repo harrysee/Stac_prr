@@ -20,10 +20,9 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_add_plan.*
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
@@ -31,19 +30,19 @@ import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.Receiver.AlarmReceiver
 import kr.hs.emirim.w2015.stac_prr.Receiver.DeviceBootReceiver
+import kr.hs.emirim.w2015.stac_prr.ViewModel.AddPlanViewModel
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-
+import kotlin.collections.HashMap
 
 class AddPlanFragment : Fragment() {
     var date_str: String? = null
     val cal: Calendar = Calendar.getInstance()
-    val db = FirebaseFirestore.getInstance()
-    val auth = FirebaseAuth.getInstance()
     lateinit var push: SharedPreferences
     lateinit var nadapter: ArrayAdapter<String>
+    val model = ViewModelProvider(requireActivity()).get(AddPlanViewModel::class.java)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -62,7 +61,6 @@ class AddPlanFragment : Fragment() {
             e.printStackTrace()
         }
         push = context?.getSharedPreferences("push", Context.MODE_PRIVATE)!!
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_plan, container, false)
     }
 
@@ -71,8 +69,8 @@ class AddPlanFragment : Fragment() {
         val activity = activity as MainActivity
         R.style.AlertDialog_AppCompat
         val isAlarm = push.getBoolean("isAlarm", false)
-
         addplan_date_txt.text = date_str
+
         // 이미지 화살표 눌렀을때
         addplan_pass_btn.setOnClickListener() {
             val dir = CustomDialog(requireContext())
@@ -87,16 +85,14 @@ class AddPlanFragment : Fragment() {
         // 완료 눌렀을 때
         val planets_spinner: Spinner = view.findViewById(R.id.planets_spinner)
         val plant_name_spinner: Spinner = view.findViewById(R.id.plant_name_spinner)
-
         addplan_complate_btn.setOnClickListener {
             Toast.makeText(requireContext(), "업로드 중..", Toast.LENGTH_SHORT)
             // 파이어스토어에 데이터 저장
-            val uid: String = auth.uid!!
             val date: Date = cal.time
             val str_date = SimpleDateFormat("yyyy/MM/dd").format(date)
             //val str_date = cal.get(Calendar.YEAR).toString() + "/"+ cal.get(Calendar.MONTH).toString() +"/"+cal.get(Calendar.DAY_OF_MONTH).toString()
             // 올릴 필드 설정하기
-            val docData = hashMapOf(
+            val docData = mapOf<String,Any>(
                 "title" to planets_spinner.selectedItem.toString(),
                 "name" to plant_name_spinner.selectedItem.toString(),
                 "checkbox" to false,
@@ -106,17 +102,12 @@ class AddPlanFragment : Fragment() {
             )
             Log.d("TAG", "onViewCreated: 일정에 저장된 날짜 : $str_date")
             // 콜렉션에 문서 생성하기
-            db!!.collection("schedule").document(uid).collection("plans").document()
-                .set(docData)
-                .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : schedule") }
-                .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : schedule", e) }
-
+            model.insertPlan(docData)
             Toast.makeText(requireContext(), "업로드 완료 !", Toast.LENGTH_LONG).show()
             Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
 
             //알람 일단 등록
             val idCnt = push.getInt("notifyid", 0)
-
             val pm = context?.packageManager
             val receiver = ComponentName(requireContext(), DeviceBootReceiver::class.java)
             val alarmIntent = Intent(context, AlarmReceiver::class.java)
@@ -184,12 +175,11 @@ class AddPlanFragment : Fragment() {
 
         }
     }
-
     // 스피너 설정하는 함수
     fun setSpinner() {
         // title 부분
         val title = resources.getStringArray(R.array.title_arr)
-        var adapter = ArrayAdapter<String>(
+        val adapter = ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_plan_title,
             title
@@ -199,33 +189,18 @@ class AddPlanFragment : Fragment() {
         planets_spinner.adapter = adapter
 
         // 대상 부분
-        val names_arr = getNames()
-        nadapter = ArrayAdapter<String>(
-            requireContext(),
-            R.layout.spinner_custom,
-            names_arr
-        )
-        nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        plant_name_spinner.adapter = nadapter
-        nadapter.notifyDataSetChanged()
+        model.getNames().observe(requireActivity(), androidx.lifecycle.Observer {
+            val names_arr = it
+            nadapter = ArrayAdapter<String>(
+                requireContext(),
+                R.layout.spinner_custom,
+                names_arr
+            )
+            nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            plant_name_spinner.adapter = nadapter
+            nadapter.notifyDataSetChanged()
+        })
 
     }
 
-    fun getNames(): ArrayList<String> {
-        val auth = Firebase.auth.currentUser
-        val names = ArrayList<String>()
-
-        db.collection("plant_info")
-            .whereEqualTo("userId", auth?.uid)
-            .get()
-            .addOnSuccessListener {
-                for (doc in it) {
-                    names.add(doc["name"] as String)
-                }
-                nadapter.notifyDataSetChanged()
-            }.addOnFailureListener {
-                Log.d("TAG", "getNames: spinner 식물 이름들 보여주기 실패")
-            }
-        return names
-    }
 }

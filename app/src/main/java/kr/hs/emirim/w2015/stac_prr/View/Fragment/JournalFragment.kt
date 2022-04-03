@@ -11,6 +11,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
@@ -21,24 +23,25 @@ import kotlinx.android.synthetic.main.fragment_journal.*
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.JournalAdapter
 import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 import kr.hs.emirim.w2015.stac_prr.R
+import kr.hs.emirim.w2015.stac_prr.ViewModel.JournalViewModel
 import java.text.SimpleDateFormat
 
 class JournalFragment : Fragment() {
-    private val datas = mutableListOf<JournalModel>()
+    private var datas = mutableListOf<JournalModel>()
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth = Firebase.auth
     private lateinit var pref: SharedPreferences
     private lateinit var btnArr: List<Button>
     private lateinit var journalAdapter: JournalAdapter
-    private lateinit var pNames : ArrayList<String?>
+    private lateinit var pNames : ArrayList<String>
     private var dateSort = false    //초기값 내림차순
     private var pcnt : Int =0
+    private var model = ViewModelProvider(requireActivity()).get(JournalViewModel::class.java)
     private var name : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,7 +49,7 @@ class JournalFragment : Fragment() {
     ): View? {
         pref = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
         pcnt = pref.getInt("PlantCnt", 0)
-        pNames = ArrayList<String?>()
+        pNames = ArrayList<String>()
         return inflater.inflate(R.layout.fragment_journal, container, false)
     }
 
@@ -62,20 +65,13 @@ class JournalFragment : Fragment() {
         btnArr = listOf<Button>(btn1, btn2, btn3, btn4)
 
         //식물이름들 가져오기
-        db.collection("plant_info")
-            .whereEqualTo("userId", auth.uid.toString())
-            .get()
-            .addOnSuccessListener {
-                for (doc in it) {
-                    pNames.add(doc["name"] as String?)
-                    Log.d("TAG", "getNames: 일지이름 추가 : $pNames")
-                }
-                setTab()                // 식물개수만큼 탭 설정하기
-            }.addOnFailureListener {
-                Log.d("TAG", "getNames: spinner 식물 이름들 보여주기 실패")
-            }
+        model.getPlantName().observe(requireActivity(), Observer {
+            pNames = it
+            Log.d("TAG", "getNames: 일지이름 추가 : $pNames")
+        })
         onTabClickListener()    // 탭 클릭할때 리스너
 
+        // 추가버튼
         fab.setOnClickListener() {
             //식물 한개도 없으면 식물 추가하라고 토스트
             if (pcnt <= 0){
@@ -198,7 +194,6 @@ class JournalFragment : Fragment() {
                 fab.show()
             }
         }
-
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             fab.show()
@@ -210,99 +205,27 @@ class JournalFragment : Fragment() {
         journalAdapter.notifyDataSetChanged()
 
         // 일지 목록 리사이클 설정
-        if (dateSort==false){   //내림차순으로 가져오기
-            db.collection("journals")
-                .document(auth.uid.toString())
-                .collection("journal")
-                .orderBy("date", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener {
-                    Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                    for (document in it) {
-                        val date = document["date"] as Timestamp
-                        datas.add(JournalModel(
-                            document["name"] as String,
-                            document["content"] as String,
-                            SimpleDateFormat("yy-MM-dd").format(date.toDate()),
-                            document["imgUri"] as String?,
-                            document.id))
-                    }
-                    Log.i("파이어베이스데이터", datas.toString());
-                    journalAdapter.datas = datas
-                    journalAdapter.notifyDataSetChanged()
-                }
-        }else{  //오름차순으로 가져오기
-            db.collection("journals")
-                .document(auth.uid.toString())
-                .collection("journal")
-                .orderBy("date")
-                .get()
-                .addOnSuccessListener {
-                    Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                    for (document in it) {
-                        val date = document["date"] as Timestamp
-                        datas.add(JournalModel(
-                            document["name"] as String,
-                            document["content"] as String,
-                            SimpleDateFormat("yy-MM-dd").format(date.toDate()),
-                            document["imgUri"] as String?,
-                            document.id))
-                    }
-                    Log.i("파이어베이스데이터", datas.toString());
-                    journalAdapter.datas = datas
-                    journalAdapter.notifyDataSetChanged()
-                }
-        }
+        model.getAllJournals(dateSort).observe(requireActivity(), Observer {
+            datas = it
+            Log.i("파이어베이스데이터", datas.toString());
+            journalAdapter.datas = datas
+            journalAdapter.notifyDataSetChanged()
+        })
 
     }
+
     // 일지목록 업데이트
     private fun initRecycler(name: String?) {
         journalAdapter.datas.clear()
         journalAdapter.notifyDataSetChanged()
-        // 일지 목록 리사이클 설정
-        if (dateSort==false){   //내림차순으로 가져오기
-            db.collection("journals")
-                .document(auth.uid.toString())
-                .collection("journal")
-                .whereEqualTo("name", name)
-                .orderBy("date", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener {
-                    for (document in it) {
-                        val date = document["date"] as Timestamp
-                        datas.add(JournalModel(
-                            document["name"] as String,
-                            document["content"] as String,
-                            SimpleDateFormat("yy-MM-dd").format(date.toDate()),
-                            document["imgUri"] as String?,
-                            document.id))
-                    }
-                    Log.i("파이어베이스데이터", datas.toString());
-                    journalAdapter.datas = datas
-                    journalAdapter.notifyDataSetChanged()
-                }
-        }else{  //오름차순으로 가져오기
-            db.collection("journals")
-                .document(auth.uid.toString())
-                .collection("journal")
-                .whereEqualTo("name", name)
-                .orderBy("date")
-                .get()
-                .addOnSuccessListener {
-                    Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                    for (document in it) {
-                        val date = document["date"] as Timestamp
-                        datas.add(JournalModel(
-                            document["name"] as String,
-                            document["content"] as String,
-                            SimpleDateFormat("yy-MM-dd").format(date.toDate()),
-                            document["imgUri"] as String?,
-                            document.id))
-                    }
-                    Log.i("파이어베이스데이터", datas.toString());
-                    journalAdapter.datas = datas
-                    journalAdapter.notifyDataSetChanged()
-                }
+
+        if (name != null) {
+            model.getJournals(dateSort,name).observe(requireActivity(), Observer {
+                datas = it
+                Log.i("파이어베이스데이터", datas.toString());
+                journalAdapter.datas = datas
+                journalAdapter.notifyDataSetChanged()
+            })
         }
     }
 

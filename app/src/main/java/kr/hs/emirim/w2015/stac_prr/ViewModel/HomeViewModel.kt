@@ -11,7 +11,7 @@ import kr.hs.emirim.w2015.stac_prr.Repository.PlantRepository
 
 class HomeViewModel : ViewModel() {
     private var plantList = MutableLiveData<ArrayList<HomeModel>>()
-    private val plantRepository by lazy { PlantRepository() }
+    private val plantRepository by lazy { PlantRepository }
     
     init {
         // 생성 로직 
