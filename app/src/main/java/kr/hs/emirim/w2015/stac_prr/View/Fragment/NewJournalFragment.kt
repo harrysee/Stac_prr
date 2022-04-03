@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
+import kr.hs.emirim.w2015.stac_prr.ViewModel.AddJournalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,6 +40,7 @@ class NewJournalFragment : Fragment() {
     private var isEdit: Boolean? = false
     private var docId: String? = null
     private var imgUri: String? = null
+    private var model = ViewModelProvider(requireActivity()).get(AddJournalViewModel::class.java)
     val cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,18 +64,36 @@ class NewJournalFragment : Fragment() {
         val activity = activity as MainActivity
 
         // 등록된 식물 스피너 설정
-        val plantnames = getNames()
-        nadapter = ArrayAdapter<String>(
-            requireContext(),
-            R.layout.spinner_custom_name,
-            plantnames
-        )
-        Log.d("TAG", "onViewCreated: 어댑터 완성")
-        nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        choice_spinner.adapter = nadapter
-        nadapter.notifyDataSetChanged()
+        model.getPlantName().observe(requireActivity(), androidx.lifecycle.Observer {
+            val plantnames = it
+            nadapter = ArrayAdapter<String>(
+                requireContext(),
+                R.layout.spinner_custom_name,
+                plantnames
+            )
+            Log.d("TAG", "onViewCreated: 어댑터 완성")
+            nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            choice_spinner.adapter = nadapter
+            nadapter.notifyDataSetChanged()
+        })
+        
+        // 수정일 경우 데이터 뿌리기
         if (isEdit == true) {
-            putData()
+            model.getJournal(docId!!).observe(requireActivity(), androidx.lifecycle.Observer {
+                val date = it.date as Timestamp
+                val pos = nadapter.getPosition(it.name as String?)
+                newjournal_date_btn.text = SimpleDateFormat("yy-MM-dd").format(date.toDate())
+                cal.time = date.toDate()
+                journal_content.setText(it.journal as String?)
+                choice_spinner.setSelection(pos)
+
+                if (imgUri != null) {
+                    Glide.with(requireContext())
+                        .load(imgUri)
+                        .fitCenter()
+                        .into(add_img_btn)
+                }
+            })
         }
 
         // 기본 날짜 세팅
@@ -132,90 +153,32 @@ class NewJournalFragment : Fragment() {
             val journal_content: EditText = view.findViewById(R.id.journal_content)
             val choice_spinner: Spinner = view.findViewById(R.id.choice_spinner)
             var downloadUri: String? = null // 다운로드 uri 저장변수
-
+            val docData = mapOf<String,Any?>(
+                "content" to journal_content.text.toString(),
+                "name" to choice_spinner.selectedItem.toString(),
+                "date" to Timestamp(date),   // 날짜
+                "imgUri" to downloadUri
+            )
             if (photoURI != null) {// 파일 업로드
-                val filename = "_" + System.currentTimeMillis()
-                val imagesRef: StorageReference? = storageRef.child("journal/" + filename)
-
-                //스토리지 업로드
-                var file: Uri? = null
-                try {
-                    file = photoURI!!
-                    Log.d("TAG", "onViewCreated: 사진 URI : $file")
-                    val uploadTask = imagesRef?.putFile(file)
-                    Toast.makeText(requireContext(), "업로드중...", Toast.LENGTH_LONG).show()
-
-                    uploadTask?.continueWithTask { task ->
-                        Log.d("TAG", "onViewCreated: 새로운 일지 continue 들어옴")
-                        if (!task.isSuccessful) {
-                            task.exception?.let {
-                                Log.d("TAG", "onViewCreated: 일지 안올라감")
-                                throw it
-                            }
+                model.setJournal(true,docData, photoURI,docId,isEdit).observe(requireActivity(),
+                    androidx.lifecycle.Observer {
+                        if (it){
+                            Toast.makeText(requireContext(),"업로드 완료",Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(requireContext(),"업로드 실패",Toast.LENGTH_SHORT).show()
                         }
-                        imagesRef.downloadUrl.addOnSuccessListener { task ->
-                            Log.d("TAG", "onViewCreated: 다운로드 Uri : ${task.toString()}")
-                            downloadUri = task.toString()
-                            val docData = hashMapOf(
-                                "content" to journal_content.text.toString(),
-                                "name" to choice_spinner.selectedItem.toString(),
-                                "date" to Timestamp(date),   // 날짜
-                                "imgUri" to downloadUri
-                            )
-                            // 콜렉션에 문서 생성하기
-                            if (isEdit == true){    //수정일경우 업데이트
-                                if (uid != null) {
-                                    db!!.collection("journals").document(uid).collection("journal").document(docId!!)
-                                        .update(mapOf(
-                                            "content" to journal_content.text.toString(),
-                                            "name" to choice_spinner.selectedItem.toString(),
-                                            "date" to Timestamp(date),   // 날짜
-                                            "imgUri" to downloadUri
-                                        ))
-                                        .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
-                                        .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
-                                }
-                            }else{  //아닐경우 업로드
-                                if (uid != null) {
-                                    db!!.collection("journals").document(uid).collection("journal").document()
-                                        .set(docData)
-                                        .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
-                                        .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
-                                }
-                            }//else end
-                        }//imagesRef end
-                    }//continueWithTask end
-                } catch (e: java.lang.Exception) {
-                    Log.d("TAG", "onViewCreated: 사진 안들어감 : ${e.toString()}")
-                }
+                    })
+
             } else if (photoURI == null) {  //사진이 들어잇는경우 업로드
                 //파이어베이스 업로드
-                val docData = hashMapOf(
-                    "content" to journal_content.text.toString(),
-                    "name" to choice_spinner.selectedItem.toString(),
-                    "date" to Timestamp(date),   // 날짜
-                    "imgUri" to downloadUri
-                )
-                // 콜렉션에 문서 생성하기
-                if (isEdit == true){    //수정일경우 업데이트
-                    if (uid != null) {
-                        db!!.collection("journals").document(uid).collection("journal").document(docId!!)
-                            .update(mapOf(
-                                "content" to journal_content.text.toString(),
-                                "name" to choice_spinner.selectedItem.toString(),
-                                "date" to Timestamp(date),   // 날짜
-                            ))
-                            .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
-                            .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
-                    }
-                }else{  //아닐경우 업로드
-                    if (uid != null) {
-                        db!!.collection("journals").document(uid).collection("journal").document()
-                            .set(docData)
-                            .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
-                            .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
-                    }
-                }
+                model.setJournal(false,docData,photoURI,docId,isEdit).observe(requireActivity(),
+                    androidx.lifecycle.Observer {
+                        if (it){
+                            Toast.makeText(requireContext(),"업로드 완료",Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(requireContext(),"업로드 실패",Toast.LENGTH_SHORT).show()
+                        }
+                    })
                 Toast.makeText(requireContext(), "업로드 완료!", Toast.LENGTH_SHORT).show()
                 Log.d("TAG", "onViewCreated: 파이어 업로드 완료 : journal")
             }
@@ -252,47 +215,5 @@ class NewJournalFragment : Fragment() {
 
     }
 
-    //수정일경우 데이터 뿌리기
-    fun putData() {
-        val uid: String = auth.uid!!
-        if (uid != null) {
-            db!!.collection("journals")
-                .document(uid).collection("journal").document(docId!!)
-                .get()
-                .addOnSuccessListener {
-                    val date = it["date"] as Timestamp
-                    val pos = nadapter.getPosition(it["name"] as String?)
-                    newjournal_date_btn.text = SimpleDateFormat("yy-MM-dd").format(date.toDate())
-                    cal.time = date.toDate()
-                    journal_content.setText(it["content"] as String?)
-                    choice_spinner.setSelection(pos)
-
-                    if (imgUri != null) {
-                        Glide.with(requireContext())
-                            .load(imgUri)
-                            .fitCenter()
-                            .into(add_img_btn)
-                    }
-                }
-        }
-    }
-
-    fun getNames(): ArrayList<String?> {
-        val auth = Firebase.auth.currentUser
-        val names = ArrayList<String?>()
-
-        db.collection("plant_info")
-            .whereEqualTo("userId", auth?.uid)
-            .get()
-            .addOnSuccessListener {
-                for (doc in it) {
-                    names.add(doc["name"] as String?)
-                }
-                nadapter.notifyDataSetChanged()
-            }.addOnFailureListener {
-                Log.d("TAG", "getNames: spinner 식물 이름들 보여주기 실패")
-            }
-        return names
-    }
 }
 

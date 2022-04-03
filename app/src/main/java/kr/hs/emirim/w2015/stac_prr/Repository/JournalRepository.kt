@@ -159,7 +159,7 @@ object JournalRepository {
     }
 
     // 일지 추가
-    suspend fun CreateJournal(docData: HashMap<String, Any>){
+    suspend fun CreateJournal(docData: Map<String, Any?>){
         auth.uid?.let {
             db!!.collection("journals").document(it).collection("journal").document()
                 .set(docData)
@@ -203,7 +203,7 @@ object JournalRepository {
     }
 
     // 일지 수정
-    suspend fun ModifyJournal(docData: HashMap<String, Any>, isImg:Boolean, docId: String){
+    suspend fun ModifyJournal(docData: Map<String, Any?>, isImg:Boolean, docId: String){
         if (isImg) {// 파일 업로드
             auth.uid?.let {
                 db!!.collection("journals").document(it).collection("journal").document(docId!!)

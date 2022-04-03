@@ -12,7 +12,7 @@ import kr.hs.emirim.w2015.stac_prr.Repository.JournalRepository
 import kr.hs.emirim.w2015.stac_prr.Repository.PlantRepository
 
 class JournalViewModel : ViewModel(){
-    val plantNames = MutableLiveData<ArrayList<String>>()
+    var plantNames = MutableLiveData<ArrayList<String>>()
     var allJournals = MutableLiveData<ArrayList<JournalModel>>()
     var journals = MutableLiveData<ArrayList<JournalModel>>()
     var isComplate = MutableLiveData<Boolean>()
@@ -24,7 +24,7 @@ class JournalViewModel : ViewModel(){
     // 식물이름들 가져오기
     fun getPlantName(): MutableLiveData<ArrayList<String>> {
         viewModelScope.launch {
-            plantRep.getNames()
+            plantNames = plantRep.getNames()
         }
         return plantNames
     }
