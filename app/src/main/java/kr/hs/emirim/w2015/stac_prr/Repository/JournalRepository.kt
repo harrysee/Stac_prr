@@ -2,20 +2,14 @@ package kr.hs.emirim.w2015.stac_prr.Repository
 
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.Glide
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
-import kr.hs.emirim.w2015.stac_prr.Model.PlanModel
-import java.text.SimpleDateFormat
 
 object JournalRepository {
     private val journalList = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
@@ -165,7 +159,7 @@ object JournalRepository {
     }
 
     // 일지 추가
-    suspend fun CreateJournal(docData : HashMap<String, Comparable<Any>?>){
+    suspend fun CreateJournal(docData: HashMap<String, Any>){
         auth.uid?.let {
             db!!.collection("journals").document(it).collection("journal").document()
                 .set(docData)
@@ -209,7 +203,7 @@ object JournalRepository {
     }
 
     // 일지 수정
-    suspend fun ModifyJournal(docData: HashMap<String, Comparable<Any>?>, isImg:Boolean, docId: String){
+    suspend fun ModifyJournal(docData: HashMap<String, Any>, isImg:Boolean, docId: String){
         if (isImg) {// 파일 업로드
             auth.uid?.let {
                 db!!.collection("journals").document(it).collection("journal").document(docId!!)
