@@ -114,7 +114,7 @@ class PlantRepository {
     }
 
     // 이미지 추가하기
-    suspend fun createPlantImg(photoURI:Uri?, docData:PlantModel,isEdit:Boolean): MutableLiveData<String> {
+    fun createPlantImg(photoURI:Uri?, docData:PlantModel,isEdit:Boolean): MutableLiveData<String> {
         var downloadUri = ""
         if (photoURI != null) { // 이미지 있을 때
             val filename = "_" + System.currentTimeMillis()
