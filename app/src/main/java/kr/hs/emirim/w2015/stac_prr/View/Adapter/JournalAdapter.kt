@@ -35,8 +35,6 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.bind(datas[position])
-
-
         }
 
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

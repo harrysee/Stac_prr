@@ -1,12 +1,17 @@
 package kr.hs.emirim.w2015.stac_prr.Repository
 
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 import kr.hs.emirim.w2015.stac_prr.Model.PlanModel
@@ -16,10 +21,14 @@ class JournalRepository {
     private val journalList = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
     private val plantjournal = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
     private val journal = MutableLiveData<JournalModel>()     // 여기가 데이터저장 배열
-    private val journalImgs = MutableLiveData<ArrayList<String?>?>()     // 여기가 데이터저장 배열
+    private val journalImgs = MutableLiveData<ArrayList<String?>>()     // 여기가 데이터저장 배열
+    private val journalUploadImg = MutableLiveData<String?>()
+    private var storage = FirebaseStorage.getInstance()
+    private var storageRef = storage.reference
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
-
+    
+    // 전체 가져오기
     private suspend fun getJournalList(dateSort:Boolean): MutableLiveData<ArrayList<JournalModel>> {
         val datas = ArrayList<JournalModel>()
         if (dateSort==false){   //내림차순으로 가져오기
@@ -162,7 +171,40 @@ class JournalRepository {
                 .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
                 .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
         }
+    }
 
+    // 일지 이미지 추가
+    suspend fun CreateJournalImg(photoURI : Uri?): MutableLiveData<String?> {
+        val filename = "_" + System.currentTimeMillis()
+        val imagesRef: StorageReference? = storageRef.child("journal/" + filename)
+        var downloadUri: String? = null // 다운로드 uri 저장변수
+
+        //스토리지 업로드
+        var file: Uri? = null
+        try {
+            file = photoURI!!
+            Log.d("TAG", "onViewCreated: 사진 URI : $file")
+            val uploadTask = imagesRef?.putFile(file)
+
+            uploadTask?.continueWithTask { task ->
+                Log.d("TAG", "onViewCreated: 새로운 일지 continue 들어옴")
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        Log.d("TAG", "onViewCreated: 일지 안올라감")
+                        throw it
+                    }
+                }
+                imagesRef.downloadUrl.addOnSuccessListener { task ->
+                    Log.d("TAG", "onViewCreated: 다운로드 Uri : ${task.toString()}")
+                    downloadUri = task.toString()
+                }
+            }
+            journalUploadImg.postValue(downloadUri)
+        }catch (e: java.lang.Exception){
+            Log.d("TAG", "onViewCreated: 사진 안들어감 : ${e.toString()}")
+            journalUploadImg.postValue("")
+        }
+        return journalUploadImg
     }
 
     // 일지 수정
