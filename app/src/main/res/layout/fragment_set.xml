@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/set_bg"
-    tools:context=".Fragment.SetFragment">
+    tools:context=".View.Fragment.SetFragment">
 
     <LinearLayout
         android:id="@+id/set_top_bar"

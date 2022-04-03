@@ -8,13 +8,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import kr.hs.emirim.w2015.stac_prr.Fragment.CalenderFragment
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class AlarmReceiver : BroadcastReceiver() {

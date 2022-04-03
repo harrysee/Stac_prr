@@ -19,13 +19,12 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.journal_dialog.*
-import kr.hs.emirim.w2015.stac_prr.DataClass.Flowers
-import kr.hs.emirim.w2015.stac_prr.Dialog.CustomDialog
-import kr.hs.emirim.w2015.stac_prr.Fragment.CalenderFragment
-import kr.hs.emirim.w2015.stac_prr.Fragment.HomeFragment
-import kr.hs.emirim.w2015.stac_prr.Fragment.JournalFragment
-import kr.hs.emirim.w2015.stac_prr.Fragment.SetFragment
+import kr.hs.emirim.w2015.stac_prr.Model.Flowers
+import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
+import kr.hs.emirim.w2015.stac_prr.View.Fragment.CalenderFragment
+import kr.hs.emirim.w2015.stac_prr.View.Fragment.HomeFragment
+import kr.hs.emirim.w2015.stac_prr.View.Fragment.JournalFragment
+import kr.hs.emirim.w2015.stac_prr.View.Fragment.SetFragment
 import kr.hs.emirim.w2015.stac_prr.Receiver.BroadcastReceiver
 import java.util.*
 import kotlin.collections.ArrayList
@@ -197,7 +196,6 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("TAG", "signInAnonymously:success - 사용자등록 완료")
-
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "signInAnonymously:failure", task.exception)
