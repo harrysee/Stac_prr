@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kr.hs.emirim.w2015.stac_prr.Model.ItemModel
+import kr.hs.emirim.w2015.stac_prr.Model.PlanModel
 import kr.hs.emirim.w2015.stac_prr.databinding.PlanItemViewBinding
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
-class PlanAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var items: ItemModel? = ItemModel()
+class PlanAdapter(var items: ArrayList<PlanModel>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var date : String = SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().time)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -24,14 +24,14 @@ class PlanAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemHolder) {
-            Log.d("TAG", "onBindViewHolder: 일정어댑터 아이템: ${items?.items?.get(position)}")
-            holder.bind(items?.items?.get(position))
+            Log.d("TAG", "onBindViewHolder: 일정어댑터 아이템: ${items?.get(position)}")
+            holder.bind(items?.get(position))
         }
 
     }
     // 개수 반환
     override fun getItemCount(): Int {
-        items?.items?.let {
+        items?.let {
             return it.size
         }
         return 0
@@ -40,7 +40,7 @@ class PlanAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         // 작성했던 레이아웃 bind 가져오기
         class ItemHolder(var binding: PlanItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
-            var item: ItemModel.ItemEntity? = null
+            lateinit var item: PlanModel
             val auth = FirebaseAuth.getInstance()
             val db = FirebaseFirestore.getInstance()
 
@@ -48,11 +48,11 @@ class PlanAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 binding.checkBox.setOnCheckedChangeListener(this)
             }*/
             @JvmName("getItem1")
-            fun getItem(): ItemModel.ItemEntity?{
+            fun getItem(): PlanModel{
                 return item
             }
             // 아이템 모델의 데이터 클래스 가져와서 새로 업데이트 시키기
-            fun bind(item: ItemModel.ItemEntity?){
+            fun bind(item: PlanModel?){
                 item?.let{
                     this.item = item
                     binding.checkBox.isChecked = it.isChecked

@@ -147,7 +147,7 @@ class AddPlanFragment : Fragment() {
                     PackageManager.DONT_KILL_APP)
             }
             
-            activity.fragmentChange_for_adapter(CalenderFragment())
+            activity.fragmentChange_for_adapter(CalenderFragment()) // 이동하기
         }
 
         setSpinner()
@@ -187,7 +187,6 @@ class AddPlanFragment : Fragment() {
 
     // 스피너 설정하는 함수
     fun setSpinner() {
-
         // title 부분
         val title = resources.getStringArray(R.array.title_arr)
         var adapter = ArrayAdapter<String>(
