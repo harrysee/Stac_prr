@@ -76,7 +76,7 @@ class HomeFragment : Fragment() {
 
         home_fab.setOnClickListener {       //플러스 버튼 눌렀을때
             val pcnt = pref.getInt("PlantCnt",0)   // 처음 생성시 식물개수 0
-            if (4>pcnt){   // 식물개수 제한. 4개까지
+            if (4 > pcnt){   // 식물개수 제한. 4개까지
                 val fragment = NewPlantFragment()
                 val bundle = Bundle()
                 bundle.putBoolean("isEdit",false)
@@ -92,7 +92,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-        setflower()     // 꽃말 업데이트
     }   // OnViewCreate end
 
     // 파이어스토어에서 데이터 가져와서 어댑터로 보내기 준비
@@ -128,14 +127,14 @@ class HomeFragment : Fragment() {
 
     }
 
-    // 식물이름 업데이트
-    fun setflower(){
-        val name = flower.getString("keyname","푸르름")
-        val tag = flower.getString("keytag","#성장#시작#푸르른")
-
-        text_flower_today.text = name + "의 꽃말은?"
-        text_flower_today_tag.text = tag
-    }
+//    // 식물이름 업데이트
+//    fun setflower(){
+//        val name = flower.getString("keyname","푸르름")
+//        val tag = flower.getString("keytag","#성장#시작#푸르른")
+//
+//        text_flower_today.text = name + "의 꽃말은?"
+//        text_flower_today_tag.text = tag
+//    }
 
     fun getHomeData(homeData: ArrayList<HomeModel>?){
         Log.d("TAG", "getData: 홈데이터 가져와보기 : $homeData" )
