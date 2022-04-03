@@ -10,14 +10,14 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kr.hs.emirim.w2015.stac_prr.Model.NoticeData
+import kr.hs.emirim.w2015.stac_prr.Model.NoticeModel
 import kr.hs.emirim.w2015.stac_prr.R
 
 
 class SetNoticeAdapter(private val context: Context) :
     RecyclerView.Adapter<SetNoticeAdapter.ViewHolder>() {
 
-    var datas = mutableListOf<NoticeData>()
+    var datas = mutableListOf<NoticeModel>()
     var updown: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,7 +41,7 @@ class SetNoticeAdapter(private val context: Context) :
         private val arrowBtn: ImageButton = itemView.findViewById(R.id.notice_arrow_btn)
         private val mainLinear: LinearLayout = itemView.findViewById(R.id.notice_main_linear)
 
-        fun bind(item: NoticeData) {
+        fun bind(item: NoticeModel) {
             Log.d(item.title, "bind: 데이터 들어옴")
             txtName.text = item.title
             txtDate.text = item.date

@@ -1,9 +1,12 @@
 package kr.hs.emirim.w2015.stac_prr.Model
 
-data class JournalData (
+import com.google.firebase.Timestamp
+
+
+data class JournalModel (
     val name : String,
     val journal : String,
-    val date : String,
+    val date : Timestamp,
     val imgUri : String?,
     val docId : String
 )

@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.slider_item.view.*
-import kr.hs.emirim.w2015.stac_prr.Model.HomeData
+import kr.hs.emirim.w2015.stac_prr.Model.HomeModel
 import kr.hs.emirim.w2015.stac_prr.View.Fragment.PlantInfoFragment
 import kr.hs.emirim.w2015.stac_prr.R
 
 
-class FhViewAdapter(private val datas : ArrayList<HomeData>, val fragment_s:FragmentActivity?, val context:Context) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
+class FhViewAdapter(private val datas : ArrayList<HomeModel>, val fragment_s:FragmentActivity?, val context:Context) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewholder(parent)
@@ -49,7 +49,7 @@ class FhViewAdapter(private val datas : ArrayList<HomeData>, val fragment_s:Frag
         val textView = itemView.text_register_plant
         val textSpace = itemView.text_register_spacies
 
-        fun bind(item: HomeData, context : Context){
+        fun bind(item: HomeModel, context : Context){
             Log.d("TAG", "bind: 식물정보 어댑터 실행됨")
             //imageView.setImageResource()
             imageView.setImageResource(R.drawable.ic_home_emty_item)

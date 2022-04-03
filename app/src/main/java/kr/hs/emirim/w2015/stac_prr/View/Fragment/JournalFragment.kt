@@ -19,12 +19,12 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_journal.*
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.JournalAdapter
-import kr.hs.emirim.w2015.stac_prr.Model.JournalData
+import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 import kr.hs.emirim.w2015.stac_prr.R
 import java.text.SimpleDateFormat
 
 class JournalFragment : Fragment() {
-    private val datas = mutableListOf<JournalData>()
+    private val datas = mutableListOf<JournalModel>()
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth = Firebase.auth
     private lateinit var pref: SharedPreferences
@@ -220,7 +220,7 @@ class JournalFragment : Fragment() {
                     Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                     for (document in it) {
                         val date = document["date"] as Timestamp
-                        datas.add(JournalData(
+                        datas.add(JournalModel(
                             document["name"] as String,
                             document["content"] as String,
                             SimpleDateFormat("yy-MM-dd").format(date.toDate()),
@@ -241,7 +241,7 @@ class JournalFragment : Fragment() {
                     Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                     for (document in it) {
                         val date = document["date"] as Timestamp
-                        datas.add(JournalData(
+                        datas.add(JournalModel(
                             document["name"] as String,
                             document["content"] as String,
                             SimpleDateFormat("yy-MM-dd").format(date.toDate()),
@@ -270,7 +270,7 @@ class JournalFragment : Fragment() {
                 .addOnSuccessListener {
                     for (document in it) {
                         val date = document["date"] as Timestamp
-                        datas.add(JournalData(
+                        datas.add(JournalModel(
                             document["name"] as String,
                             document["content"] as String,
                             SimpleDateFormat("yy-MM-dd").format(date.toDate()),
@@ -292,7 +292,7 @@ class JournalFragment : Fragment() {
                     Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                     for (document in it) {
                         val date = document["date"] as Timestamp
-                        datas.add(JournalData(
+                        datas.add(JournalModel(
                             document["name"] as String,
                             document["content"] as String,
                             SimpleDateFormat("yy-MM-dd").format(date.toDate()),

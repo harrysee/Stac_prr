@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.FhViewAdapter
-import kr.hs.emirim.w2015.stac_prr.Model.HomeData
+import kr.hs.emirim.w2015.stac_prr.Model.HomeModel
 import kr.hs.emirim.w2015.stac_prr.R
 import kotlin.collections.ArrayList
 
@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
     private val MIN_ALPHA = 0.5f // 어두워지는 정도를 나타낸 듯 하다.
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth = Firebase.auth
-    var homedatas: ArrayList<HomeData>? = ArrayList<HomeData>()
+    var homedatas: ArrayList<HomeModel>? = ArrayList<HomeModel>()
     private var alarmMgr: AlarmManager? = null
     private lateinit var pref : SharedPreferences
     private lateinit var flower : SharedPreferences
@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
                 .addOnSuccessListener {
                     for (document in it) {
                         Log.i("TAG", "getDataList: 식물 데이터 보여주기 ${document.data}")
-                        homedatas?.add(HomeData(document["name"] as String?,
+                        homedatas?.add(HomeModel(document["name"] as String?,
                             document["specise"] as String?,
                             document["imgUri"] as String?,
                             document.id))
@@ -137,7 +137,7 @@ class HomeFragment : Fragment() {
         text_flower_today_tag.text = tag
     }
 
-    fun getHomeData(homeData: ArrayList<HomeData>?){
+    fun getHomeData(homeData: ArrayList<HomeModel>?){
         Log.d("TAG", "getData: 홈데이터 가져와보기 : $homeData" )
         homedatas = homeData
         viewPager.adapter?.notifyDataSetChanged()

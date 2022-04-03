@@ -2,7 +2,7 @@ package kr.hs.emirim.w2015.stac_prr.Model
 
 import java.util.*
 
-data class PlantInfo (
+data class PlantModel (
     val name : String,
     val date : Date,
     val imgUrl : String,

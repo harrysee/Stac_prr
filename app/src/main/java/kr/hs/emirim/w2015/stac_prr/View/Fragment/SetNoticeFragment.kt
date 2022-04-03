@@ -11,12 +11,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_set_notice.*
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.SetNoticeAdapter
 import kr.hs.emirim.w2015.stac_prr.MainActivity
-import kr.hs.emirim.w2015.stac_prr.Model.NoticeData
+import kr.hs.emirim.w2015.stac_prr.Model.NoticeModel
 import kr.hs.emirim.w2015.stac_prr.R
 
 class SetNoticeFragment : Fragment() {
     lateinit var noticeAdapter: SetNoticeAdapter
-    val datas = mutableListOf<NoticeData>()
+    val datas = mutableListOf<NoticeModel>()
     val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +51,7 @@ class SetNoticeFragment : Fragment() {
             .addOnSuccessListener { result ->
                 for (document in result) {
                     val content = (document["content"] as String).replace("\\n", "\n")
-                    datas.add(NoticeData(document["title"] as String,document["date"] as String,content))
+                    datas.add(NoticeModel(document["title"] as String,document["date"] as String,content))
                     Log.d("TAG", "${document["title"]} => ${datas}")
                 }
                 noticeAdapter.datas = datas

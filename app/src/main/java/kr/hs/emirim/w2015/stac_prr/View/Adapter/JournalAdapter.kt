@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import kr.hs.emirim.w2015.stac_prr.Model.JournalData
+import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.ImageDialog
 import kr.hs.emirim.w2015.stac_prr.View.Fragment.NewJournalFragment
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.JournalDialog
@@ -23,7 +23,7 @@ import kr.hs.emirim.w2015.stac_prr.R
 
 class JournalAdapter(private val context: Context, private val activity: FragmentActivity?) :
     RecyclerView.Adapter<JournalAdapter.ViewHolder>() {
-        var datas = mutableListOf<JournalData>()
+        var datas = mutableListOf<JournalModel>()
         val storage = FirebaseStorage.getInstance()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,7 +45,7 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
             private val journalimg : ImageView = itemView.findViewById(R.id.journal_img)
             private val journaldate : TextView = itemView.findViewById(R.id.journal_item_date)
 
-            fun bind(item: JournalData) {
+            fun bind(item: JournalModel) {
                 txtName.text = item.name
                 txtJournal.text = item.journal
                 journaldate.text = item.date
