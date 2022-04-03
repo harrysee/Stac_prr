@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.FhViewAdapter
 import kr.hs.emirim.w2015.stac_prr.Model.HomeModel
 import kr.hs.emirim.w2015.stac_prr.R
+import kr.hs.emirim.w2015.stac_prr.ViewModel.HomeViewModel
 import kotlin.collections.ArrayList
 
 
@@ -31,8 +34,8 @@ class HomeFragment : Fragment() {
     private var alarmMgr: AlarmManager? = null
     private lateinit var pref : SharedPreferences
     private lateinit var flower : SharedPreferences
-
     private lateinit var alarmIntent: PendingIntent
+    val model = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +61,16 @@ class HomeFragment : Fragment() {
         viewPager.setPageTransformer { page, position ->
             page.translationX = position * -offsetPx
         }
-        /* 여백, 너비에 대한 정의 */
-        viewPager.offscreenPageLimit = 1 // 몇 개의 페이지를 미리 로드 해둘것인지
-        // 어댑터 넣기
+        // 여백, 너비에 대한 정의 : 몇 개의 페이지를 미리 로드 해둘것인지
+        viewPager.offscreenPageLimit = 1
+        // 데이터세팅
+        model.getAllPlant().observe(requireActivity(), Observer{ // 뷰모델 데이터가져오기
+            homedatas = it
+            viewPager.adapter?.notifyDataSetChanged()
+        })
         getDataList()
+        
+        // 어댑터 넣기
         if (homedatas != null) {
             Log.d("TAG", "onViewCreated: 식물정보 데이터리스트 null인지 : ${homedatas}")
             val viewAdapter = homedatas?.let { FhViewAdapter(it, activity, requireContext()) }  // 어댑터 생성
@@ -71,12 +80,12 @@ class HomeFragment : Fragment() {
         Log.i("어댑터소환", "어댑터 실행완료 ")
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
         viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
-
         view_dots_indicator.setViewPager2(viewPager) // indicator 설정
 
-        home_fab.setOnClickListener {       //플러스 버튼 눌렀을때
+        // 추가버튼
+        home_fab.setOnClickListener {
             val pcnt = pref.getInt("PlantCnt",0)   // 처음 생성시 식물개수 0
-            if (4 > pcnt){   // 식물개수 제한. 4개까지
+            if (4 > pcnt){   // 식물개수 제한. 4개 안넘으면 추가시키기
                 val fragment = NewPlantFragment()
                 val bundle = Bundle()
                 bundle.putBoolean("isEdit",false)
@@ -96,33 +105,14 @@ class HomeFragment : Fragment() {
 
     // 파이어스토어에서 데이터 가져와서 어댑터로 보내기 준비
     private fun getDataList() {
-        homedatas.let {
-            db.collection("plant_info")
-                .whereEqualTo("userId", auth.uid)
-                .get()
-                .addOnSuccessListener {
-                    for (document in it) {
-                        Log.i("TAG", "getDataList: 식물 데이터 보여주기 ${document.data}")
-                        homedatas?.add(HomeModel(document["name"] as String?,
-                            document["specise"] as String?,
-                            document["imgUri"] as String?,
-                            document.id))
-                        Log.d("TAG", "getDataList: 홈데이터 담기 : $homedatas")
-                        //this.homedatas = homedatas
-                    }
-                    with(pref.edit()) {
-                        putInt("PlantCnt", it.size())
-                        commit()
-                    }
-                    val pcnt = pref.getInt("PlantCnt", 0)
-                    if (pcnt <= 0){     // 식물등록 안됐을때 등록시키기
-                        Toast.makeText(requireContext(),"식물을 등록하세요", Toast.LENGTH_SHORT ).show()
-                    }
-                    getHomeData(homedatas)
-                    Log.d(it.toString(), "setflower: 식물 데이터 홈에서 불러오기 성공 $homedatas")
-                }.addOnFailureListener {
-                    Log.d(it.toString(), "setflower: 식물 데이터 홈에서 불러오기 실패")
-                }
+        // 식물 개수 등록 안내 띄우기
+        with(pref.edit()) {
+            putInt("PlantCnt", homedatas?.size?:0)
+            commit()
+        }
+        val pcnt = pref.getInt("PlantCnt", 0)
+        if (pcnt <= 0){     // 식물등록 안됐을때 등록시키기
+            Toast.makeText(requireContext(),"식물을 등록하세요", Toast.LENGTH_SHORT ).show()
         }
 
     }
@@ -135,12 +125,6 @@ class HomeFragment : Fragment() {
 //        text_flower_today.text = name + "의 꽃말은?"
 //        text_flower_today_tag.text = tag
 //    }
-
-    fun getHomeData(homeData: ArrayList<HomeModel>?){
-        Log.d("TAG", "getData: 홈데이터 가져와보기 : $homeData" )
-        homedatas = homeData
-        viewPager.adapter?.notifyDataSetChanged()
-    }
 
     /* 공식문서 코드 : 카드뷰 양쪽으로 움직이기 */
     inner class ZoomOutPageTransformer : ViewPager2.PageTransformer {

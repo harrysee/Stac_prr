@@ -21,7 +21,7 @@ class HomeViewModel : ViewModel() {
         }
     }
     
-    fun getAllPlant(documentId: String): MutableLiveData<ArrayList<HomeModel>> {
+    fun getAllPlant(): MutableLiveData<ArrayList<HomeModel>> {
         return plantList
     }
 

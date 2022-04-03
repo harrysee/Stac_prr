@@ -48,7 +48,7 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
             fun bind(item: JournalModel) {
                 txtName.text = item.name
                 txtJournal.text = item.journal
-                journaldate.text = item.date
+                journaldate.text = item.date.toString()
 
                 if (item.imgUri != null){
                     Log.d("TAG", "bind: 일지어댑터 사진 null아님 : ${item.imgUri}")

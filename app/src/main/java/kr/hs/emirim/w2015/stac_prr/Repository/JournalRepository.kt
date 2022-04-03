@@ -16,6 +16,7 @@ class JournalRepository {
     private val journalList = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
     private val plantjournal = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
     private val journal = MutableLiveData<JournalModel>()     // 여기가 데이터저장 배열
+    private val journalImgs = MutableLiveData<ArrayList<String?>?>()     // 여기가 데이터저장 배열
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
 
@@ -129,6 +130,28 @@ class JournalRepository {
                 }
         }
         return journal
+    }
+
+    // 일지 사진들만 가져오기
+    suspend fun getJournalImg(name: String): MutableLiveData<ArrayList<String?>> {
+        val imgData = ArrayList<String?>()
+        db.collection("journals")
+            .document(auth.uid.toString())
+            .collection("journal")
+            .whereEqualTo("name", name)
+            .orderBy("date")
+            .get()
+            .addOnSuccessListener {
+                Log.d("", "makeTestItems: 해당 이름 사진 가져오기 성공")
+                for (document in it) {
+                    if (document["imgUri"] as String? !=null){
+                        imgData.add(document["imgUri"] as String?)
+                    }
+                }
+                Log.i("갤러리 이미지리소스 주기", imgData.toString());
+                journalImgs.postValue(imgData)
+            }
+        return journalImgs
     }
 
     // 일지 추가
