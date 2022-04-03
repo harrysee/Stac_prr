@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import kr.hs.emirim.w2015.stac_prr.Model.PlanModel
 import java.security.Timestamp
 import java.text.SimpleDateFormat
@@ -12,6 +13,7 @@ import kotlin.collections.ArrayList
 
 class PlanRepository {
     private val plansList = MutableLiveData<ArrayList<PlanModel>>()     // 여기가 데이터저장 배열
+    private val planDaysList = MutableLiveData<ArrayList<CalendarDay>>()     // 여기가 데이터저장 배열
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
 //    var date : String = SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().time) // 오늘날짜
@@ -44,6 +46,30 @@ class PlanRepository {
                 plansList.postValue(plans)
             }
         return plansList
+    }
+
+    // 전체 일정 날짜 가져오기
+    suspend fun getAllPlan(): MutableLiveData<ArrayList<CalendarDay>> {
+        val planDays = mutableListOf<CalendarDay>()
+        db.collection("schedule")
+            .document(auth.uid.toString())
+            .collection("plans")
+            .get()
+            .addOnSuccessListener {
+                Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
+                for (document in it) {
+                    /*val date = document["date"] as Timestamp
+                    val milliseconds = date.seconds * 1000 + date.nanoseconds / 1000000
+                    val netDate = Date(milliseconds)*/
+                    if (document["str_date"] != null) {
+                        val str_date = document["str_date"] as String?
+                        val cal_str = SimpleDateFormat("yyyy/MM/dd").parse(str_date)
+                        planDays.add(CalendarDay.from(cal_str))
+                    }
+                }
+                planDaysList.postValue(planDays as ArrayList<CalendarDay>?)
+            }
+        return planDaysList
     }
 
     // 일정 추가
