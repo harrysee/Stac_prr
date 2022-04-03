@@ -1,33 +1,30 @@
 package kr.hs.emirim.w2015.stac_prr.Repository
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_plant_info.*
-import kr.hs.emirim.w2015.stac_prr.Model.HomeData
-import kr.hs.emirim.w2015.stac_prr.Model.PlantInfo
-import java.text.SimpleDateFormat
+import kr.hs.emirim.w2015.stac_prr.Model.HomeModel
+import kr.hs.emirim.w2015.stac_prr.Model.PlantModel
 import java.util.*
 import kotlin.collections.ArrayList
 
 class PlantRepository {
-    private val plantLiveData = MutableLiveData<PlantInfo>()    // 세부내용
-    private val plantListLiveData = MutableLiveData<ArrayList<HomeData>>()  // 전체
+    private val plantLiveData = MutableLiveData<PlantModel>()    // 세부내용
+    private val plantListLiveData = MutableLiveData<ArrayList<HomeModel>>()  // 전체
+    private val plantNameLiveData = MutableLiveData<ArrayList<String>>()  // 전체
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth = Firebase.auth
 
     // 상세내용 가져오기
-    suspend fun getPlantLiveData(docId : String): MutableLiveData<PlantInfo> {
+    suspend fun getPlantLiveData(docId : String): MutableLiveData<PlantModel> {
         db.collection("plant_info").document(docId!!)
             .get()
             .addOnSuccessListener {
                 Log.d("TAG", "onViewCreated: 식물 정보 가져오기 성!공!")
-                val plant = PlantInfo(
+                val plant = PlantModel(
                     it["name"] as String,
                     (it["date"] as Timestamp).toDate(),
                     it["imgurl"] as String?:"",
@@ -44,10 +41,26 @@ class PlantRepository {
             }
         return plantLiveData
     }
+    // 이름들만 가져오기
+    suspend fun getNames(): MutableLiveData<ArrayList<String>> {
+        val names = ArrayList<String>()
+        db.collection("plant_info")
+            .whereEqualTo("userId", auth?.uid)
+            .get()
+            .addOnSuccessListener {
+                for (doc in it) {
+                    names.add(doc["name"] as String)
+                }
+                plantNameLiveData.postValue(names)
+            }.addOnFailureListener {
+                Log.d("TAG", "getNames: spinner 식물 이름들 보여주기 실패")
+            }
+        return plantNameLiveData
+    }
 
     // 전체 가져오기
-    suspend fun getPlantListLiveData(): MutableLiveData<ArrayList<HomeData>> {
-        val homeDatas = ArrayList<HomeData>()
+    suspend fun getPlantListLiveData(): MutableLiveData<ArrayList<HomeModel>> {
+        val homeDatas = ArrayList<HomeModel>()
 
         homeDatas.let {
             db.collection("plant_info")
@@ -56,7 +69,7 @@ class PlantRepository {
                 .addOnSuccessListener {
                     for (document in it) {
                         Log.i("TAG", "getDataList: 식물 데이터 보여주기 ${document.data}")
-                        homeDatas?.add(HomeData(document["name"] as String?,
+                        homeDatas?.add(HomeModel(document["name"] as String?,
                             document["specise"] as String?,
                             document["imgUri"] as String?,
                             document.id))
