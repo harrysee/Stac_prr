@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PlanRepository {
+object PlanRepository {
     private val plansList = MutableLiveData<ArrayList<PlanModel>>()     // 여기가 데이터저장 배열
     private val planDaysList = MutableLiveData<ArrayList<CalendarDay>>()     // 여기가 데이터저장 배열
     val auth = FirebaseAuth.getInstance()

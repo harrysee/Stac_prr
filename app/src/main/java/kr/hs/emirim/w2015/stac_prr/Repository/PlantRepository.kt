@@ -17,7 +17,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class PlantRepository {
+object PlantRepository {
     private val plantLiveData = MutableLiveData<PlantModel>()    // 세부내용
     private val plantListLiveData = MutableLiveData<ArrayList<HomeModel>>()  // 전체
     private val plantNameLiveData = MutableLiveData<ArrayList<String>>()  // 전체

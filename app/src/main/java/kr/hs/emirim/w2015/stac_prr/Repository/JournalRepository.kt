@@ -17,19 +17,20 @@ import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 import kr.hs.emirim.w2015.stac_prr.Model.PlanModel
 import java.text.SimpleDateFormat
 
-class JournalRepository {
+object JournalRepository {
     private val journalList = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
     private val plantjournal = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
     private val journal = MutableLiveData<JournalModel>()     // 여기가 데이터저장 배열
     private val journalImgs = MutableLiveData<ArrayList<String?>>()     // 여기가 데이터저장 배열
     private val journalUploadImg = MutableLiveData<String?>()
+    private var isSucces = MutableLiveData<Boolean>()
     private var storage = FirebaseStorage.getInstance()
     private var storageRef = storage.reference
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     
     // 전체 가져오기
-    private suspend fun getJournalList(dateSort:Boolean): MutableLiveData<ArrayList<JournalModel>> {
+    suspend fun getJournalList(dateSort:Boolean): MutableLiveData<ArrayList<JournalModel>> {
         val datas = ArrayList<JournalModel>()
         if (dateSort==false){   //내림차순으로 가져오기
             db.collection("journals")
@@ -235,7 +236,21 @@ class JournalRepository {
         }
     }
 
-    // 일지 삭제
+    // 일지 한개 삭제
+    suspend fun deleteJournalItem(docId: String): MutableLiveData<Boolean> {
+        isSucces.postValue(false)
+        db.collection("journals")
+            .document(auth.uid.toString())
+            .collection("journal")
+            .document(docId)
+            .delete()
+            .addOnSuccessListener {
+                isSucces.postValue(true)
+                Log.i("TAG", "deleteJournalItem: 삭제됨")
+            }// journal success end
+        return isSucces
+    }
+    // 해당 식물의 모든 일지 삭제
     suspend fun deleteJournal(name:String){
         db.collection("journals")
             .document(auth.uid.toString())

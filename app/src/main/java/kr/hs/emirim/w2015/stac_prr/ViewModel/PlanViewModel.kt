@@ -13,7 +13,7 @@ import kr.hs.emirim.w2015.stac_prr.Repository.PlanRepository
 class PlanViewModel : ViewModel() {
     private var plansList = MutableLiveData<ArrayList<PlanModel>>()     // 여기가 데이터저장 배열
     private var DaysList = MutableLiveData<ArrayList<CalendarDay>>()     // 여기가 데이터저장 배열
-    private val planRepository = PlanRepository()
+    private val planRepository = PlanRepository
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
 
