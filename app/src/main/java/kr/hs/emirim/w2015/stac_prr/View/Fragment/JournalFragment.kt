@@ -14,30 +14,24 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Timestamp
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_journal.*
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.JournalAdapter
 import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 import kr.hs.emirim.w2015.stac_prr.R
-import kr.hs.emirim.w2015.stac_prr.ViewModel.JournalViewModel
-import java.text.SimpleDateFormat
+import kr.hs.emirim.w2015.stac_prr.viewModel.JournalViewModel
 
 class JournalFragment : Fragment() {
     private var datas = mutableListOf<JournalModel>()
-    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    val auth = Firebase.auth
     private lateinit var pref: SharedPreferences
     private lateinit var btnArr: List<Button>
     private lateinit var journalAdapter: JournalAdapter
     private lateinit var pNames : ArrayList<String>
     private var dateSort = false    //초기값 내림차순
     private var pcnt : Int =0
-    private var model = ViewModelProvider(requireActivity()).get(JournalViewModel::class.java)
     private var name : String? = null
+    private val model by lazy{
+        ViewModelProvider(requireActivity()).get(JournalViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,541 +1,549 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="mainViewModel"
+            type="kr.hs.emirim.w2015.stac_prr.viewModel.PlantViewModel" />
+    </data>
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        android:id="@+id/slidingUpPanelLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:elevation="0dp"
-        app:umanoDragView="@id/dragView"
-        app:umanoOverlay="true"
-        app:umanoPanelHeight="435dp">
+        tools:context=".MainActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/info_background_con"
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
+            android:id="@+id/slidingUpPanelLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:elevation="0dp"
+            app:umanoDragView="@id/dragView"
+            app:umanoOverlay="true"
+            app:umanoPanelHeight="435dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/info_background_con"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#E9E9E9"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <ImageView
+                        android:id="@+id/info_background_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitStart"/>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#E9E9E9"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0">
-
-                <ImageView
-                    android:id="@+id/info_background_img"
-                    android:layout_width="match_parent"
-                    android:minHeight="400dp"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"/>
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/dragView"
-            android:layout_width="match_parent"
-            android:layout_height="580dp"
-            android:elevation="0sp"
-            app:elevation ="0sp"
-            android:orientation="vertical">
-
-            <RelativeLayout
+                android:id="@+id/dragView"
                 android:layout_width="match_parent"
                 android:layout_height="580dp"
-                android:background="@drawable/drawer_background">
+                android:elevation="0sp"
+                app:elevation ="0sp"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/linear1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginTop="13dp"
-                    android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="580dp"
+                    android:background="@drawable/drawer_background">
 
-                    <TextView
-                        android:id="@+id/info_plant_name"
+                    <LinearLayout
+                        android:id="@+id/linear1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:text="식물이름"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/info_plant_spacies"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:text="식물종류"
-                        android:textColor="@color/pp_green"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="88dp"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/back_circle"
-                        android:backgroundTint="#8EC057" />
-
-
-                    <View
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginLeft="28dp"
-                        android:background="@drawable/back_circle"
-                        android:backgroundTint="#72B5E8" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="94dp"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginTop="13dp"
                         android:orientation="vertical">
 
-                        <View
-                            android:layout_width="67.69dp"
-                            android:layout_height="67.69dp"
-                            android:background="@drawable/ic_date" />
-
                         <TextView
-                            android:id="@+id/info_day"
+                            android:id="@+id/info_plant_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="37.67dp"
-                            android:fontFamily="@font/notosanscjkkr_medium"
+                            android:fontFamily="@font/notosanscjkkr_regular"
                             android:includeFontPadding="false"
-                            android:text="0일째"
-                            android:textColor="#8EC057"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40.3dp"
-                        android:orientation="vertical">
-
-                        <View
-                            android:layout_width="67.69dp"
-                            android:layout_height="67.69dp"
-                            android:background="@drawable/ic_water" />
+                            android:text="식물이름"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/info_water_icon_txt"
+                            android:id="@+id/info_plant_spacies"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="37.67dp"
-                            android:fontFamily="@font/notosanscjkkr_medium"
+                            android:layout_gravity="bottom"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/notosanscjkkr_regular"
                             android:includeFontPadding="false"
-                            android:text="00일전"
-                            android:textColor="#72B5E8"
-                            android:textStyle="bold" />
-                    </FrameLayout>
+                            android:text="식물종류"
+                            android:textColor="@color/pp_green"
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                    </LinearLayout>
 
-                <View
-                    android:layout_width="350dp"
-                    android:layout_height="1dp"
-                    android:layout_alignTop="@+id/linear2"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="-10dp"
-                    android:background="#cccccc" />
-
-                <LinearLayout
-                    android:id="@+id/linear2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="196dp"
-                    android:orientation="horizontal">
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:text="심은 날짜"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/info_date_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_light"
-                        android:includeFontPadding="false"
-                        android:text="0000. 00. 00"
-                        android:textColor="#cccccc"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/linear2bt"
-                    android:layout_width="350dp"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/linear2"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="6dp"
-                    android:background="#cccccc" />
-
-                <LinearLayout
-                    android:id="@+id/linear3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linear2bt"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:text="최적 온도"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/info_c_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_light"
-                        android:includeFontPadding="false"
-                        android:text="00~00˚"
-                        android:textColor="#cccccc"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/linear3bt"
-                    android:layout_width="350dp"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/linear3"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="6dp"
-                    android:background="#cccccc" />
-
-                <LinearLayout
-                    android:id="@+id/linear4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linear3bt"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:text="빛 요구도"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/info_led_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_light"
-                        android:includeFontPadding="false"
-                        android:text="빛 요구도"
-                        android:textColor="#cccccc"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/linear4bt"
-                    android:layout_width="350dp"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/linear4"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="6dp"
-                    android:background="#cccccc" />
-
-                <LinearLayout
-                    android:id="@+id/linear5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linear4bt"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:text="급수 주기"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/info_water_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_light"
-                        android:includeFontPadding="false"
-                        android:text="00일"
-                        android:textColor="#cccccc"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/linear5bt"
-                    android:layout_width="350dp"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/linear5"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="6dp"
-                    android:background="#cccccc" />
-
-                <LinearLayout
-                    android:id="@+id/linear6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linear5bt"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:text="메모"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:maxLines="3"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/info_memo_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="66dp"
-                        android:fontFamily="@font/notosanscjkkr_light"
-                        android:includeFontPadding="false"
-                        android:text="메모를 작성하세요\n(공간은 줄 수에 따라 유동적\n으로 변합니다.)"
-                        android:maxLines="2"
-                        android:textColor="#cccccc"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/linear6bt"
-                    android:layout_width="350dp"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/linear6"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="6dp"
-                    android:background="#cccccc" />
-
-                <LinearLayout
-                    android:id="@+id/linear7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linear6bt"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="34dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:text="갤러리"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/gallery_recyclerview"
-                        android:layout_width="320dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="34dp"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="88dp"
                         android:orientation="horizontal">
-                    </androidx.recyclerview.widget.RecyclerView>
-                </LinearLayout>
 
-            </RelativeLayout>
-
-        </LinearLayout>
-
-
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:background="@drawable/back_circle"
+                            android:backgroundTint="#8EC057" />
 
 
-    <ImageButton
-        android:id="@+id/info_pass_btn"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/transparent"
-        android:src="@drawable/ic_back_btn"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                        <View
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="28dp"
+                            android:background="@drawable/back_circle"
+                            android:backgroundTint="#72B5E8" />
+                    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/info_del_linear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="0dp"
-        android:orientation="horizontal"
-        android:background="@color/transparent"
-        app:layout_constraintBottom_toBottomOf="@+id/info_fab"
-        app:layout_constraintEnd_toEndOf="@id/info_fab"
-        app:layout_constraintLeft_toLeftOf="@+id/info_fab"
-        app:layout_constraintTop_toTopOf="@+id/info_fab">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="94dp"
+                        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/info_del_txt"
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <View
+                                android:layout_width="67.69dp"
+                                android:layout_height="67.69dp"
+                                android:background="@drawable/ic_date" />
+
+                            <TextView
+                                android:id="@+id/info_day"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="37.67dp"
+                                android:fontFamily="@font/notosanscjkkr_medium"
+                                android:includeFontPadding="false"
+                                android:text="0일째"
+                                android:textColor="#8EC057"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="40.3dp"
+                            android:orientation="vertical">
+
+                            <View
+                                android:layout_width="67.69dp"
+                                android:layout_height="67.69dp"
+                                android:background="@drawable/ic_water" />
+
+                            <TextView
+                                android:id="@+id/info_water_icon_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="37.67dp"
+                                android:fontFamily="@font/notosanscjkkr_medium"
+                                android:includeFontPadding="false"
+                                android:text="00일전"
+                                android:textColor="#72B5E8"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="350dp"
+                        android:layout_height="1dp"
+                        android:layout_alignTop="@+id/linear2"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="-10dp"
+                        android:background="#cccccc" />
+
+                    <LinearLayout
+                        android:id="@+id/linear2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="196dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_regular"
+                            android:includeFontPadding="false"
+                            android:text="심은 날짜"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/info_date_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_light"
+                            android:includeFontPadding="false"
+                            android:text="0000. 00. 00"
+                            android:textColor="#cccccc"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/linear2bt"
+                        android:layout_width="350dp"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/linear2"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:background="#cccccc" />
+
+                    <LinearLayout
+                        android:id="@+id/linear3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linear2bt"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_regular"
+                            android:includeFontPadding="false"
+                            android:text="최적 온도"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/info_c_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_light"
+                            android:includeFontPadding="false"
+                            android:text="00~00˚"
+                            android:textColor="#cccccc"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/linear3bt"
+                        android:layout_width="350dp"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/linear3"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:background="#cccccc" />
+
+                    <LinearLayout
+                        android:id="@+id/linear4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linear3bt"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_regular"
+                            android:includeFontPadding="false"
+                            android:text="빛 요구도"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/info_led_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_light"
+                            android:includeFontPadding="false"
+                            android:text="빛 요구도"
+                            android:textColor="#cccccc"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/linear4bt"
+                        android:layout_width="350dp"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/linear4"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:background="#cccccc" />
+
+                    <LinearLayout
+                        android:id="@+id/linear5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linear4bt"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_regular"
+                            android:includeFontPadding="false"
+                            android:text="급수 주기"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/info_water_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_light"
+                            android:includeFontPadding="false"
+                            android:text="00일"
+                            android:textColor="#cccccc"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/linear5bt"
+                        android:layout_width="350dp"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/linear5"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:background="#cccccc" />
+
+                    <LinearLayout
+                        android:id="@+id/linear6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linear5bt"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_regular"
+                            android:includeFontPadding="false"
+                            android:text="메모"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:maxLines="3"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/info_memo_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="66dp"
+                            android:fontFamily="@font/notosanscjkkr_light"
+                            android:includeFontPadding="false"
+                            android:text="메모를 작성하세요\n(공간은 줄 수에 따라 유동적\n으로 변합니다.)"
+                            android:maxLines="2"
+                            android:textColor="#cccccc"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/linear6bt"
+                        android:layout_width="350dp"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/linear6"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:background="#cccccc" />
+
+                    <LinearLayout
+                        android:id="@+id/linear7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linear6bt"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="34dp"
+                            android:fontFamily="@font/notosanscjkkr_regular"
+                            android:includeFontPadding="false"
+                            android:text="갤러리"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/gallery_recyclerview"
+                            android:layout_width="320dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="34dp"
+                            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            android:orientation="horizontal">
+                        </androidx.recyclerview.widget.RecyclerView>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+
+        <ImageButton
+            android:id="@+id/info_pass_btn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/ic_back_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/info_del_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:visibility="invisible"
-            android:outlineProvider="none"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/notosanscjkkr_regular"
-            android:gravity="center_vertical"
-            android:text="삭제"
-            android:textSize="16sp"
-            android:textColor="@color/black" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/info_fab_del"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#EA7159"
-            android:rotation="45"
-            app:rippleColor="@color/pp_green"
-            android:elevation="0dp"
-            app:elevation="0dp"
-            android:src="@drawable/ic_plant_edit"
-            app:fab_shadow="false"
+            android:padding="0dp"
+            android:orientation="horizontal"
+            android:background="@color/transparent"
             app:layout_constraintBottom_toBottomOf="@+id/info_fab"
             app:layout_constraintEnd_toEndOf="@id/info_fab"
             app:layout_constraintLeft_toLeftOf="@+id/info_fab"
-            app:layout_constraintTop_toTopOf="@+id/info_fab" />
-    </LinearLayout>
+            app:layout_constraintTop_toTopOf="@+id/info_fab">
 
-    <LinearLayout
-        android:id="@+id/info_edit_linear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/info_fab"
-        app:layout_constraintEnd_toEndOf="@id/info_fab"
-        app:layout_constraintLeft_toLeftOf="@+id/info_fab"
-        app:layout_constraintTop_toTopOf="@+id/info_fab">
+            <TextView
+                android:id="@+id/info_del_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:visibility="invisible"
+                android:outlineProvider="none"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/notosanscjkkr_regular"
+                android:gravity="center_vertical"
+                android:text="삭제"
+                android:textSize="16sp"
+                android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/info_edit_txt"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/info_fab_del"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#EA7159"
+                android:rotation="45"
+                app:rippleColor="@color/pp_green"
+                android:elevation="0dp"
+                app:elevation="0dp"
+                android:src="@drawable/ic_plant_edit"
+                app:fab_shadow="false"
+                app:layout_constraintBottom_toBottomOf="@+id/info_fab"
+                app:layout_constraintEnd_toEndOf="@id/info_fab"
+                app:layout_constraintLeft_toLeftOf="@+id/info_fab"
+                app:layout_constraintTop_toTopOf="@+id/info_fab" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/info_edit_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp"
-            android:elevation="0sp"
-            android:fontFamily="@font/notosanscjkkr_regular"
-            android:gravity="center_vertical"
-            android:text="수정"
-            android:visibility="invisible"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:background="@color/transparent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/info_fab"
+            app:layout_constraintEnd_toEndOf="@id/info_fab"
+            app:layout_constraintLeft_toLeftOf="@+id/info_fab"
+            app:layout_constraintTop_toTopOf="@+id/info_fab">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/info_fab_edit"
+            <TextView
+                android:id="@+id/info_edit_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:elevation="0sp"
+                android:fontFamily="@font/notosanscjkkr_regular"
+                android:gravity="center_vertical"
+                android:text="수정"
+                android:visibility="invisible"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/info_fab_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rippleColor="@color/pp_green"
+                android:elevation="0dp"
+                app:elevation="0dp"
+                android:src="@drawable/ic_plant_edit"
+                app:fabSize="normal"
+                app:fab_shadow="false" />
+        </LinearLayout>
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/info_fab"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:rippleColor="@color/pp_green"
-            android:elevation="0dp"
-            app:elevation="0dp"
-            android:src="@drawable/ic_plant_edit"
-            app:fabSize="normal"
-            app:fab_shadow="false" />
-    </LinearLayout>
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/pp_green"
+            android:src="@drawable/ic_info_fab"
+            app:fabCustomSize="49dp"
+            app:fab_shadow="false"
+            app:hideOnScroll="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@color/pp_green" />
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/info_fab"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/pp_green"
-        android:src="@drawable/ic_info_fab"
-        app:fabCustomSize="49dp"
-        app:fab_shadow="false"
-        app:hideOnScroll="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/pp_green" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

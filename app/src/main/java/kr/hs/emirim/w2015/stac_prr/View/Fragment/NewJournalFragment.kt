@@ -14,33 +14,24 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
-import kr.hs.emirim.w2015.stac_prr.ViewModel.AddJournalViewModel
+import kr.hs.emirim.w2015.stac_prr.viewModel.AddJournalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class NewJournalFragment : Fragment() {
-    val db = FirebaseFirestore.getInstance()
-    val auth = FirebaseAuth.getInstance()
-    private var storage = FirebaseStorage.getInstance()
-    private var storageRef = storage.reference
     private lateinit var nadapter: ArrayAdapter<String>
     private val FROM_ALBUM = 200
     private var photoURI: Uri? = null
     private var isEdit: Boolean? = false
     private var docId: String? = null
     private var imgUri: String? = null
-    private var model = ViewModelProvider(requireActivity()).get(AddJournalViewModel::class.java)
+    private val model by lazy{
+        ViewModelProvider(requireActivity()).get(AddJournalViewModel::class.java)
+    }
     val cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,7 +138,6 @@ class NewJournalFragment : Fragment() {
         addjournal_complate_btn.setOnClickListener {
             Toast.makeText(requireContext(), "업로드 중..", Toast.LENGTH_SHORT)
             // 파이어스토어에 데이터 저장
-            val uid: String = auth.uid!!
             val date: Date = cal.time
             // 올릴 필드 설정하기
             val journal_content: EditText = view.findViewById(R.id.journal_content)

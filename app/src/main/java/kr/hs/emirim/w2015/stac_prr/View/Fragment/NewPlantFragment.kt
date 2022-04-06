@@ -1,6 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr.View.Fragment
 
 import android.app.DatePickerDialog
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,19 +13,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.google.firebase.Timestamp
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kotlinx.android.synthetic.main.fragment_plant_info.*
@@ -32,10 +26,9 @@ import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.Model.PlantModel
 import kr.hs.emirim.w2015.stac_prr.R
-import kr.hs.emirim.w2015.stac_prr.ViewModel.AddPlantViewModel
+import kr.hs.emirim.w2015.stac_prr.viewModel.AddPlantViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
 
 
 class NewPlantFragment : Fragment() {
@@ -46,7 +39,7 @@ class NewPlantFragment : Fragment() {
     private var isEdit: Boolean? = null
     private var docId: String? = null
     private var imgUri: String? = null
-    private val model = ViewModelProvider(requireActivity()).get(AddPlantViewModel::class.java)
+    private val model by lazy{ViewModelProvider(requireActivity()).get(AddPlantViewModel::class.java)}
     private val cal: Calendar = Calendar.getInstance()
     private var photoURI : Uri? = null
     private lateinit var pref: SharedPreferences
@@ -120,6 +113,8 @@ class NewPlantFragment : Fragment() {
 
         // 완료 눌렀을 때 - 올리기
         btn_completion.setOnClickListener {
+            // 네트워크 상태 확인하고 연결 안됐을때는 토스트 띄우기
+            Log.d(TAG, "onViewCreated: 사진uri "+ photoURI)
             var downloadUri: String? = null  // 다운로드 uri 저장변수
             val date: Date = cal.time
             // 올릴 필드 설정하기
@@ -127,6 +122,7 @@ class NewPlantFragment : Fragment() {
                 Toast.makeText(requireContext(), "식물정보를 모두 입력하세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            Toast.makeText(activity, "업로드 중...", Toast.LENGTH_LONG).show()
             val docData = PlantModel(
                 newplant_name.text.toString(),
                 date,   // 날짜
@@ -139,29 +135,24 @@ class NewPlantFragment : Fragment() {
                 dviceNum = ""
             )
             // 업로드 하기
+            val message = when(isEdit){
+                true -> { "업데이트" }
+                else -> { "업로드" }
+            }
             if (photoURI != null) { // 이미지 있을 때
-                model.insertPlant(docId!!,isEdit,photoURI,docData,true).observe(requireActivity(),
+                model.insertPlant(docId!!,isEdit,photoURI,docData).observe(requireActivity(),
                     androidx.lifecycle.Observer {
-                        if(it){
-                            Toast.makeText(activity, "업로드 완료 !", Toast.LENGTH_LONG).show()
-                        }else{
-                            Toast.makeText(activity, "업로드 실패 !", Toast.LENGTH_LONG).show()
-                        }
+                        getResult(it?:false,message)
+                        activity.fragmentChange_for_adapter(HomeFragment())
                     })
             } else {        // 사진이 없을경우
-                model.insertPlant(docId!!,isEdit,photoURI,docData,false).observe(requireActivity(),
+                model.insertPlantNimg(docId!!,isEdit,photoURI,docData).observe(requireActivity(),
                     androidx.lifecycle.Observer {
-                        if(it){
-                            Toast.makeText(activity, "업로드 완료 !", Toast.LENGTH_LONG).show()
-                        }else{
-                            Toast.makeText(activity, "업로드 실패 !", Toast.LENGTH_LONG).show()
-                        }
+                        getResult(it?:false,message)
+                        activity.fragmentChange_for_adapter(HomeFragment())
                     })
             }// 업로드 끝
-            Toast.makeText(activity, "업로드 완료 !", Toast.LENGTH_LONG).show()
-            Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
 
-            activity.fragmentChange_for_adapter(HomeFragment())
         }
 
         newplant_upload_btn.setOnClickListener {
@@ -202,11 +193,28 @@ class NewPlantFragment : Fragment() {
         }
     }
 
+    fun getResult(r:Boolean,msg:String?){
+        if(r){
+            Toast.makeText(activity, msg+" 완료 !", Toast.LENGTH_LONG).show()
+        }else{
+            Toast.makeText(activity, msg+" 실패 !", Toast.LENGTH_LONG).show()
+        }
+        val pCnt = pref.getInt("PlantCnt",0)
+        with(pref.edit()){
+            this.putInt("PlantCnt",pCnt+1)
+            commit()
+        }
+        Toast.makeText(activity, "업로드 완료 !", Toast.LENGTH_LONG).show()
+        Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
+    }
     // 사진 가져오기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d(TAG, "onViewCreated444: 사진uri "+ data?.data)
+
         if (data?.data != null) {
             try {
+                Log.d(TAG, "onViewCreated111: 사진uri "+ photoURI)
                 photoURI = data.data!!
                 val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, photoURI)
                 newplant_upload_btn.setImageBitmap(bitmap)

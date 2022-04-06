@@ -1,4 +1,4 @@
-package kr.hs.emirim.w2015.stac_prr.ViewModel
+package kr.hs.emirim.w2015.stac_prr.viewModel
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData

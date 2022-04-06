@@ -1,5 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr.Repository
 
+import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -11,19 +13,23 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_new_plant.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.hs.emirim.w2015.stac_prr.Model.HomeModel
 import kr.hs.emirim.w2015.stac_prr.Model.PlantModel
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
+@SuppressLint("StaticFieldLeak")
 object PlantRepository {
     private val plantLiveData = MutableLiveData<PlantModel>()    // 세부내용
     private val plantListLiveData = MutableLiveData<ArrayList<HomeModel>>()  // 전체
     private val plantNameLiveData = MutableLiveData<ArrayList<String>>()  // 전체
-    private val plantImgUri = MutableLiveData<String>()  // 전체
-    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private var storage = FirebaseStorage.getInstance()
+    private val isComplate = MutableLiveData<Boolean>()  // 전체
+    private val db = FirebaseFirestore.getInstance()
+    var storage = FirebaseStorage.getInstance()
     private var storageRef = storage.reference
     private val auth = Firebase.auth
 
@@ -36,13 +42,13 @@ object PlantRepository {
                 val plant = PlantModel(
                     it["name"] as String,
                     (it["date"] as Timestamp).toDate(),
-                    it["imgurl"] as String?:"",
+                    (it["imgurl"]?:"") as String,
                     it["led"] as String?:"",
                     it["memo"] as String?:"",
                     it["specise"] as String?:"",
                     it["temperature"] as String?:"",
                     it["water"] as String?:"",
-                    it["dviceNum"] as String?:""
+                    (it["dviceNum"]?:"" as String?:"") as String
                 )
                 plantLiveData.postValue(plant)
             }.addOnFailureListener {
@@ -95,7 +101,9 @@ object PlantRepository {
     }
     
     // plant 생성하기
-    suspend fun createPlant(plantData: PlantModel){
+    suspend fun createPlant(plantData: PlantModel): MutableLiveData<Boolean> {
+        isComplate.postValue(true)
+        Log.i("TAG", "createPlantImg1111: 업로드"+"아님")
         val plantmap = hashMapOf(
             "name" to plantData.name,           //식물이름
             "specise" to plantData.specise,                  // 종류
@@ -104,90 +112,132 @@ object PlantRepository {
             "temperature" to plantData.temperate,        // 온도
             "memo" to plantData.memo,               //메모
             "date" to plantData.date,   // 날짜
-            "imgUri" to plantData.imgUrl,        // 이미지 uri
+            "imgUri" to "",        // 이미지 uri
             "userId" to auth.uid    // 식별가능한 유저 아이디
         )
         db!!.collection("plant_info").document()
             .set(plantmap)
             .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감") }
-            .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류", e) }
+            .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류", e)
+                isComplate.postValue(false)
+            }
+        return isComplate
     }
 
     // 이미지 추가하기
-    fun createPlantImg(photoURI:Uri?, docData:PlantModel,isEdit:Boolean): MutableLiveData<String> {
+    suspend fun createPlantImg(docId: String?,photoURI:Uri?, plantData:PlantModel,isEdit:Boolean): MutableLiveData<Boolean> {
         var downloadUri = ""
-        if (photoURI != null) { // 이미지 있을 때
+        withContext(Dispatchers.IO){
             val filename = "_" + System.currentTimeMillis()
             val imagesRef: StorageReference? = storageRef.child("info/" + filename)
+            Log.d(ContentValues.TAG, "onViewCreated333: 사진uri "+ photoURI)
 
-            var file: Uri? = null
-            try {
-                file = photoURI
-                // 잘올라갔으면 다운로드 url 가져오기
-                Log.d("TAG", "onViewCreated: 사진 uri ${photoURI}")
-                // 스토리지에 올리기
-                val uploadTask = imagesRef?.putFile(file!!)
-                uploadTask?.continueWithTask { task ->
-                    Log.d("TAG", "onViewCreated: 새로운 식물 continue 들어옴")
-                    if (!task.isSuccessful) {
-                        task.exception?.let {
-                            Log.d("TAG", "onViewCreated: 사진 안올라감")
-                            throw it
+            launch{
+                var file: Uri? = null
+                try {
+                    file = photoURI
+                    // 잘올라갔으면 다운로드 url 가져오기
+                    Log.d("TAG", "onViewCreated: 사진 uri444 ${photoURI}")
+                    // 스토리지에 올리기
+                    val uploadTask = imagesRef?.putFile(file!!)
+                    uploadTask?.continueWithTask { task ->
+                        Log.d("TAG", "onViewCreated: 새로운 식물 continue 들어옴")
+                        if (!task.isSuccessful) {
+                            task.exception?.let {
+                                Log.d("TAG", "onViewCreated: 사진 안올라감")
+                                throw it
+                            }
                         }
-                    }
-                    imagesRef.downloadUrl.addOnSuccessListener { task ->
-                        downloadUri = task.toString()  // 다운로드 uri string으로 가져오기
-                        Log.d(downloadUri.toString(), "onViewCreated: 사진 업로드 완료")
-                        plantImgUri.postValue(downloadUri)
-                    }// 사진이 있으면 그냥 올리기
-                }// uploadtask end
-            } catch (e: java.lang.Exception) {
-                Log.i("TAG", "createPlantImg: 사진업로드 실패")
+                        imagesRef.downloadUrl.addOnSuccessListener { task ->
+                            downloadUri = task.toString()  // 다운로드 uri string으로 가져오기
+                            if (isEdit){ // 수정일경우
+                                Log.i("TAG", "createPlantImg1111: 업로드"+downloadUri)
+                                docId?.let { it1 ->
+                                    db!!.collection("plant_info").document(it1)
+                                        .update(mapOf(
+                                            "specise" to plantData.specise,              // 종류
+                                            "led" to plantData.led,                // 빛
+                                            "water" to plantData.water,              //급수주기
+                                            "temperature" to plantData.temperate,        // 온도
+                                            "memo" to plantData.memo,               //메모
+                                            "date" to plantData.date,   // 날짜
+                                            "imgUri" to downloadUri     // 이미지 uri
+                                        ))
+                                        .addOnSuccessListener {
+                                            Log.d("TAG", "onViewCreated: 수정 성공 ")
+                                        }.addOnCanceledListener {
+                                            isComplate.postValue(false)
+                                            Log.d("TAG", "onViewCreated: 수정 성공 못함")
+                                        }
+                                }
+                            }else{ // 수정이 아닐때
+                                Log.i("TAG", "createPlantImg1111: 업로드"+downloadUri)
+                                val plantmap = hashMapOf(
+                                    "name" to plantData.name,           //식물이름
+                                    "specise" to plantData.specise,                  // 종류
+                                    "led" to plantData.led,                // 빛
+                                    "water" to plantData.water,              //급수주기
+                                    "temperature" to plantData.temperate,        // 온도
+                                    "memo" to plantData.memo,               //메모
+                                    "date" to plantData.date,   // 날짜
+                                    "imgUri" to downloadUri,        // 이미지 uri
+                                    "userId" to auth.uid    // 식별가능한 유저 아이디
+                                )
+                                db!!.collection("plant_info").document()
+                                    .set(plantmap)
+                                    .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감") }
+                                    .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류", e)
+                                        isComplate.postValue(false)
+                                    }
+                            }
+                            Log.d(downloadUri.toString(), "onViewCreated: 사진 업로드 완료")
+                        }// 사진이 있으면 그냥 올리기
+                    }// uploadtask end
+                } catch (e: java.lang.Exception) {
+                    isComplate.postValue(false)
+                    Log.i("TAG", "createPlantImg: 사진업로드 실패")
+                }
             }
         }
-        return plantImgUri
+
+        return isComplate
     }
 
     // plant 수정하기
-    suspend fun modifyPlant(docId: String?, plantData: PlantModel,isImg:Boolean ){
-        docId?.let { it1 ->
-            if(isImg){
-                db!!.collection("plant_info").document(it1)
-                    .update(mapOf(
-                        "specise" to plantData.specise,              // 종류
-                        "led" to plantData.led,                // 빛
-                        "water" to plantData.water,              //급수주기
-                        "temperature" to plantData.temperate,        // 온도
-                        "memo" to plantData.memo,               //메모
-                        "date" to plantData.date,   // 날짜
-                        "imgUri" to plantData.imgUrl     // 이미지 uri
-                    ))
-                    .addOnSuccessListener {
-                        Log.d("TAG", "onViewCreated: 수정 성공 ")
-                    }.addOnCanceledListener {
-                        Log.d("TAG", "onViewCreated: 수정 성공 못함")
-                    }
-            }else{  // 이미지가 없을때 빼고 업데이트
-                db!!.collection("plant_info").document(it1)
-                    .update(mapOf(
-                        "specise" to plantData.specise,              // 종류
-                        "led" to plantData.led,                // 빛
-                        "water" to plantData.water,              //급수주기
-                        "temperature" to plantData.temperate,        // 온도
-                        "memo" to plantData.memo,               //메모
-                        "date" to plantData.date,   // 날짜
-                    ))
-                    .addOnSuccessListener {
-                        Log.d("TAG", "onViewCreated: 수정 성공 ")
-                    }.addOnCanceledListener {
-                        Log.d("TAG", "onViewCreated: 수정 성공 못함")
-                    }
+    suspend fun modifyPlant(docId: String?, plantData: PlantModel): MutableLiveData<Boolean> {
+        isComplate.postValue(true)
+        if (docId != null) {
+            db!!.collection("plant_info").document(docId)
+                .update(mapOf(
+                    "specise" to plantData.specise,              // 종류
+                    "led" to plantData.led,                // 빛
+                    "water" to plantData.water,              //급수주기
+                    "temperature" to plantData.temperate,        // 온도
+                    "memo" to plantData.memo,               //메모
+                    "date" to plantData.date,   // 날짜
+                ))
+                .addOnSuccessListener {
+                    Log.d("TAG", "onViewCreated: 수정 성공 ")
+                }.addOnCanceledListener {
+                    isComplate.postValue(false)
+                    Log.d("TAG", "onViewCreated: 수정 성공 못함")
+                }
             }
-        }
+        return isComplate
     }
 
     // plant 삭제하기
-    suspend fun deletePlant(docId: String?){
+    suspend fun deletePlant(docId: String?,imgUri:String?){
+        if(!imgUri.equals("") && imgUri!= null){
+            val storageRef = storage.reference
+            val desertRef = storageRef.child(imgUri)
+            // 삭제하기
+            desertRef.delete().addOnSuccessListener {
+                Log.i("TAG", "deletePlant: 정상사진삭제")
+            }.addOnFailureListener {
+                Log.i(it.toString(), "deletePlant: 사진 삭제안됨")
+            }
+        }
         db.collection("plant_info").document(docId!!).delete()
         .addOnSuccessListener {
             Log.d("TAG",

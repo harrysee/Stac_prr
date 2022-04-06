@@ -1,9 +1,7 @@
-package kr.hs.emirim.w2015.stac_prr.ViewModel
+package kr.hs.emirim.w2015.stac_prr.viewModel
 
 import android.app.Activity
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 

@@ -23,7 +23,7 @@ import kr.hs.emirim.w2015.stac_prr.Model.PlanModel
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.PlanAdapter
 import kr.hs.emirim.w2015.stac_prr.View.Decorator.DotDecorator
 import kr.hs.emirim.w2015.stac_prr.R
-import kr.hs.emirim.w2015.stac_prr.ViewModel.PlanViewModel
+import kr.hs.emirim.w2015.stac_prr.viewModel.PlanViewModel
 import kr.hs.emirim.w2015.stac_prr.databinding.FragmentCalenderBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,7 +40,9 @@ class CalenderFragment : Fragment(){
     val outDateFormat = SimpleDateFormat("yyyy. MM. dd")
     val selectDateFormat = SimpleDateFormat("yyyy/MM/dd")
     var datetext = outDateFormat.format(Date().time)
-    val model = ViewModelProvider(requireActivity()).get(PlanViewModel::class.java)
+    val model by lazy{
+        ViewModelProvider(requireActivity()).get(PlanViewModel::class.java)
+    }
     var selec_date: String = selectDateFormat.format(Calendar.getInstance().time)
 
     override fun onCreateView(
@@ -116,7 +118,6 @@ class CalenderFragment : Fragment(){
             plans = it
             adapter.items = plans
             adapter.notifyDataSetChanged()
-            Log.d("TAG", "makeTestItems: 추가된 아이템 : ${it[0].isChecked}")
         })
         return plans
     }

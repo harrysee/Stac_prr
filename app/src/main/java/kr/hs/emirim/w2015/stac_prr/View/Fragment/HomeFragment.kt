@@ -1,7 +1,6 @@
 package kr.hs.emirim.w2015.stac_prr.View.Fragment
 
 import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -20,8 +19,9 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_home.*
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.FhViewAdapter
 import kr.hs.emirim.w2015.stac_prr.Model.HomeModel
+import kr.hs.emirim.w2015.stac_prr.Model.PlantModel
 import kr.hs.emirim.w2015.stac_prr.R
-import kr.hs.emirim.w2015.stac_prr.ViewModel.HomeViewModel
+import kr.hs.emirim.w2015.stac_prr.viewModel.HomeViewModel
 import kotlin.collections.ArrayList
 
 
@@ -31,11 +31,9 @@ class HomeFragment : Fragment() {
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth = Firebase.auth
     var homedatas: ArrayList<HomeModel>? = ArrayList<HomeModel>()
-    private var alarmMgr: AlarmManager? = null
     private lateinit var pref : SharedPreferences
     private lateinit var flower : SharedPreferences
-    private lateinit var alarmIntent: PendingIntent
-    val model = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+    val model by lazy { ViewModelProvider(requireActivity()).get(HomeViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +44,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        pref = context?.getSharedPreferences("pref",Context.MODE_PRIVATE)!!
-        flower = context?.getSharedPreferences("flower",Context.MODE_PRIVATE)!!
+        pref = context?.getSharedPreferences("pref",Context.MODE_PRIVATE)!! // 식물
+        flower = context?.getSharedPreferences("flower",Context.MODE_PRIVATE)!! // 꽃
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -63,20 +61,20 @@ class HomeFragment : Fragment() {
         }
         // 여백, 너비에 대한 정의 : 몇 개의 페이지를 미리 로드 해둘것인지
         viewPager.offscreenPageLimit = 1
+        val viewAdapter = homedatas?.let { FhViewAdapter(it, activity, requireContext()) }  // 어댑터 생성
+
+        // 뷰페이저 어댑터 생성
+        homedatas = viewAdapter?.datas
+        viewPager.adapter = viewAdapter
+
         // 데이터세팅
         model.getAllPlant().observe(requireActivity(), Observer{ // 뷰모델 데이터가져오기
-            homedatas = it
-            viewPager.adapter?.notifyDataSetChanged()
+            Log.d("TAG", "onViewCreated: 식물정보 데이터리스트 null인지 : ${homedatas}")
+            viewAdapter?.datas = it
+            viewAdapter?.notifyDataSetChanged()
         })
         getDataList()
-        
-        // 어댑터 넣기
-        if (homedatas != null) {
-            Log.d("TAG", "onViewCreated: 식물정보 데이터리스트 null인지 : ${homedatas}")
-            val viewAdapter = homedatas?.let { FhViewAdapter(it, activity, requireContext()) }  // 어댑터 생성
-            viewPager.adapter = viewAdapter
-            viewAdapter?.notifyDataSetChanged()
-        }
+
         Log.i("어댑터소환", "어댑터 실행완료 ")
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
         viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
@@ -105,11 +103,8 @@ class HomeFragment : Fragment() {
 
     // 파이어스토어에서 데이터 가져와서 어댑터로 보내기 준비
     private fun getDataList() {
+        Log.i("TAG", "homedatas: "+homedatas?.size)
         // 식물 개수 등록 안내 띄우기
-        with(pref.edit()) {
-            putInt("PlantCnt", homedatas?.size?:0)
-            commit()
-        }
         val pcnt = pref.getInt("PlantCnt", 0)
         if (pcnt <= 0){     // 식물등록 안됐을때 등록시키기
             Toast.makeText(requireContext(),"식물을 등록하세요", Toast.LENGTH_SHORT ).show()
@@ -117,14 +112,14 @@ class HomeFragment : Fragment() {
 
     }
 
-//    // 식물이름 업데이트
-//    fun setflower(){
-//        val name = flower.getString("keyname","푸르름")
-//        val tag = flower.getString("keytag","#성장#시작#푸르른")
-//
-//        text_flower_today.text = name + "의 꽃말은?"
-//        text_flower_today_tag.text = tag
-//    }
+    // 식물이름 업데이트
+    fun setflower(){
+        val name = flower.getString("keyname","푸르름")
+        val tag = flower.getString("keytag","#성장#시작#푸르른")
+
+        text_flower_today.text = name + "의 꽃말은?"
+        text_flower_today_tag.text = tag
+    }
 
     /* 공식문서 코드 : 카드뷰 양쪽으로 움직이기 */
     inner class ZoomOutPageTransformer : ViewPager2.PageTransformer {

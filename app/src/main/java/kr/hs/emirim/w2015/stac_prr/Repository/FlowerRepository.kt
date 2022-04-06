@@ -1,12 +1,16 @@
 package kr.hs.emirim.w2015.stac_prr.Repository
 
+import android.app.Activity
+import android.content.Context
+import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import kr.hs.emirim.w2015.stac_prr.Model.Flowers
 
-class FlowerRepository {
+object FlowerRepository {
     val flowerData = MutableLiveData<ArrayList<Flowers>>()
 
-    suspend fun insertFlow(): MutableLiveData<ArrayList<Flowers>> {
+    suspend fun insertFlow(context:Activity): MutableLiveData<ArrayList<Flowers>> {
+        val flowerPref = context.getSharedPreferences("flower", Context.MODE_PRIVATE)
         val flowers = ArrayList<Flowers>()
         flowers.add(Flowers("행운목","#행운이#아닌#약속"))
         flowers.add(Flowers("스파티필름","#세심한#사랑"))
@@ -26,6 +30,14 @@ class FlowerRepository {
         flowers.add(Flowers("이끼","#모성애#고독#쓸쓸한"))
         flowers.add(Flowers("시클라멘","#수줍음#시기#질투"))
         flowerData.postValue(flowers)
+
+        flowerPref.edit {
+            for (i in 0..15){
+                putString((i.toString()+"n"),flowers[i].name)
+                putString((i.toString()+"s"),flowers[i].species)
+            }
+            commit()
+        }
 
         return flowerData
     }

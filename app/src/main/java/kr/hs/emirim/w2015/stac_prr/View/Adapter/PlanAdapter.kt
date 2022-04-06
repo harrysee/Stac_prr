@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.hs.emirim.w2015.stac_prr.Model.PlanModel
-import kr.hs.emirim.w2015.stac_prr.ViewModel.PlanViewModel
+import kr.hs.emirim.w2015.stac_prr.viewModel.PlanViewModel
 import kr.hs.emirim.w2015.stac_prr.databinding.PlanItemViewBinding
 import java.text.SimpleDateFormat
 import java.util.*

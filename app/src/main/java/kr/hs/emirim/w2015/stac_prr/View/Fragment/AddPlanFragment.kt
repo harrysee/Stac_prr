@@ -22,20 +22,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_add_plan.*
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.Receiver.AlarmReceiver
 import kr.hs.emirim.w2015.stac_prr.Receiver.DeviceBootReceiver
-import kr.hs.emirim.w2015.stac_prr.ViewModel.AddPlanViewModel
+import kr.hs.emirim.w2015.stac_prr.viewModel.AddPlanViewModel
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class AddPlanFragment : Fragment() {
     var date_str: String? = null

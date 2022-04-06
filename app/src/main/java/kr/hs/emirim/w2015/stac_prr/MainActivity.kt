@@ -13,21 +13,23 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
-import kr.hs.emirim.w2015.stac_prr.Model.Flowers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.View.Fragment.CalenderFragment
 import kr.hs.emirim.w2015.stac_prr.View.Fragment.HomeFragment
 import kr.hs.emirim.w2015.stac_prr.View.Fragment.JournalFragment
 import kr.hs.emirim.w2015.stac_prr.View.Fragment.SetFragment
 import kr.hs.emirim.w2015.stac_prr.Receiver.BroadcastReceiver
+import kr.hs.emirim.w2015.stac_prr.viewModel.MainViewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,16 +39,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pref: SharedPreferences
     private lateinit var flower: SharedPreferences
     private var auth: FirebaseAuth =FirebaseAuth.getInstance()
+    private val model by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        pref = this.getSharedPreferences("pref", Context.MODE_PRIVATE)
-        flower = this.getSharedPreferences("flower", Context.MODE_PRIVATE)
         onTabs()
 
         ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
-        //최초실행 확인
     }
 
     fun onTabs() {
@@ -94,16 +94,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.container, frag).commit()
     }
 
-    // 브로드캐스트리시버 필터 추가 & 등록
-    override fun onResume() {
-        super.onResume()
-    }
-
-    // 등록 삭제
-    override fun onPause() {
-        super.onPause()
-    }
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBackPressed() {
         val dial = CustomDialog(this)
@@ -126,62 +116,17 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         Log.d("TAG", "onStart 유저 아이디 : ${currentUser?.uid} ")
         // Check if user is signed in (non-null) and update UI accordingly.
-        setflower()
+
     }
 
-    fun setflower(){
-        // 꽃말 넣기
-        val flowers = ArrayList<Flowers>()
-        flowers.add(Flowers("행운목","#행운이#아닌#약속"))
-        flowers.add(Flowers("스파티필름","#세심한#사랑"))
-        flowers.add(Flowers("브로멜리아드","#미래#즐기며#만족"))
-        flowers.add(Flowers("산세베리아","#관용"))
-        flowers.add(Flowers("페페로미아","#행운#사랑"))
-        flowers.add(Flowers("스킨답서스","#우아한#심성"))
-        flowers.add(Flowers("아레카야자","#승리#부활"))
-        flowers.add(Flowers("아디안텀","#애교"))
-        flowers.add(Flowers("선인장","#불타는#마음"))
-        //추가
-        flowers.add(Flowers("목련","#숭고한#정신#고귀한"))
-        flowers.add(Flowers("나팔꽃","#기쁨#결속#기쁜소식"))
-        flowers.add(Flowers("데이지","#평화#순수#순진"))
-        flowers.add(Flowers("라일락","#우애#아름다움"))
-        flowers.add(Flowers("매화","#결백#정조#충실"))
-        flowers.add(Flowers("이끼","#모성애#고독#쓸쓸한"))
-        flowers.add(Flowers("시클라멘","#수줍음#시기#질투"))
-        
-        flower.edit(){
-            for (n in 0..15){
-                putString((n.toString()+"n"),flowers[n].name)
-                putString((n.toString()+"s"),flowers[n].species)
-            }
-            commit()
-        }
-        
-        //12시마다 업데이트
-        val alarmMgr = this.getSystemService(ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(this, BroadcastReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(this, 0, intent, 0)
-        }
-        val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 24)
-            set(Calendar.MINUTE,0)
-        }
-
-        Log.d("TAG", "setflower: 예약 시간 꽃말 : ${calendar.time}")
-        // constants--in this case, AlarmManager.INTERVAL_DAY.
-        alarmMgr?.setInexactRepeating(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            alarmIntent
-        )
-    }
     fun isFirstCheck() {
         // isFirst가 처음 만들어지지않았을때 넣으면 null이다 - null이면 true로 가져오기
         val isCheck = pref.getBoolean("isFirst", true)
         if (isCheck) {
+            val alarmMgr = this.getSystemService(ALARM_SERVICE) as AlarmManager
+            val alarmIntent = Intent(this, BroadcastReceiver::class.java).let { intent ->
+                PendingIntent.getBroadcast(this, 0, intent, 0)
+            }
             // 최초실행 후에는 그냥 값을 false로 넣는다.
             with(pref.edit()) {
                 putBoolean("isFirst", false)
@@ -189,22 +134,13 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
             Toast.makeText(this, "푸르름에 오신걸 환영합니다", Toast.LENGTH_SHORT).show()
-        }
-        // 첫 실행 시 가입 : signInAnonymously
-        auth.signInAnonymously()
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("TAG", "signInAnonymously:success - 사용자등록 완료")
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("TAG", "signInAnonymously:failure", task.exception)
-                    Toast.makeText(
-                        baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            CoroutineScope(Dispatchers.IO).launch {
+                model.signUp(this@MainActivity) // 회원가입 안되어있으므로 회원가입
+                model.setFlower(this@MainActivity)  // 꽃말들 디비넣기
+                model.updateFlower(alarmMgr,alarmIntent)    // 정각에 꽃말바뀌는거설정
             }
+        }
+
     }
 
 }
