@@ -17,6 +17,12 @@ class PlanViewModel : ViewModel() {
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
 
+    init {
+        viewModelScope.launch {
+            DaysList = planRepository.getAllPlan()
+        }
+    }
+
     fun getDatePlans(date:String?): MutableLiveData<ArrayList<PlanModel>> {
         viewModelScope.launch {
             if (date != null) {
@@ -33,9 +39,6 @@ class PlanViewModel : ViewModel() {
     }
 
     fun getAllPlans(): MutableLiveData<ArrayList<CalendarDay>> {
-        viewModelScope.launch {
-            DaysList = planRepository.getAllPlan()
-        }
         return DaysList
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 import kr.hs.emirim.w2015.stac_prr.Repository.JournalRepository
@@ -37,24 +38,32 @@ class AddJournalViewModel : ViewModel() {
     }
     
     // 생성/수정하기 - 사진있는 경우(사진업로드), 없는경우 : isImg, docData, docId, isEdit
-    fun setJournal(
-        isImg: Boolean, docData: Map<String, Any?>,
+    fun setJournalImg(
+        docData: Map<String, Any?>,
         photoUri:Uri?, docId: String?,
         isEdit: Boolean
     ): MutableLiveData<Boolean> {
         viewModelScope.launch {
             isComplate.postValue(true)
-            if(isImg) {  // 이미지 있을 때
+            val addProcess = async {
                 journalRep.CreateJournalImg(docData = docData, docId = docId?:"",photoURI = photoUri,isEdit = isEdit)
                 isComplate.postValue(journalRep.isComplate.value)
-            }else{
-                when(isEdit){
-                    true->{journalRep.CreateJournal(docData = docData)}
-                    false->{journalRep.ModifyJournal(docData,docId)}
-                }
-                isComplate.postValue(journalRep.isComplate.value)
             }
+            addProcess.await()
         }
         return isComplate
     }
+
+    fun setJournal(docData: Map<String, Any?>, docId: String?,
+                   isEdit: Boolean): MutableLiveData<Boolean> {
+        viewModelScope.launch {
+            when(isEdit){
+                true->{journalRep.ModifyJournal(docData,docId)}
+                false->{journalRep.CreateJournal(docData = docData)}
+            }
+        }
+        isComplate.postValue(journalRep.isComplate.value)
+        return isComplate
+    }
+
 }

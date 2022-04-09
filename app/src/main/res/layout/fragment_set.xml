@@ -1,286 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/set_bg"
-    tools:context=".View.Fragment.SetFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
 
-    <LinearLayout
-        android:id="@+id/set_top_bar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/white"
-        android:orientation="horizontal">
+    </data>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:layout_marginLeft="15dp"
-            android:fontFamily="@font/notosanscjkkr_medium"
-            android:includeFontPadding="false"
-            android:gravity="center"
-            android:text="설정"
-            android:textColor="@color/pp_green"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/set_linear_alarm"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@+id/set_top_bar"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_set_linear"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="@font/notosanscjkkr_demilight"
-            android:includeFontPadding="false"
-            android:layout_marginLeft="15dp"
-            android:text="@string/set_alarm"
-            android:textColor="@color/black"
-            android:textSize="17sp" />
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <Switch
-            android:id="@+id/set_switch_alarm"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:checked="false"
-            android:paddingRight="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_gravity="right"
-            android:theme="@style/set_switch" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/set_linear_nugu"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@+id/set_linear_alarm"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/shape_set_linear"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="@font/notosanscjkkr_demilight"
-            android:includeFontPadding="false"
-            android:layout_marginLeft="15dp"
-            android:text="@string/set_nugu"
-            android:textColor="@color/black"
-            android:textSize="17sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/set_imgbtn_nugu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:background="@color/transparent"
-            android:padding="20dp"
-            android:paddingLeft="100dp"
-            android:src="@drawable/ic_gray_pass" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/set_linear_iot"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@+id/set_linear_nugu"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/shape_set_linear"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="@font/notosanscjkkr_demilight"
-            android:includeFontPadding="false"
-            android:layout_marginLeft="15dp"
-            android:text="@string/set_iot"
-            android:textColor="@color/black"
-            android:textSize="17sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/set_imgbtn_iot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:background="@color/transparent"
-            android:padding="20dp"
-            android:src="@drawable/ic_gray_pass" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/set_linear_notice"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@+id/set_linear_iot"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_set_linear"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:fontFamily="@font/notosanscjkkr_demilight"
-            android:includeFontPadding="false"
-            android:text="@string/set_notice"
-            android:textColor="@color/black"
-            android:textSize="17sp" />
-
-        <View
-            android:id="@+id/set_notice_dot"
-            android:layout_width="5dp"
-            android:layout_height="5dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="17dp"
-            android:visibility="invisible"
-            android:background="@drawable/shape_notice_dot" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/set_imgbtn_notice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:background="@color/transparent"
-            android:padding="20dp"
-            android:src="@drawable/ic_gray_pass" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/set_linear_ask"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@+id/set_linear_notice"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/shape_set_linear"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:fontFamily="@font/notosanscjkkr_demilight"
-            android:includeFontPadding="false"
-            android:text="@string/set_ask"
-            android:textColor="@color/black"
-            android:textSize="17sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/set_imgbtn_ask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:background="@color/transparent"
-            android:padding="20dp"
-            android:src="@drawable/ic_gray_pass" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/set_linear_tos"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@drawable/shape_set_linear"
-        android:orientation="horizontal"
-        android:layout_below="@+id/set_linear_ask"
-        android:layout_marginTop="1dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="17sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:fontFamily="@font/notosanscjkkr_demilight"
-            android:includeFontPadding="false"
-            android:textColor="@color/black"
-            android:text="@string/set_tos"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <ImageButton
-            android:id="@+id/set_imgbtn_tos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:layout_gravity="center_vertical|right"
-            android:padding="20dp"
-            android:src="@drawable/ic_gray_pass" />
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/set_linear_version"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@drawable/shape_set_linear"
-        android:orientation="horizontal"
-        android:layout_below="@+id/set_linear_tos"
-        android:layout_marginTop="1dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="17sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:fontFamily="@font/notosanscjkkr_demilight"
-            android:includeFontPadding="false"
-            android:textColor="@color/black"
-            android:text="@string/set_version"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/set_imgbtn_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="center_vertical|right"
-            android:fontFamily="@font/notosanscjkkr_light"
-            android:includeFontPadding="false"
-            android:text="1.12"
-            android:textSize="15sp"
-            android:textColor="@color/day_gray" />
-    </LinearLayout>
-    <View
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/set_linear_version"
-        android:background="@color/back_gray"/>
+        android:background="@color/set_bg"
+        tools:context=".View.Fragment.SetFragment">
 
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/set_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/notosanscjkkr_medium"
+                android:includeFontPadding="false"
+                android:gravity="center"
+                android:text="설정"
+                android:textColor="@color/pp_green"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/set_linear_alarm"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/set_top_bar"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_set_linear"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/notosanscjkkr_demilight"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="15dp"
+                android:text="@string/set_alarm"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <Switch
+                android:id="@+id/set_switch_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:checked="false"
+                android:paddingRight="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="right"
+                android:theme="@style/set_switch" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/set_linear_nugu"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/set_linear_alarm"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/shape_set_linear"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/notosanscjkkr_demilight"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="15dp"
+                android:text="@string/set_nugu"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/set_imgbtn_nugu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:background="@color/transparent"
+                android:padding="20dp"
+                android:paddingLeft="100dp"
+                android:src="@drawable/ic_gray_pass" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/set_linear_iot"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/set_linear_nugu"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/shape_set_linear"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/notosanscjkkr_demilight"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="15dp"
+                android:text="@string/set_iot"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/set_imgbtn_iot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:background="@color/transparent"
+                android:padding="20dp"
+                android:src="@drawable/ic_gray_pass" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/set_linear_notice"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/set_linear_iot"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_set_linear"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/notosanscjkkr_demilight"
+                android:includeFontPadding="false"
+                android:text="@string/set_notice"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <View
+                android:id="@+id/set_notice_dot"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="17dp"
+                android:visibility="invisible"
+                android:background="@drawable/shape_notice_dot" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/set_imgbtn_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:background="@color/transparent"
+                android:padding="20dp"
+                android:src="@drawable/ic_gray_pass" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/set_linear_ask"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/set_linear_notice"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/shape_set_linear"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/notosanscjkkr_demilight"
+                android:includeFontPadding="false"
+                android:text="@string/set_ask"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/set_imgbtn_ask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:background="@color/transparent"
+                android:padding="20dp"
+                android:src="@drawable/ic_gray_pass" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/set_linear_tos"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/shape_set_linear"
+            android:orientation="horizontal"
+            android:layout_below="@+id/set_linear_ask"
+            android:layout_marginTop="1dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/notosanscjkkr_demilight"
+                android:includeFontPadding="false"
+                android:textColor="@color/black"
+                android:text="@string/set_tos"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <ImageButton
+                android:id="@+id/set_imgbtn_tos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="center_vertical|right"
+                android:padding="20dp"
+                android:src="@drawable/ic_gray_pass" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/set_linear_version"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/shape_set_linear"
+            android:orientation="horizontal"
+            android:layout_below="@+id/set_linear_tos"
+            android:layout_marginTop="1dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/notosanscjkkr_demilight"
+                android:includeFontPadding="false"
+                android:textColor="@color/black"
+                android:text="@string/set_version"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/set_imgbtn_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center_vertical|right"
+                android:fontFamily="@font/notosanscjkkr_light"
+                android:includeFontPadding="false"
+                android:text="1.12"
+                android:textSize="15sp"
+                android:textColor="@color/day_gray" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/set_linear_version"
+            android:background="@color/back_gray"/>
+
+    </RelativeLayout>
+</layout>

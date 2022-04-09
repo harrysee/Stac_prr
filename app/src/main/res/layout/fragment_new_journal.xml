@@ -1,151 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/back_gray"
-    tools:context=".View.Fragment.NewJournalFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="@color/back_gray"
+        tools:context=".View.Fragment.NewJournalFragment">
 
-        <ImageButton
-            android:id="@+id/addjournal_pass_btn"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="1dp"
-            android:layout_gravity="center_vertical"
-            android:background="@color/back_gray"
-            android:backgroundTint="@color/transparent"
-            android:padding="10dp"
-            android:src="@drawable/ic_back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:fontFamily="@font/notosanscjkkr_regular"
-            android:includeFontPadding="false"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="일지 작성"
-            android:textColor="@color/pp_green"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/addjournal_complate_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:fontFamily="@font/notosanscjkkr_regular"
-            android:includeFontPadding="false"
-            android:background="@drawable/shape_nostrock"
-            android:gravity="center"
-            android:text="@string/complate"
-            android:textColor="@color/pp_green"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/newjournal_date_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:layout_marginLeft="26dp"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/notosanscjkkr_regular"
-        android:includeFontPadding="false"
-        android:text="날짜 선택"
-        android:textColor="@color/pp_green"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
-
-    <LinearLayout
-        android:id="@+id/linear"
-        android:layout_width="365dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_corner"
-        android:backgroundTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/newjournal_date_btn"
-        android:orientation="vertical">
-
+        <!-- TODO: Update blank fragment layout -->
         <LinearLayout
-            android:id="@+id/choice"
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="56dp"
+            android:background="@color/white"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <Spinner
-                android:id="@+id/choice_spinner"
-                android:layout_marginLeft="15dp"
-                android:layout_width="match_parent"
+            <ImageButton
+                android:id="@+id/addjournal_pass_btn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="1dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/back_gray"
+                android:backgroundTint="@color/transparent"
+                android:padding="10dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="14dp"
-                android:spinnerMode="dropdown"
-                android:background="@drawable/selector_spinner_view"
-                />
+                android:layout_gravity="right"
+                android:fontFamily="@font/notosanscjkkr_regular"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="일지 작성"
+                android:textColor="@color/pp_green"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/addjournal_complate_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:fontFamily="@font/notosanscjkkr_regular"
+                android:includeFontPadding="false"
+                android:background="@drawable/shape_nostrock"
+                android:gravity="center"
+                android:text="@string/complate"
+                android:textColor="@color/pp_green"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
-        <View
-            android:id="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/set_bg"
-            app:layout_constraintTop_toTopOf="@id/linear"
-            app:layout_constraintStart_toStartOf="@id/linear"/>
-        <EditText
-            android:id="@+id/journal_content"
-            android:layout_width="match_parent"
-            android:layout_marginRight="15dp"
+
+        <Button
+            android:id="@+id/newjournal_date_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="10dp"
-            android:hint="새 일지를 작성하세요"
-            android:maxLines="5"
-            android:fontFamily="@font/notosanscjkkr_light"
+            android:background="@color/transparent"
+            android:layout_marginLeft="26dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/notosanscjkkr_regular"
             android:includeFontPadding="false"
-            android:background="@android:color/transparent"
-            android:textColorHint="@color/day_gray"
-            android:textSize="14sp"
-            android:textColor="@color/day_gray"
-            app:layout_constraintRight_toRightOf="@+id/linear"
-            app:layout_constraintTop_toBottomOf="@id/line1"
-            app:layout_constraintStart_toStartOf="@id/linear"/>
-    </LinearLayout>
+            android:text="날짜 선택"
+            android:textColor="@color/pp_green"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
-    <ImageButton
-        android:id="@+id/add_img_btn"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginLeft="16dp"
-        android:src="@drawable/ic_add_photo"
-        app:layout_constraintBottom_toBottomOf="@+id/linear"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintLeft_toLeftOf="@id/linear" />
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="365dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_corner"
+            android:backgroundTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newjournal_date_btn"
+            android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/choice"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                <Spinner
+                    android:id="@+id/choice_spinner"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="14dp"
+                    android:spinnerMode="dropdown"
+                    android:background="@drawable/selector_spinner_view"
+                    />
+            </LinearLayout>
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/set_bg"
+                app:layout_constraintTop_toTopOf="@id/linear"
+                app:layout_constraintStart_toStartOf="@id/linear"/>
+            <EditText
+                android:id="@+id/journal_content"
+                android:layout_width="match_parent"
+                android:layout_marginRight="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="10dp"
+                android:hint="새 일지를 작성하세요"
+                android:maxLines="5"
+                android:fontFamily="@font/notosanscjkkr_light"
+                android:includeFontPadding="false"
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/day_gray"
+                android:textSize="14sp"
+                android:textColor="@color/day_gray"
+                app:layout_constraintRight_toRightOf="@+id/linear"
+                app:layout_constraintTop_toBottomOf="@id/line1"
+                app:layout_constraintStart_toStartOf="@id/linear"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/add_img_btn"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_add_photo"
+            app:layout_constraintBottom_toBottomOf="@+id/linear"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintLeft_toLeftOf="@id/linear" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

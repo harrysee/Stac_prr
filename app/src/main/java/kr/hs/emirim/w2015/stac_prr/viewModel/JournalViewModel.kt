@@ -13,14 +13,21 @@ import kr.hs.emirim.w2015.stac_prr.Repository.PlantRepository
 
 class JournalViewModel : ViewModel(){
     var plantNames = MutableLiveData<ArrayList<String>>()
-    var allJournals = MutableLiveData<ArrayList<JournalModel>>()
+    var allJournalsAsk = MutableLiveData<ArrayList<JournalModel>>()
+    var allJournalsDesk = MutableLiveData<ArrayList<JournalModel>>()
     var journals = MutableLiveData<ArrayList<JournalModel>>()
     var isComplate = MutableLiveData<Boolean>()
     val plantRep = PlantRepository
     val journalRep = JournalRepository
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val auth = Firebase.auth
-    
+
+    init {
+        viewModelScope.launch {
+            allJournalsAsk = journalRep.getJournalListAsk()
+            allJournalsDesk = journalRep.getJournalListDest()
+        }
+    }
     // 식물이름들 가져오기
     fun getPlantName(): MutableLiveData<ArrayList<String>> {
         viewModelScope.launch {
@@ -28,15 +35,15 @@ class JournalViewModel : ViewModel(){
         }
         return plantNames
     }
-    
+
     // 전체일지 보여주기 - 오름/내림
     fun getAllJournals(sorted : Boolean): MutableLiveData<ArrayList<JournalModel>> {
-        viewModelScope.launch {
-            allJournals = journalRep.getJournalList(sorted)
+        when(sorted){
+            true->{return allJournalsAsk}
+            else->{return allJournalsDesk}
         }
-        return allJournals
     }
-    
+
     // 선택한 일지 가져오긴 - 오름/내림 : name
     fun getJournals(sorted: Boolean, name:String): MutableLiveData<ArrayList<JournalModel>> {
         viewModelScope.launch {

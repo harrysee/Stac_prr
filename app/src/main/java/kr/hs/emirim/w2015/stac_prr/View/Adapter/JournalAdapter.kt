@@ -20,11 +20,14 @@ import kr.hs.emirim.w2015.stac_prr.View.Dialog.ImageDialog
 import kr.hs.emirim.w2015.stac_prr.View.Fragment.NewJournalFragment
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.JournalDialog
 import kr.hs.emirim.w2015.stac_prr.R
+import kr.hs.emirim.w2015.stac_prr.Repository.JournalRepository
+import kr.hs.emirim.w2015.stac_prr.viewModel.JournalViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
-class JournalAdapter(private val context: Context, private val activity: FragmentActivity?) :
+class JournalAdapter(private val context: Context, private val activity: FragmentActivity?,val model:JournalViewModel) :
     RecyclerView.Adapter<JournalAdapter.ViewHolder>() {
         var datas = mutableListOf<JournalModel>()
-        val storage = FirebaseStorage.getInstance()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(this.context).inflate(R.layout.journal_item, parent,false)
@@ -46,7 +49,7 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
             fun bind(item: JournalModel) {
                 txtName.text = item.name
                 txtJournal.text = item.journal
-                journaldate.text = item.date.toString()
+                journaldate.text = SimpleDateFormat("yy-MM-dd").format(item.date.toDate())
 
                 if (item.imgUri != null){
                     Log.d("TAG", "bind: 일지어댑터 사진 null아님 : ${item.imgUri}")
@@ -81,20 +84,9 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
                         }
                         .setDeleteBtn("삭제"){
                             Log.d("TAG", "bind: 삭제 클릭됨 일지")
-                            val auth = FirebaseAuth.getInstance().currentUser
-                            val db = FirebaseFirestore.getInstance()
-                            if (auth != null) {
-                                db.collection("journals")
-                                    .document(auth.uid.toString())
-                                    .collection("journal")
-                                    .document(item.docId)
-                                    .delete()
-                                    .addOnSuccessListener {
-                                        //각 아이템 삭제하기
-                                        Toast.makeText(context,"정상적으로 삭제되었습니다",Toast.LENGTH_SHORT).show()
-                                        notifyDataSetChanged()
-                                    }// journal success end
-                            }//auth null
+                            model.deleteJournal(item.docId)
+                            Toast.makeText(context,"정상적으로 삭제되었습니다.",Toast.LENGTH_SHORT).show()
+                            notifyDataSetChanged()
                         }
                         .show()
                 }

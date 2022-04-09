@@ -19,6 +19,11 @@ class AddPlanViewModel:ViewModel() {
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
 
+    init {
+        viewModelScope.launch {
+            Names = plantRepository.getNames()
+        }
+    }
     fun insertPlan(docData: Map<String,Any>){
         auth.uid?.let {
             db.collection("schedule").document(it).collection("plans").document()
@@ -29,9 +34,6 @@ class AddPlanViewModel:ViewModel() {
     }
 
     fun getNames(): MutableLiveData<ArrayList<String>> {
-        viewModelScope.launch {
-            Names = plantRepository.getNames()
-        }
         return Names
     }
 

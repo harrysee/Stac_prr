@@ -59,12 +59,10 @@ class HomeFragment : Fragment() {
         viewPager.setPageTransformer { page, position ->
             page.translationX = position * -offsetPx
         }
-        // 여백, 너비에 대한 정의 : 몇 개의 페이지를 미리 로드 해둘것인지
         viewPager.offscreenPageLimit = 1
         val viewAdapter = homedatas?.let { FhViewAdapter(it, activity, requireContext()) }  // 어댑터 생성
 
         // 뷰페이저 어댑터 생성
-        homedatas = viewAdapter?.datas
         viewPager.adapter = viewAdapter
 
         // 데이터세팅

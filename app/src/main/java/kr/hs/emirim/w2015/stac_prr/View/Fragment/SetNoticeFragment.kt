@@ -1,5 +1,6 @@
 package kr.hs.emirim.w2015.stac_prr.View.Fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -40,20 +41,22 @@ class SetNoticeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
+        val push = context?.getSharedPreferences("push", Context.MODE_PRIVATE)!!
+        push.edit()
+            .putBoolean("isOpen",false)
+            .apply()
 
         notice_pass_btn.setOnClickListener(){
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(SetFragment())
         }
-
-
     }
     private fun initRecycler() {
-        noticeAdapter = SetNoticeAdapter(requireContext())
-        notice_recycler.adapter = noticeAdapter
-
         model.getNotices().observe(requireActivity(), Observer{
-            noticeAdapter.datas = datas
+            Log.i("TAG", "initRecycler: 공지사항 가져옴"+it)
+            noticeAdapter = SetNoticeAdapter(requireContext())
+            notice_recycler.adapter = noticeAdapter
+            noticeAdapter.datas = it
             noticeAdapter.notifyDataSetChanged()
         })
     }

@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
+import kr.hs.emirim.w2015.stac_prr.databinding.FragmentNewJournalBinding
 import kr.hs.emirim.w2015.stac_prr.viewModel.AddJournalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,6 +30,7 @@ class NewJournalFragment : Fragment() {
     private var isEdit: Boolean = false
     private var docId: String? = null
     private var imgUri: String? = null
+    private lateinit var binding : FragmentNewJournalBinding
     private val model by lazy{
         ViewModelProvider(requireActivity()).get(AddJournalViewModel::class.java)
     }
@@ -46,8 +48,8 @@ class NewJournalFragment : Fragment() {
         isEdit = arguments?.getBoolean("isEdit")?:false
         docId = arguments?.getString("docId")
         imgUri = arguments?.getString("imgUri")
-        val view = inflater.inflate(R.layout.fragment_new_journal, container, false)
-        return view
+        binding = FragmentNewJournalBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,7 +66,7 @@ class NewJournalFragment : Fragment() {
             )
             Log.d("TAG", "onViewCreated: 어댑터 완성")
             nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            choice_spinner.adapter = nadapter
+            binding.choiceSpinner.adapter = nadapter
             nadapter.notifyDataSetChanged()
         })
 
@@ -73,16 +75,16 @@ class NewJournalFragment : Fragment() {
             model.getJournal(docId!!).observe(requireActivity(), androidx.lifecycle.Observer {
                 val date = it.date as Timestamp
                 val pos = nadapter.getPosition(it.name as String?)
-                newjournal_date_btn.text = SimpleDateFormat("yy-MM-dd").format(date.toDate())
+                binding.newjournalDateBtn.text = SimpleDateFormat("yy-MM-dd").format(date.toDate())
                 cal.time = date.toDate()
-                journal_content.setText(it.journal as String?)
-                choice_spinner.setSelection(pos)
+                binding.journalContent.setText(it.journal as String?)
+                binding.choiceSpinner.setSelection(pos)
 
                 if (imgUri != null) {
                     Glide.with(requireContext())
                         .load(imgUri)
                         .fitCenter()
-                        .into(add_img_btn)
+                        .into(binding.addImgBtn)
                 }
             })
         }
@@ -139,20 +141,34 @@ class NewJournalFragment : Fragment() {
             Toast.makeText(requireContext(), "업로드 중..", Toast.LENGTH_SHORT)
             // 파이어스토어에 데이터 저장
             val date: Date = cal.time
+            var msg = "업로드"
             // 올릴 필드 설정하기
             val journal_content: EditText = view.findViewById(R.id.journal_content)
             val choice_spinner: Spinner = view.findViewById(R.id.choice_spinner)
             val docData = mapOf<String, Any?>(
-                "content" to journal_content.text.toString(),
-                "name" to choice_spinner.selectedItem.toString(),
+                "content" to binding.journalContent.text.toString(),
+                "name" to binding.choiceSpinner.selectedItem.toString(),
                 "date" to Timestamp(date),   // 날짜
             )
-            model.setJournal(true, docData, photoURI, docId, isEdit).observe(requireActivity(),
-                androidx.lifecycle.Observer {
-                    showMsg(it)
-                })
-                Toast.makeText(requireContext(), "업로드 완료!", Toast.LENGTH_SHORT).show()
+            msg = when(isEdit){
+                true ->{"업데이트"}
+                else ->{"업로드"}
+            }
+            if (photoURI != null) { // 이미지 있을 때
+                model.setJournalImg( docData, photoURI, docId, isEdit).observe(requireActivity(),
+                    androidx.lifecycle.Observer {
+                        showMsg(it?:false)
+                    })
+                Toast.makeText(requireContext(), msg+" 완료!", Toast.LENGTH_SHORT).show()
                 Log.d("TAG", "onViewCreated: 파이어 업로드 완료 : journal")
+            } else {        // 사진이 없을경우
+                model.setJournal( docData,  docId, isEdit).observe(requireActivity(),
+                    androidx.lifecycle.Observer {
+                        showMsg(it?:false)
+                    })
+                Toast.makeText(requireContext(), msg+" 완료!", Toast.LENGTH_SHORT).show()
+                Log.d("TAG", "onViewCreated: 파이어 업로드 완료 : journal")
+            }// 업로드 끝
             activity.fragmentChange_for_adapter(JournalFragment())
         }
 
@@ -169,7 +185,7 @@ class NewJournalFragment : Fragment() {
 
     }
 
-    fun showMsg(r:Boolean){
+    fun showMsg(r: Boolean){
         if (r){
             Toast.makeText(requireContext(),"업로드 완료",Toast.LENGTH_SHORT).show()
         }else{

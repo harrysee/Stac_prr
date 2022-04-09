@@ -31,8 +31,7 @@ import kotlin.collections.ArrayList
 
 
 class CalenderFragment : Fragment(){
-    private var _binding: FragmentCalenderBinding? = null//<layout></layout>으로 감싼 것만 바인딩가능
-    private val binding get() = _binding!!
+    private lateinit var binding : FragmentCalenderBinding
     private lateinit var adapter: PlanAdapter
     private lateinit var pref : SharedPreferences
     val dotPlanDay = mutableListOf<CalendarDay>()
@@ -51,7 +50,7 @@ class CalenderFragment : Fragment(){
     ): View? {
         // onCreateView에서 바인딩을 시켜주고 binding 객체의 root를 리턴
         pref = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
-        _binding = FragmentCalenderBinding.inflate(inflater, container, false)
+        binding = FragmentCalenderBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -61,12 +60,10 @@ class CalenderFragment : Fragment(){
         calendarOption()    //캘린더 기본세팅
         addDecorator()      // 추가 커스텀
         binding.planRecyclerview.addItemDecoration(RecyclerViewDecoration(18))
-        val plans = getPlan()   // 해당 일정들
-        adapter = PlanAdapter(plans,model)      // 일정목록 어댑터 생성
+        getPlan()   // 해당 일정들
         val linearLayoutManager = LinearLayoutManager(activity)
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         binding.planRecyclerview.layoutManager = linearLayoutManager
-        binding.planRecyclerview.adapter = adapter
 
         //날짜 클릭했을때
         binding.materialCalendar.setOnDateChangedListener { widget, date, selected ->
@@ -106,7 +103,7 @@ class CalenderFragment : Fragment(){
         super.onDestroyView()
         /*프래그먼트에서는 Nullable 처리를 위해 추가적인 코드가 필요합니다.
         프래그먼트는 뷰 보다 오래 지속되기 때문에 onDestroyView()에서 binding class 인스턴스 null 값으로 변경하여 참조를 정리해주어야 합니다.*/
-        _binding = null
+
     }
 
     // 여기부터 리사이클뷰 코드-------------------
@@ -116,7 +113,9 @@ class CalenderFragment : Fragment(){
         // 리사이클뷰 관련 변수 선언
         model.getDatePlans(selec_date).observe(requireActivity(), androidx.lifecycle.Observer {
             plans = it
+            adapter = PlanAdapter(plans,model)      // 일정목록 어댑터 생성
             adapter.items = plans
+            binding.planRecyclerview.adapter = adapter
             adapter.notifyDataSetChanged()
         })
         return plans
@@ -131,7 +130,7 @@ class CalenderFragment : Fragment(){
                 dotDecorator = DotDecorator("#8EC057", it)  //일정있으면 점찍기
 
                 //데코레이터 추가
-                val decorator = binding.materialCalendar.addDecorators(
+                binding.materialCalendar.addDecorators(
                     sundayDecorator,
                     saturdayDecorator,
                     todayDecorator,

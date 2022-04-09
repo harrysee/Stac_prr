@@ -38,7 +38,9 @@ class AddPlanFragment : Fragment() {
     val cal: Calendar = Calendar.getInstance()
     lateinit var push: SharedPreferences
     lateinit var nadapter: ArrayAdapter<String>
-    val model = ViewModelProvider(requireActivity()).get(AddPlanViewModel::class.java)
+    val model by lazy {
+        ViewModelProvider(requireActivity()).get(AddPlanViewModel::class.java)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -98,7 +100,7 @@ class AddPlanFragment : Fragment() {
             )
             Log.d("TAG", "onViewCreated: 일정에 저장된 날짜 : $str_date")
             // 콜렉션에 문서 생성하기
-            model.insertPlan(docData)
+            model?.insertPlan(docData)
             Toast.makeText(requireContext(), "업로드 완료 !", Toast.LENGTH_LONG).show()
             Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
 
@@ -186,16 +188,19 @@ class AddPlanFragment : Fragment() {
 
         // 대상 부분
         model.getNames().observe(requireActivity(), androidx.lifecycle.Observer {
+            Log.i("TAG", "setSpinner: 대상 안")
             val names_arr = it
             nadapter = ArrayAdapter<String>(
                 requireContext(),
                 R.layout.spinner_custom,
                 names_arr
             )
+            Log.i("TAG", "setSpinner: 대상 가져옴"+it)
             nadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             plant_name_spinner.adapter = nadapter
             nadapter.notifyDataSetChanged()
         })
+
 
     }
 

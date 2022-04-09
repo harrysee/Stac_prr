@@ -11,11 +11,15 @@ import kr.hs.emirim.w2015.stac_prr.Repository.PlantRepository
 class HomeViewModel : ViewModel() {
     private var plantList = MutableLiveData<ArrayList<HomeModel>>()
     private val plantRepository by lazy { PlantRepository }
-    
-    fun getAllPlant(): MutableLiveData<ArrayList<HomeModel>> {
-        viewModelScope.launch(Dispatchers.IO) {
+    init {
+        // 생성 로직
+        // 식물데이터 HomeModel로 가져오기
+        viewModelScope.launch {
             plantList= plantRepository.getPlantListLiveData()
         }
+    }
+
+    fun getAllPlant(): MutableLiveData<ArrayList<HomeModel>> {
         return plantList
     }
 

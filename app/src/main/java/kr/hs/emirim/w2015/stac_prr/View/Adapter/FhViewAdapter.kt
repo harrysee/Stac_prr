@@ -17,7 +17,6 @@ import kr.hs.emirim.w2015.stac_prr.R
 
 
 class FhViewAdapter(var datas : ArrayList<HomeModel>, val fragment_s:FragmentActivity?, val context:Context) : RecyclerView.Adapter<FhViewAdapter.MyViewholder>() {
-    private val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewholder(parent)
 

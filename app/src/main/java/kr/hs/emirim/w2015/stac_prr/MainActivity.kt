@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 else if (position == 3) selected = SetFragment()
                 else selected = HomeFragment()
 
-                supportFragmentManager.beginTransaction().replace(R.id.container, selected!!)
+                this@MainActivity.supportFragmentManager.beginTransaction().addToBackStack("back").replace(R.id.container, selected!!)
                     .commit()
             }
 

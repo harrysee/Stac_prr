@@ -21,6 +21,7 @@ import kr.hs.emirim.w2015.stac_prr.BuildConfig
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.Repository.NoticeRepository
+import kr.hs.emirim.w2015.stac_prr.databinding.FragmentSetBinding
 import kr.hs.emirim.w2015.stac_prr.viewModel.NoticeViewModel
 import java.util.*
 
@@ -30,6 +31,7 @@ class SetFragment : Fragment() {
     private lateinit var push: SharedPreferences
     private lateinit var alarmIntent: PendingIntent
     private var isOpen : Boolean? = null
+    private lateinit var binding : FragmentSetBinding
     val model by lazy {
         ViewModelProvider(requireActivity()).get(NoticeViewModel::class.java)
     }
@@ -44,7 +46,8 @@ class SetFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_set, container, false)
+        binding = FragmentSetBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,9 +71,6 @@ class SetFragment : Fragment() {
         }
         set_linear_notice.setOnClickListener(){ //공지사항 클릭
             //열었을때 점 사라지게
-            push.edit()
-                .putBoolean("isOpen",true)
-                .apply()
             if (isOpen ==false){
                 set_notice_dot.visibility=View.INVISIBLE
             }
@@ -112,14 +112,19 @@ class SetFragment : Fragment() {
             }
             Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show()
         }
-
     }
+    
+    // 공지사항 읽었는지 보여주기
     fun setNoticeDot(){
         model.getNoticeDot(requireActivity()).observe(requireActivity(), androidx.lifecycle.Observer {
-            if(!it){
-                Toast.makeText(requireContext(),"네트워크 연결을 확인해주세요", Toast.LENGTH_SHORT).show()
+            Log.i("TAG", "setNoticeDot: 가져오기"+it)
+            if(it){
+                val isopen = push.getBoolean("isOpen",false)
+                if(isopen){
+                    binding.setNoticeDot.visibility=View.VISIBLE
+                }
             }else{
-                set_notice_dot.visibility=View.VISIBLE
+                Toast.makeText(requireActivity(),"네트워크 연결을 확인해주세요", Toast.LENGTH_SHORT).show()
             }
         })
     }

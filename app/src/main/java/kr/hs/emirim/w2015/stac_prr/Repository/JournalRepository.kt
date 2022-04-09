@@ -24,52 +24,55 @@ object JournalRepository {
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     
-    // 전체 가져오기
-    suspend fun getJournalList(dateSort:Boolean): MutableLiveData<ArrayList<JournalModel>> {
+    // 전체 가져오기 - 오름차순
+    suspend fun getJournalListAsk(): MutableLiveData<ArrayList<JournalModel>> {
         val datas = ArrayList<JournalModel>()
-        if (dateSort==false){   //내림차순으로 가져오기
-            db.collection("journals")
-                .document(auth.uid.toString())
-                .collection("journal")
-                .orderBy("date", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener {
-                    Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                    for (document in it) {
-                        val date = document["date"] as Timestamp
-                        datas.add(JournalModel(
-                            document["name"] as String,
-                            document["content"] as String,
-                            document["date"] as Timestamp,
-                            document["imgUri"] as String?,
-                            document.id))
-                    }
-                    Log.i("파이어베이스데이터", datas.toString());
+        db.collection("journals")
+            .document(auth.uid.toString())
+            .collection("journal")
+            .orderBy("date")
+            .get()
+            .addOnSuccessListener {
+                Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
+                for (document in it) {
+                    val date = document["date"] as Timestamp
+                    datas.add(JournalModel(
+                        document["name"] as String,
+                        document["content"] as String,
+                        document["date"] as Timestamp,
+                        document["imgUri"] as String?,
+                        document.id))
                 }
-        }else{  //오름차순으로 가져오기
-            db.collection("journals")
-                .document(auth.uid.toString())
-                .collection("journal")
-                .orderBy("date")
-                .get()
-                .addOnSuccessListener {
-                    Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                    for (document in it) {
-                        val date = document["date"] as Timestamp
-                        datas.add(JournalModel(
-                            document["name"] as String,
-                            document["content"] as String,
-                            document["date"] as Timestamp,
-                            document["imgUri"] as String?,
-                            document.id))
-                    }
-                    Log.i("파이어베이스데이터", datas.toString())
-                }
-        }
+                Log.i("파이어베이스데이터", datas.toString())
+            }
+
         journalList.postValue(datas)
         return journalList
     }
 
+    suspend fun getJournalListDest(): MutableLiveData<ArrayList<JournalModel>> {
+        val datas = ArrayList<JournalModel>()
+        db.collection("journals")
+            .document(auth.uid.toString())
+            .collection("journal")
+            .orderBy("date", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener {
+                Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
+                for (document in it) {
+                    datas.add(JournalModel(
+                        document["name"] as String,
+                        document["content"] as String,
+                        document["date"] as Timestamp,
+                        document["imgUri"] as String?,
+                        document.id))
+                    Log.i("TAG", "getJournalList: 일지 데이터"+it)
+                }
+                Log.i("파이어베이스데이터", datas.toString());
+            }
+        journalList.postValue(datas)
+        return journalList
+    }
     // 식물에 따라 가져오기
     suspend fun getPlantJournal(dateSort: Boolean, name:String): MutableLiveData<ArrayList<JournalModel>> {
         val datas = ArrayList<JournalModel>()
@@ -82,7 +85,6 @@ object JournalRepository {
                 .get()
                 .addOnSuccessListener {
                     for (document in it) {
-                        val date = document["date"] as Timestamp
                         datas.add(JournalModel(
                             document["name"] as String,
                             document["content"] as String,
@@ -90,7 +92,7 @@ object JournalRepository {
                             document["imgUri"] as String?,
                             document.id))
                     }
-                    Log.i("파이어베이스데이터", datas.toString());
+                    Log.i("","파이어베이스데이터"+datas);
                 }
         }else{  //오름차순으로 가져오기
             db.collection("journals")
@@ -102,7 +104,6 @@ object JournalRepository {
                 .addOnSuccessListener {
                     Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                     for (document in it) {
-                        val date = document["date"] as Timestamp
                         datas.add(JournalModel(
                             document["name"] as String,
                             document["content"] as String,
@@ -161,11 +162,17 @@ object JournalRepository {
 
     // 일지 추가
     suspend fun CreateJournal(docData: Map<String, Any?>){
+        Log.i("TAG", "CreateJournal: 일지생성"+docData)
+        val datas = hashMapOf(
+            "content" to docData["content"],
+            "name" to docData["name"],
+            "date" to docData["date"],   // 날짜
+        )
         auth.uid?.let {
             db!!.collection("journals").document(it).collection("journal").document()
-                .set(docData)
+                .set(datas)
                 .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
-                .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
+                .addOnFailureListener { e -> Log.w("TAG", "파이어베이스 일지 오류 : journal", e) }
         }
     }
 
@@ -222,7 +229,7 @@ object JournalRepository {
                             auth.uid?.let {
                                 db!!.collection("journals").document(it).collection("journal").document()
                                     .set(data)
-                                    .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
+                                    .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal"+data) }
                                     .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e)
                                     isComplate.postValue(false)}
                             }
