@@ -13,22 +13,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_set.*
 import kr.hs.emirim.w2015.stac_prr.BuildConfig
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
+import kr.hs.emirim.w2015.stac_prr.Repository.NoticeRepository
+import kr.hs.emirim.w2015.stac_prr.viewModel.NoticeViewModel
 import java.util.*
 
 class SetFragment : Fragment() {
-    val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
     private var alarmMgr: AlarmManager? = null
     private lateinit var push: SharedPreferences
     private lateinit var alarmIntent: PendingIntent
     private var isOpen : Boolean? = null
-    private var noticeSize : Int =0
+    val model by lazy {
+        ViewModelProvider(requireActivity()).get(NoticeViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +49,6 @@ class SetFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         isOpen = push.getBoolean("isOpen",false)
-        noticeSize = push.getInt("noticeSize",0)
         setNoticeDot()  // 점 표시여부
         // 알림 푸쉬 스위치버튼 설정하기
         val isAlarm = push.getBoolean("isAlarm", true)
@@ -112,24 +115,13 @@ class SetFragment : Fragment() {
 
     }
     fun setNoticeDot(){
-        db.collection("noticed")
-            .get()
-            .addOnSuccessListener { result ->
-                Log.d("TAG", "setNoticeDot: 공지사항 가지러옴 : ${result.size()} /$noticeSize")
-                if (noticeSize < result.size() || noticeSize> result.size()){
-                    Log.d("TAG", "setNoticeDot: 공지사항 가지러옴 개수 : ${result.size()} / $noticeSize")
-                    push.edit()
-                        .putInt("noticeSize",result.size())
-                        .putBoolean("isOpen",false)
-                        .apply()
-                    Log.d("TAG", "setNoticeDot: 오픈햇냐 : $isOpen")
-                    set_notice_dot.visibility=View.VISIBLE
-                }
+        model.getNoticeDot(requireActivity()).observe(requireActivity(), androidx.lifecycle.Observer {
+            if(!it){
+                Toast.makeText(requireContext(),"네트워크 연결을 확인해주세요", Toast.LENGTH_SHORT).show()
+            }else{
+                set_notice_dot.visibility=View.VISIBLE
             }
-            .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(),"공지사항 불러오기 실패", Toast.LENGTH_SHORT).show()
-                Log.d("TAG", "Error getting documents: ", exception)
-            }
+        })
     }
 
 }

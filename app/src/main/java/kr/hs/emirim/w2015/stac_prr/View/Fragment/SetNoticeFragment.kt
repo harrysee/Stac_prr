@@ -7,17 +7,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_set_notice.*
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.SetNoticeAdapter
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.Model.NoticeModel
 import kr.hs.emirim.w2015.stac_prr.R
+import kr.hs.emirim.w2015.stac_prr.viewModel.NoticeViewModel
 
 class SetNoticeFragment : Fragment() {
     lateinit var noticeAdapter: SetNoticeAdapter
     val datas = mutableListOf<NoticeModel>()
     val db = FirebaseFirestore.getInstance()
+    val model by lazy{
+        ViewModelProvider(requireActivity()).get(NoticeViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,21 +52,9 @@ class SetNoticeFragment : Fragment() {
         noticeAdapter = SetNoticeAdapter(requireContext())
         notice_recycler.adapter = noticeAdapter
 
-        db.collection("noticed")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val content = (document["content"] as String).replace("\\n", "\n")
-                    datas.add(NoticeModel(document["title"] as String,document["date"] as String,content))
-                    Log.d("TAG", "${document["title"]} => ${datas}")
-                }
-                noticeAdapter.datas = datas
-                noticeAdapter.notifyDataSetChanged()
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(),"공지사항 불러오기 실패", Toast.LENGTH_SHORT).show()
-                Log.d("TAG", "Error getting documents: ", exception)
-            }
-
+        model.getNotices().observe(requireActivity(), Observer{
+            noticeAdapter.datas = datas
+            noticeAdapter.notifyDataSetChanged()
+        })
     }
 }

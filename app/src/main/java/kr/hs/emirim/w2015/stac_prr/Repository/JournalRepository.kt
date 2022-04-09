@@ -20,6 +20,7 @@ object JournalRepository {
     private var isSucces = MutableLiveData<Boolean>()
     private var storage = FirebaseStorage.getInstance()
     private var storageRef = storage.reference
+    var isComplate = MutableLiveData<Boolean>()
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     
@@ -169,7 +170,7 @@ object JournalRepository {
     }
 
     // 일지 이미지 추가
-    suspend fun CreateJournalImg(photoURI : Uri?): MutableLiveData<String?> {
+    suspend fun CreateJournalImg(photoURI : Uri?,isEdit:Boolean,docData: Map<String, Any?>,docId: String): MutableLiveData<String?> {
         val filename = "_" + System.currentTimeMillis()
         val imagesRef: StorageReference? = storageRef.child("journal/" + filename)
         var downloadUri: String? = null // 다운로드 uri 저장변수
@@ -192,41 +193,63 @@ object JournalRepository {
                 imagesRef.downloadUrl.addOnSuccessListener { task ->
                     Log.d("TAG", "onViewCreated: 다운로드 Uri : ${task.toString()}")
                     downloadUri = task.toString()
+                    when(isEdit){
+                        true->{
+                            auth.uid?.let {
+                                db!!.collection("journals").document(it).collection("journal")
+                                    .document(docId!!)
+                                    .update(mapOf(
+                                        "content" to docData.get("content"),
+                                        "name" to docData.get("name"),
+                                        "date" to docData.get("date"),
+                                        "imgUri" to downloadUri
+                                    ))
+                                    .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
+                                    .addOnFailureListener { e ->
+                                        Log.w("TAG",
+                                            "파이어스토어 업로드 오류 : journal",
+                                            e)
+                                    }
+                            }
+                        }
+                        else->{
+                            val data = mapOf<String,Any?>(
+                                "content" to docData.get("content"),
+                                "name" to docData.get("name"),
+                                "date" to docData.get("date"),
+                                "imgUri" to downloadUri
+                            )
+                            auth.uid?.let {
+                                db!!.collection("journals").document(it).collection("journal").document()
+                                    .set(data)
+                                    .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
+                                    .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e)
+                                    isComplate.postValue(false)}
+                            }
+                        }
+
+                    }
                 }
             }
-            journalUploadImg.postValue(downloadUri)
         }catch (e: java.lang.Exception){
             Log.d("TAG", "onViewCreated: 사진 안들어감 : ${e.toString()}")
-            journalUploadImg.postValue("")
+            isComplate.postValue(false)
         }
         return journalUploadImg
     }
 
     // 일지 수정
-    suspend fun ModifyJournal(docData: Map<String, Any?>, isImg:Boolean, docId: String){
-        if (isImg) {// 파일 업로드
-            auth.uid?.let {
-                db!!.collection("journals").document(it).collection("journal").document(docId!!)
-                    .update(mapOf(
-                        "content" to docData.get("content"),
-                        "name" to docData.get("name"),
-                        "date" to docData.get("date"),
-                        "imgUri" to docData.get("imgUri")
-                    ))
-                    .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
-                    .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
-            }
-        }else {  //사진이 들어잇는경우 업로드
-            auth.uid?.let {
-                db!!.collection("journals").document(it).collection("journal").document(docId!!)
-                    .update(mapOf(
-                        "content" to docData.get("content"),
-                        "name" to docData.get("name"),
-                        "date" to docData.get("date"),
-                    ))
-                    .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
-                    .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e) }
-            }
+    suspend fun ModifyJournal(docData: Map<String, Any?>,docId: String?){
+        auth.uid?.let {
+            db!!.collection("journals").document(it).collection("journal").document(docId!!)
+                .update(mapOf(
+                    "content" to docData.get("content"),
+                    "name" to docData.get("name"),
+                    "date" to docData.get("date"),
+                ))
+                .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
+                .addOnFailureListener { e -> Log.w("TAG", "파이어스토어 업로드 오류 : journal", e)
+                isComplate.postValue(false)}
         }
     }
 

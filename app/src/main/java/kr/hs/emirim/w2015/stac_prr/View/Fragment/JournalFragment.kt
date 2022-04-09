@@ -62,6 +62,7 @@ class JournalFragment : Fragment() {
         model.getPlantName().observe(requireActivity(), Observer {
             pNames = it
             Log.d("TAG", "getNames: 일지이름 추가 : $pNames")
+            setTab()
         })
         onTabClickListener()    // 탭 클릭할때 리스너
 

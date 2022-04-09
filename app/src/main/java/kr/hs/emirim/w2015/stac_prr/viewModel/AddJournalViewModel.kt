@@ -40,46 +40,20 @@ class AddJournalViewModel : ViewModel() {
     fun setJournal(
         isImg: Boolean, docData: Map<String, Any?>,
         photoUri:Uri?, docId: String?,
-        isEdit: Boolean?
+        isEdit: Boolean
     ): MutableLiveData<Boolean> {
         viewModelScope.launch {
             isComplate.postValue(true)
-            if(isImg){  // 이미지 있을 때
-                val imgUri = journalRep.CreateJournalImg(photoUri)
-                if (imgUri.equals("")){
-                    isComplate.postValue(false)
-                }
-                val data = mapOf<String,Any?>(
-                    "content" to docData.get("content"),
-                    "name" to docData.get("name"),
-                    "date" to docData.get("date"),
-                    "imgUri" to imgUri
-                )
-                //수정/추가
-                when(isEdit){
-                    true->{
-                        if (docId != null) {
-                            journalRep.ModifyJournal(data,isImg,docId)
-                        }
-                    }
-                    false->{
-                        journalRep.CreateJournal(data)
-                    }
-                }
+            if(isImg) {  // 이미지 있을 때
+                journalRep.CreateJournalImg(docData = docData, docId = docId?:"",photoURI = photoUri,isEdit = isEdit)
+                isComplate.postValue(journalRep.isComplate.value)
             }else{
-                // 수정/추가
                 when(isEdit){
-                    true->{
-                        if (docId != null) {
-                            journalRep.ModifyJournal(docData,isImg,docId)
-                        }
-                    }
-                    false->{
-                        journalRep.CreateJournal(docData)
-                    }
+                    true->{journalRep.CreateJournal(docData = docData)}
+                    false->{journalRep.ModifyJournal(docData,docId)}
                 }
+                isComplate.postValue(journalRep.isComplate.value)
             }
-
         }
         return isComplate
     }

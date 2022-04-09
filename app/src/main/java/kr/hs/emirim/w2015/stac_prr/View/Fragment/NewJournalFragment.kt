@@ -26,7 +26,7 @@ class NewJournalFragment : Fragment() {
     private lateinit var nadapter: ArrayAdapter<String>
     private val FROM_ALBUM = 200
     private var photoURI: Uri? = null
-    private var isEdit: Boolean? = false
+    private var isEdit: Boolean = false
     private var docId: String? = null
     private var imgUri: String? = null
     private val model by lazy{
@@ -43,7 +43,7 @@ class NewJournalFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        isEdit = arguments?.getBoolean("isEdit")
+        isEdit = arguments?.getBoolean("isEdit")?:false
         docId = arguments?.getString("docId")
         imgUri = arguments?.getString("imgUri")
         val view = inflater.inflate(R.layout.fragment_new_journal, container, false)
@@ -67,7 +67,7 @@ class NewJournalFragment : Fragment() {
             choice_spinner.adapter = nadapter
             nadapter.notifyDataSetChanged()
         })
-        
+
         // 수정일 경우 데이터 뿌리기
         if (isEdit == true) {
             model.getJournal(docId!!).observe(requireActivity(), androidx.lifecycle.Observer {
@@ -142,37 +142,17 @@ class NewJournalFragment : Fragment() {
             // 올릴 필드 설정하기
             val journal_content: EditText = view.findViewById(R.id.journal_content)
             val choice_spinner: Spinner = view.findViewById(R.id.choice_spinner)
-            var downloadUri: String? = null // 다운로드 uri 저장변수
-            val docData = mapOf<String,Any?>(
+            val docData = mapOf<String, Any?>(
                 "content" to journal_content.text.toString(),
                 "name" to choice_spinner.selectedItem.toString(),
                 "date" to Timestamp(date),   // 날짜
-                "imgUri" to downloadUri
             )
-            if (photoURI != null) {// 파일 업로드
-                model.setJournal(true,docData, photoURI,docId,isEdit).observe(requireActivity(),
-                    androidx.lifecycle.Observer {
-                        if (it){
-                            Toast.makeText(requireContext(),"업로드 완료",Toast.LENGTH_SHORT).show()
-                        }else{
-                            Toast.makeText(requireContext(),"업로드 실패",Toast.LENGTH_SHORT).show()
-                        }
-                    })
-
-            } else if (photoURI == null) {  //사진이 들어잇는경우 업로드
-                //파이어베이스 업로드
-                model.setJournal(false,docData,photoURI,docId,isEdit).observe(requireActivity(),
-                    androidx.lifecycle.Observer {
-                        if (it){
-                            Toast.makeText(requireContext(),"업로드 완료",Toast.LENGTH_SHORT).show()
-                        }else{
-                            Toast.makeText(requireContext(),"업로드 실패",Toast.LENGTH_SHORT).show()
-                        }
-                    })
+            model.setJournal(true, docData, photoURI, docId, isEdit).observe(requireActivity(),
+                androidx.lifecycle.Observer {
+                    showMsg(it)
+                })
                 Toast.makeText(requireContext(), "업로드 완료!", Toast.LENGTH_SHORT).show()
                 Log.d("TAG", "onViewCreated: 파이어 업로드 완료 : journal")
-            }
-
             activity.fragmentChange_for_adapter(JournalFragment())
         }
 
@@ -189,6 +169,13 @@ class NewJournalFragment : Fragment() {
 
     }
 
+    fun showMsg(r:Boolean){
+        if (r){
+            Toast.makeText(requireContext(),"업로드 완료",Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(requireContext(),"업로드 실패",Toast.LENGTH_SHORT).show()
+        }
+    }
     // 사진 가져오기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
