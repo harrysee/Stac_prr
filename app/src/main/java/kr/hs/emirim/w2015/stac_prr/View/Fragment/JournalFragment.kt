@@ -1,5 +1,6 @@
 package kr.hs.emirim.w2015.stac_prr.View.Fragment
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -200,13 +201,15 @@ class JournalFragment : Fragment() {
     }
 
     private fun allPlantJournal(){  //모든 일지 정보 보여주기
+        Log.i(TAG, "allPlantJournal: 모든 일지 보여줌ㅁ"+dateSort)
         // 일지 목록 리사이클 설정
         activity?.let {
             model.getAllJournals(dateSort).observe(it, Observer {
-                Log.i("파이어베이스데이터", datas.toString()+dateSort.toString());
+                Log.i("파이어베이스데이터", it.toString()+dateSort.toString());
                 journalAdapter = JournalAdapter(requireContext(),activity,model)
                 journalAdapter.datas = it
                 binding.journalRecycler.adapter = journalAdapter
+                journalAdapter.notifyDataSetChanged()
             })
         }
 
@@ -214,12 +217,14 @@ class JournalFragment : Fragment() {
 
     // 일지목록 업데이트
     private fun initRecycler(name: String?) {
+        Log.i(TAG, "initRecycler: 한개씩 보여줌"+dateSort)
         if (name != null) {
             Log.i("TAG", "initRecycler: 파이어베이스 일지 가져오기"+dateSort)
             model.getJournals(dateSort,name).observe(requireActivity(), Observer {
                 journalAdapter = JournalAdapter(requireContext(),activity,model)
                 journalAdapter.datas = it
                 binding.journalRecycler.adapter = journalAdapter
+                journalAdapter.notifyDataSetChanged()
             })
         }
     }

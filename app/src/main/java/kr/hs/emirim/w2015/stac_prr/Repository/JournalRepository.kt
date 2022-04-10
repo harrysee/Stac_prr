@@ -13,6 +13,7 @@ import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 
 object JournalRepository {
     private val journalList = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
+    private val journalListD = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
     private val plantjournal = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
     private val journal = MutableLiveData<JournalModel>()     // 여기가 데이터저장 배열
     private val journalUploadImg = MutableLiveData<String?>()
@@ -44,11 +45,10 @@ object JournalRepository {
                             document["imgUri"] as String?,
                             document.id))
                     }
+                    journalList.postValue(datas)
                 }
                 Log.i("파이어베이스데이터", datas.toString())
             }
-
-        journalList.postValue(datas)
         return journalList
     }
 
@@ -71,11 +71,11 @@ object JournalRepository {
                             document.id))
                         Log.i("TAG", "getJournalList: 일지 데이터"+document)
                     }
-                    journalList.postValue(datas)
+                    journalListD.postValue(datas)
                 }
                 Log.i("파이어베이스데이터", datas.toString());
             })
-        return journalList
+        return journalListD
     }
     // 식물에 따라 가져오기
     suspend fun getPlantJournal(dateSort: Boolean, name:String): MutableLiveData<ArrayList<JournalModel>> {

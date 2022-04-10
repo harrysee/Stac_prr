@@ -27,6 +27,7 @@ class JournalViewModel : ViewModel(){
         viewModelScope.launch {
             allJournalsAsk = journalRep.getJournalListAsk()
             allJournalsDesk = journalRep.getJournalListDest()
+            Log.i("TAG", "오름차순: "+allJournalsAsk.value+"내림차순 : "+allJournalsDesk.value)
         }
     }
     // 식물이름들 가져오기
@@ -39,6 +40,8 @@ class JournalViewModel : ViewModel(){
 
     // 전체일지 보여주기 - 오름/내림
     fun getAllJournals(sorted : Boolean): MutableLiveData<ArrayList<JournalModel>> {
+        Log.i("getAllJournals", "getAllJournals: sorted"+sorted)
+        Log.i("TAG", "오름차순: "+allJournalsAsk.value+"내림차순 : "+allJournalsDesk.value)
         when(sorted){
             true->{return allJournalsAsk}
             else->{return allJournalsDesk}
