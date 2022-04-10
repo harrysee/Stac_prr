@@ -31,8 +31,8 @@ class FhViewAdapter(var datas : ArrayList<HomeModel>, val fragment_s:FragmentAct
             bundle.putString("docId", datas.get(position).docId)
             fragment.arguments = bundle
 
-            fragment_s?.supportFragmentManager!!.beginTransaction()
-                .replace(R.id.container,fragment)
+            fragment_s?.supportFragmentManager!!.beginTransaction().addToBackStack(null)
+                .add(R.id.container,fragment)
                 .commit()
             Log.d("프레그먼트", "프레그먼트 갔다옴 ")
         }

@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -17,12 +16,10 @@ import kr.hs.emirim.w2015.stac_prr.View.Adapter.GalleryAdapter
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
-import kr.hs.emirim.w2015.stac_prr.databinding.FragmentCalenderBinding
 import kr.hs.emirim.w2015.stac_prr.viewModel.PlantViewModel
 import kr.hs.emirim.w2015.stac_prr.databinding.FragmentPlantInfoBinding
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class PlantInfoFragment : Fragment() {
     private var docId: String? = null
@@ -146,18 +143,19 @@ class PlantInfoFragment : Fragment() {
 
     // 사진데이터 넣기
     private fun setGallery(){
-        var imgData = ArrayList<String?>()
         Log.d("TAG", "setGallery: 사진 데이터 가지러 옴 $name")
-
-        binding.lifecycleOwner?.let {
-            model.getJournalImgs(name).observe(it, androidx.lifecycle.Observer {
-                imgData = it
-                galleryAdapter.datas.clear()
-                galleryAdapter.datas = imgData
-                galleryAdapter.notifyDataSetChanged()
-                Log.i("갤러리 이미지리소스 주기", galleryAdapter.datas.toString());
+        val activity = requireActivity()
+        name?.let {
+            model.getJournalImgs(it).observe(requireActivity(),  androidx.lifecycle.Observer{
+                it?.let {
+                    galleryAdapter = GalleryAdapter(activity)
+                    galleryAdapter.datas = it
+                    binding.galleryRecyclerview.adapter = galleryAdapter
+                    Log.i("갤러리 이미지리소스 주기", galleryAdapter.datas.toString() + " / " + it);
+                }
             })
         }
+
     }
     
     //fab 나오게하는 애니메이션

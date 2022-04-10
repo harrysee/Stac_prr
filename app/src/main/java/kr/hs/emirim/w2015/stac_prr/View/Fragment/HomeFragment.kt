@@ -24,6 +24,7 @@ import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.viewModel.HomeViewModel
 import kotlin.collections.ArrayList
 
+
 class HomeFragment : Fragment() {
     private val MIN_SCALE = 0.90f // 뷰가 몇퍼센트로 줄어들 것인지
     private val MIN_ALPHA = 0.5f // 어두워지는 정도를 나타낸 듯 하다.
@@ -60,6 +61,7 @@ class HomeFragment : Fragment() {
         }
         viewPager.offscreenPageLimit = 1
         val viewAdapter = homedatas?.let { FhViewAdapter(it, activity, requireContext()) }  // 어댑터 생성
+
 
         // 데이터세팅
         model.getAllPlant().observe(viewLifecycleOwner, Observer{ // 뷰모델 데이터가져오기

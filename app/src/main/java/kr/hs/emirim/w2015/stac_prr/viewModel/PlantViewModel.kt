@@ -1,9 +1,11 @@
 package kr.hs.emirim.w2015.stac_prr.viewModel
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.perfmark.Tag
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kr.hs.emirim.w2015.stac_prr.Model.PlantModel
@@ -13,7 +15,7 @@ import kr.hs.emirim.w2015.stac_prr.Repository.PlantRepository
 
 class PlantViewModel :ViewModel(){
     var plantLiveData = MutableLiveData<PlantModel>()
-    private var imgs = MutableLiveData<ArrayList<String?>>()
+    var imgs = MutableLiveData<ArrayList<String?>>()
     val plantRepository = PlantRepository
     val journalRepository = JournalRepository
     val planRepository = PlanRepository
@@ -26,9 +28,10 @@ class PlantViewModel :ViewModel(){
         return plantLiveData
     }
 
-    fun getJournalImgs(name:String?): MutableLiveData<ArrayList<String?>> {
+    fun getJournalImgs(name:String): MutableLiveData<ArrayList<String?>> {
         viewModelScope.launch {
-            imgs.postValue(name?.let { journalRepository.getJournalImg(it) })
+            imgs = journalRepository.getJournalImg(name)
+            Log.i(TAG, "getJournalImgs: 일정 사진 데이터"+imgs.value+" / "+journalRepository.journalImgs)
         }
         return imgs
     }
