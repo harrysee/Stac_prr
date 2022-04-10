@@ -14,15 +14,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.View.Fragment.CalenderFragment
 import kr.hs.emirim.w2015.stac_prr.View.Fragment.HomeFragment
@@ -39,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private val br: BroadcastReceiver = BroadcastReceiver()
     private lateinit var pref: SharedPreferences
     private lateinit var flower: SharedPreferences
-    private var auth: FirebaseAuth =FirebaseAuth.getInstance()
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val model by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,24 +120,32 @@ class MainActivity : AppCompatActivity() {
         // isFirst가 처음 만들어지지않았을때 넣으면 null이다 - null이면 true로 가져오기
         val isCheck = pref.getBoolean("isFirst", true)
         if (isCheck) {
+            val flowerPref = context.getSharedPreferences("flower", Context.MODE_PRIVATE)
             val alarmMgr = this.getSystemService(ALARM_SERVICE) as AlarmManager
             val alarmIntent = Intent(this, BroadcastReceiver::class.java).let { intent ->
                 PendingIntent.getBroadcast(this, 0, intent, 0)
             }
+            Toast.makeText(this, "푸르름에 오신걸 환영합니다", Toast.LENGTH_SHORT).show()
+            auth.signInAnonymously()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d("TAG", "signInAnonymously:success - 사용자등록 완료")
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w("TAG", "signInAnonymously:failure", task.exception)
+                    }
+                }
+
+            model.setFlower(flowerPref)  // 꽃말들 디비넣기
+            model.updateFlower(alarmMgr,alarmIntent)    // 정각에 꽃말바뀌는거설정
             // 최초실행 후에는 그냥 값을 false로 넣는다.
             with(pref.edit()) {
                 putBoolean("isFirst", false)
                 putInt("PlantCnt", 0)
                 commit()
             }
-            Toast.makeText(this, "푸르름에 오신걸 환영합니다", Toast.LENGTH_SHORT).show()
-            CoroutineScope(Dispatchers.IO).launch {
-                model.signUp(this@MainActivity) // 회원가입 안되어있으므로 회원가입
-                model.setFlower(this@MainActivity)  // 꽃말들 디비넣기
-                model.updateFlower(alarmMgr,alarmIntent)    // 정각에 꽃말바뀌는거설정
-            }
         }
-
     }
 
 }

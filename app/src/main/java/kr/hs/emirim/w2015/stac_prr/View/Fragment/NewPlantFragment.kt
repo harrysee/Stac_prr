@@ -148,7 +148,7 @@ class NewPlantFragment : Fragment() {
             if (photoURI != null) { // 이미지 있을 때
                 model.insertPlant(docId!!,isEdit,photoURI,docData).observe(viewLifecycleOwner,
                     androidx.lifecycle.Observer {
-                        getResult(it?:false,message)
+                        getResult(it?:true,message)
                         activity.fragmentChange_for_adapter(HomeFragment())
                     })
             } else {        // 사진이 없을경우
@@ -157,7 +157,7 @@ class NewPlantFragment : Fragment() {
                         model.insertPlantNimg(docData).observe(viewLifecycleOwner,
                         androidx.lifecycle.Observer {
                             Log.i(TAG, "onViewCreated: 사진 없는 경우 추가")
-                            getResult(it?:false,message)
+                            getResult(it?:true,message)
                         })
                         activity.fragmentChange_for_adapter(HomeFragment())
                     }
@@ -165,7 +165,7 @@ class NewPlantFragment : Fragment() {
                         model.insertPlantEdit(docId!!,docData).observe(viewLifecycleOwner,
                             Observer<Boolean> {
                                 Log.i(TAG, "onViewCreated: 사진 없는 경우 추가")
-                                getResult(it?:false,message)
+                                getResult(it?:true,message)
                             })
                             activity.fragmentChange_for_adapter(HomeFragment())
                     }
@@ -213,15 +213,15 @@ class NewPlantFragment : Fragment() {
     }
 
     fun getResult(r:Boolean,msg:String?){
+        val pCnt = pref.getInt("PlantCnt",0)
         if(r){
             Toast.makeText(activity, msg+" 완료 !", Toast.LENGTH_LONG).show()
+            with(pref.edit()){
+                this.putInt("PlantCnt",pCnt+1)
+                commit()
+            }
         }else{
             Toast.makeText(activity, msg+" 실패 !", Toast.LENGTH_LONG).show()
-        }
-        val pCnt = pref.getInt("PlantCnt",0)
-        with(pref.edit()){
-            this.putInt("PlantCnt",pCnt+1)
-            commit()
         }
         Toast.makeText(activity, "업로드 완료 !", Toast.LENGTH_LONG).show()
         Log.d("TAG", "onViewCreated: 파이어 업로드 완료")

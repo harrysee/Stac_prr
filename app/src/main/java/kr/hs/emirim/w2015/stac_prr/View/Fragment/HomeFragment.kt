@@ -1,6 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr.View.Fragment
 
 import android.app.AlarmManager
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -55,13 +56,17 @@ class HomeFragment : Fragment() {
         val pagerWidth = resources.getDimensionPixelOffset(R.dimen.pageWidth) // dimen 파일이 없으면 생성해야함
         val screenWidth = resources.displayMetrics.widthPixels // 스마트폰의 너비 길이를 가져옴
         val offsetPx = screenWidth - pageMarginPx - pagerWidth
-
+        val pCnt = pref.getInt("PlantCnt",0)
+        Log.i(TAG, "onViewCreated: 현재 식물 개수 : "+pCnt)
+//        with(pref.edit()){
+//            this.putInt("PlantCnt",3)
+//            commit()
+//        }
         viewPager.setPageTransformer { page, position ->
             page.translationX = position * -offsetPx
         }
         viewPager.offscreenPageLimit = 1
         val viewAdapter = homedatas?.let { FhViewAdapter(it, activity, requireContext()) }  // 어댑터 생성
-
 
         // 데이터세팅
         model.getAllPlant().observe(viewLifecycleOwner, Observer{ // 뷰모델 데이터가져오기
@@ -95,7 +100,7 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(),"식물은 4개까지만 추가할 수 있습니다",Toast.LENGTH_SHORT).show()
             }
         }
-
+        setflower()
     }   // OnViewCreate end
 
     // 파이어스토어에서 데이터 가져와서 어댑터로 보내기 준비

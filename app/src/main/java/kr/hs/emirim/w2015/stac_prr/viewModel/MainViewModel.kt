@@ -1,37 +1,24 @@
 package kr.hs.emirim.w2015.stac_prr.viewModel
 
-import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import kr.hs.emirim.w2015.stac_prr.Receiver.BroadcastReceiver
 import kr.hs.emirim.w2015.stac_prr.Repository.FlowerRepository
-import kr.hs.emirim.w2015.stac_prr.Repository.LoginRepository
 import java.util.*
 
 class MainViewModel :ViewModel() {
     private val br: BroadcastReceiver = BroadcastReceiver()
-    private lateinit var pref: SharedPreferences
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private var loginRep = LoginRepository
     private val flowerRep = FlowerRepository
 
-    // 가입하기
-    fun signUp(context: Activity){
-        viewModelScope.launch {
-            loginRep.signUp(context)
-        }
-    }
-
     // 꽃 디비 넣기
-    fun setFlower(context: Activity){
+    fun setFlower(flowers: SharedPreferences){
         viewModelScope.launch {
-            flowerRep.insertFlow(context)
+            flowerRep.insertFlow(flowers)
         }
     }
     

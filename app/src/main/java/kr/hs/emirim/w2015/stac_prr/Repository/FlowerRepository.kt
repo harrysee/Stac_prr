@@ -2,6 +2,7 @@ package kr.hs.emirim.w2015.stac_prr.Repository
 
 import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import kr.hs.emirim.w2015.stac_prr.Model.Flowers
@@ -9,8 +10,7 @@ import kr.hs.emirim.w2015.stac_prr.Model.Flowers
 object FlowerRepository {
     val flowerData = MutableLiveData<ArrayList<Flowers>>()
 
-    suspend fun insertFlow(context:Activity): MutableLiveData<ArrayList<Flowers>> {
-        val flowerPref = context.getSharedPreferences("flower", Context.MODE_PRIVATE)
+    suspend fun insertFlow(flowerPref : SharedPreferences): MutableLiveData<ArrayList<Flowers>> {
         val flowers = ArrayList<Flowers>()
         flowers.add(Flowers("행운목","#행운이#아닌#약속"))
         flowers.add(Flowers("스파티필름","#세심한#사랑"))
