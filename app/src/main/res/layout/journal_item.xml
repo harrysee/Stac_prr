@@ -47,6 +47,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/bookmark_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/journal_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/journal_title"
+            android:background="@drawable/selector_bookmark"
+            android:clickable="false"
+            android:layout_marginRight="16dp" />
+
         <View
             android:id="@+id/line1"
             android:layout_width="match_parent"
