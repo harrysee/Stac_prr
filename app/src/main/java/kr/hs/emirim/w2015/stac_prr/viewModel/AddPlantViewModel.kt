@@ -17,9 +17,10 @@ class AddPlantViewModel : ViewModel(){
     val plantRepository = PlantRepository
 
     fun getShowPlant(docId:String): MutableLiveData<PlantModel> {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch{
             plantLiveData = plantRepository.getPlantLiveData(docId)
         }
+        Log.i("TAG", "getPlant: 정보 보내기"+plantLiveData)
         return plantLiveData
     }
 

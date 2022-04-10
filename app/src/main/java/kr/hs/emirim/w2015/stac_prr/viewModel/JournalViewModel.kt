@@ -48,8 +48,8 @@ class JournalViewModel : ViewModel(){
     // 선택한 일지 가져오긴 - 오름/내림 : name
     fun getJournals(sorted: Boolean, name:String): MutableLiveData<ArrayList<JournalModel>> {
         viewModelScope.launch {
-            val result = journalRep.getPlantJournal(sorted, name)
-            Log.i("TAG", "getJournals: journals"+result )
+            journals = journalRep.getPlantJournal(sorted, name)
+            Log.i("TAG", "getJournals: journals"+journals.value )
         }
         return journals
     }

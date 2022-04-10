@@ -3,7 +3,7 @@ package kr.hs.emirim.w2015.stac_prr.Model
 import java.util.*
 
 data class PlantModel(
-    val name: String,
+    val name: String?,
     var date: Date,
     var imgUrl: String,
     val led: String,

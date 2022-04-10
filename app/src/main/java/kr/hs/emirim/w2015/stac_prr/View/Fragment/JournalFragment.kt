@@ -204,7 +204,9 @@ class JournalFragment : Fragment() {
         activity?.let {
             model.getAllJournals(dateSort).observe(it, Observer {
                 Log.i("파이어베이스데이터", datas.toString()+dateSort.toString());
-                journalAdapter.setData(it)
+                journalAdapter = JournalAdapter(requireContext(),activity,model)
+                journalAdapter.datas = it
+                binding.journalRecycler.adapter = journalAdapter
             })
         }
 
@@ -215,7 +217,9 @@ class JournalFragment : Fragment() {
         if (name != null) {
             Log.i("TAG", "initRecycler: 파이어베이스 일지 가져오기"+dateSort)
             model.getJournals(dateSort,name).observe(requireActivity(), Observer {
-                journalAdapter.setData(it)
+                journalAdapter = JournalAdapter(requireContext(),activity,model)
+                journalAdapter.datas = it
+                binding.journalRecycler.adapter = journalAdapter
             })
         }
     }

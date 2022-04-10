@@ -27,6 +27,7 @@ import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.Model.PlantModel
 import kr.hs.emirim.w2015.stac_prr.R
+import kr.hs.emirim.w2015.stac_prr.databinding.FragmentNewPlantBinding
 import kr.hs.emirim.w2015.stac_prr.viewModel.AddPlantViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,6 +44,7 @@ class NewPlantFragment : Fragment() {
     private val model by lazy{ViewModelProvider(requireActivity()).get(AddPlantViewModel::class.java)}
     private val cal: Calendar = Calendar.getInstance()
     private var photoURI : Uri? = null
+    private lateinit var binding : FragmentNewPlantBinding
     private lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,9 +60,9 @@ class NewPlantFragment : Fragment() {
         isEdit = arguments?.getBoolean("isEdit")
         docId = arguments?.getString("docId")
         imgUri = arguments?.getString("imgUri")
+        binding = FragmentNewPlantBinding.inflate(layoutInflater,container,false)
         pref = context?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN) //키보드 열린상태 스크롤
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +70,7 @@ class NewPlantFragment : Fragment() {
         val activity = activity as MainActivity
         db = FirebaseFirestore.getInstance()
         val pcnt = pref.getInt("PlantCnt", 0)   // 처음 생성시 식물개수 0
-        newplant_input_scroll.bringToFront()    // 스크롤 위치 맨위로
+        binding.newplantInputScroll.bringToFront()    // 스크롤 위치 맨위로
 
         // 수정으로 인해서 호출됬을때 기본데이터 뿌리기
         if (isEdit == true) {
@@ -80,26 +82,26 @@ class NewPlantFragment : Fragment() {
                     .into(backgound)    // 받아온 이미지를 받을 공간
             }
 
-
-            model.getShowPlant(docId!!).observe(requireActivity(), androidx.lifecycle.Observer {
-                newplant_name.hint = it.name as String? // 식물 이름 재설정
-                newplant_spacies.hint = it.specise as String?  // 식물 종류 재설정
+            model.getShowPlant(docId!!).observe(requireActivity(), Observer<PlantModel> {
+                Log.i(TAG, "onViewCreated: 기본 정보 가져오기"+it)
+                binding.newplantName.hint = it.name as String? // 식물 이름 재설정
+                binding.newplantSpacies.hint = it.specise as String?  // 식물 종류 재설정
                 val sdf = SimpleDateFormat("yyyy-MM-dd")
                 cal.time = it.date
 
                 //설정하기
-                newplant_date_btn.text = sdf.format(it.date)
-                newplant_spacies.setText(it.specise as String?)
-                newplant_temperature.setText(it.temperate as String?)
-                newplant_led.setText(it.led as String?)
-                newplant_water.setText(it.water as String?)
-                newplant_memo.setText(it.memo as String?)
+                binding.newplantDateBtn.text = sdf.format(it.date)
+                binding.newplantSpacies.setText(it.specise as String?)
+                binding.newplantTemperature.setText(it.temperate as String?)
+                binding.newplantLed.setText(it.led as String?)
+                binding.newplantWater.setText(it.water as String?)
+                binding.newplantMemo.setText(it.memo as String?)
             })
             // 이름은 변경 못하게하기
-            newplant_name.isEnabled = false
+            binding.newplantName.isEnabled = false
         }
         // 이름 변경 시도 시 이름변경 안되는거 안내
-        newplant_name.setOnFocusChangeListener { _, hasFocus ->
+        binding.newplantName.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 Toast.makeText(requireContext(), "이름은 나중에 수정할수 없습니다", Toast.LENGTH_SHORT).show()
             }
@@ -116,7 +118,7 @@ class NewPlantFragment : Fragment() {
         }
 
         // 완료 눌렀을 때 - 올리기
-        btn_completion.setOnClickListener {
+        binding.btnCompletion.setOnClickListener {
             // 네트워크 상태 확인하고 연결 안됐을때는 토스트 띄우기
             Log.d(TAG, "onViewCreated: 사진uri "+ photoURI)
             var downloadUri: String? = null  // 다운로드 uri 저장변수
@@ -128,14 +130,14 @@ class NewPlantFragment : Fragment() {
             }
             Toast.makeText(activity, "업로드 중...", Toast.LENGTH_LONG).show()
             val docData = PlantModel(
-                newplant_name.text.toString(),
+                binding.newplantName.text.toString(),
                 date,   // 날짜
                 downloadUri?:"",
-                newplant_led.text.toString(),
-                newplant_memo.text.toString(),
-                newplant_spacies.text.toString(),
-                newplant_temperature.text.toString(),
-                newplant_water.text.toString(),
+                binding.newplantLed.text.toString(),
+                binding.newplantMemo.text.toString(),
+                binding.newplantSpacies.text.toString(),
+                binding.newplantTemperature.text.toString(),
+                binding.newplantWater.text.toString(),
                 dviceNum = ""
             )
             // 업로드 하기
@@ -173,7 +175,7 @@ class NewPlantFragment : Fragment() {
 
         }
 
-        newplant_upload_btn.setOnClickListener {
+        binding.newplantUploadBtn.setOnClickListener {
             //앨범 열기
             val intent = Intent(Intent.ACTION_PICK)
 
@@ -181,17 +183,16 @@ class NewPlantFragment : Fragment() {
             intent.type = "image/*"
             //intent. setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
             startActivityForResult(intent, FROM_ALBUM)
-
         }
 
         // 날짜 선택 다이얼로그
-        newplant_date_btn.setOnClickListener {
+        binding.newplantDateBtn.setOnClickListener {
             val setDateListener =
                 DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
                     cal.set(Calendar.YEAR, year)
                     cal.set(Calendar.MONTH, month)
                     cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    newplant_date_btn.text = "${year}-${month + 1}-${dayOfMonth}"
+                    binding.newplantDateBtn.text = "${year}-${month + 1}-${dayOfMonth}"
                 }
 
             Log.d("TAG", "onViewCreated: 현재 시간 :${cal.time}")
@@ -235,7 +236,7 @@ class NewPlantFragment : Fragment() {
                 Log.d(TAG, "onViewCreated111: 사진uri "+ photoURI)
                 photoURI = data.data!!
                 val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, photoURI)
-                newplant_upload_btn.setImageBitmap(bitmap)
+                binding.newplantUploadBtn.setImageBitmap(bitmap)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -38,21 +38,22 @@ object PlantRepository {
     // 상세내용 가져오기
     suspend fun getPlantLiveData(docId : String): MutableLiveData<PlantModel> {
         db.collection("plant_info").document(docId!!)
-            .addSnapshotListener { it, error ->
-                Log.d("TAG", "onViewCreated: 식물 정보 가져오기 성!공!")
-                val plant = PlantModel(
-                    it?.get("name") as String,
-                    (it["date"] as Timestamp).toDate(),
-                    (it["imgurl"] ?: "") as String,
-                    it["led"] as String ?: "",
-                    it["memo"] as String ?: "",
-                    it["specise"] as String ?: "",
-                    it["temperature"] as String ?: "",
-                    it["water"] as String ?: "",
-                    (it["dviceNum"] ?: "" as String ?: "") as String
-                )
-                plantLiveData.postValue(plant)
-            }
+            .get()
+            .addOnSuccessListener{
+                    Log.d("TAG", "onViewCreated: 식물 정보 가져오기 성!공!")
+                    val plant = PlantModel(
+                        it.get("name") as String?,
+                        (it.get("date") as Timestamp).toDate(),
+                        (it["imgurl"] ?: "") as String,
+                        it["led"] as String ?: "",
+                        it["memo"] as String ?: "",
+                        it["specise"] as String ?: "",
+                        it["temperature"] as String ?: "",
+                        it["water"] as String ?: "",
+                        (it["dviceNum"] ?: "" as String ?: "") as String
+                    )
+                    plantLiveData.postValue(plant)
+                }
         return plantLiveData
     }
     // 이름들만 가져오기

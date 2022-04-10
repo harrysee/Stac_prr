@@ -24,7 +24,6 @@ import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.viewModel.HomeViewModel
 import kotlin.collections.ArrayList
 
-
 class HomeFragment : Fragment() {
     private val MIN_SCALE = 0.90f // 뷰가 몇퍼센트로 줄어들 것인지
     private val MIN_ALPHA = 0.5f // 어두워지는 정도를 나타낸 듯 하다.
@@ -56,12 +55,6 @@ class HomeFragment : Fragment() {
         val screenWidth = resources.displayMetrics.widthPixels // 스마트폰의 너비 길이를 가져옴
         val offsetPx = screenWidth - pageMarginPx - pagerWidth
 
-        val pref = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
-        val pCnt = pref.getInt("PlantCnt",0)
-        with(pref.edit()){
-            this.putInt("PlantCnt",3)
-            commit()
-        }
         viewPager.setPageTransformer { page, position ->
             page.translationX = position * -offsetPx
         }

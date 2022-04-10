@@ -61,6 +61,7 @@ object JournalRepository {
             .addSnapshotListener(EventListener<QuerySnapshot>{ value, error->
                 Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
                 if (value != null) {
+                    datas.clear()
                     for (document in value) {
                         datas.add(JournalModel(
                             document["name"] as String,
@@ -70,14 +71,14 @@ object JournalRepository {
                             document.id))
                         Log.i("TAG", "getJournalList: 일지 데이터"+document)
                     }
+                    journalList.postValue(datas)
                 }
                 Log.i("파이어베이스데이터", datas.toString());
             })
-        journalList.postValue(datas)
         return journalList
     }
     // 식물에 따라 가져오기
-    suspend fun getPlantJournal(dateSort: Boolean, name:String): ArrayList<JournalModel> {
+    suspend fun getPlantJournal(dateSort: Boolean, name:String): MutableLiveData<ArrayList<JournalModel>> {
         val datas = ArrayList<JournalModel>()
         if (dateSort==false){   //내림차순으로 가져오기
             db.collection("journals")
@@ -85,15 +86,18 @@ object JournalRepository {
                 .collection("journal")
                 .whereEqualTo("name", name)
                 .orderBy("date", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener {
-                    for (document in it) {
-                        datas.add(JournalModel(
-                            document["name"] as String,
-                            document["content"] as String,
-                            document["date"] as Timestamp,
-                            document["imgUri"] as String?,
-                            document.id))
+                .addSnapshotListener { value, error ->
+                    datas.clear()
+                    if (value != null) {
+                        for (document in value) {
+                            datas.add(JournalModel(
+                                document["name"] as String,
+                                document["content"] as String,
+                                document["date"] as Timestamp,
+                                document["imgUri"] as String?,
+                                document.id))
+                        }
+                        plantjournal.postValue(datas)
                     }
                     Log.i("","파이어베이스데이터"+datas);
                 }
@@ -103,21 +107,24 @@ object JournalRepository {
                 .collection("journal")
                 .whereEqualTo("name", name)
                 .orderBy("date")
-                .get()
-                .addOnSuccessListener {
+                .addSnapshotListener { value, error ->
+                    datas.clear()
                     Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                    for (document in it) {
-                        datas.add(JournalModel(
-                            document["name"] as String,
-                            document["content"] as String,
-                            document["date"] as Timestamp,
-                            document["imgUri"] as String?,
-                            document.id))
+                    if (value != null) {
+                        for (document in value) {
+                            datas.add(JournalModel(
+                                document["name"] as String,
+                                document["content"] as String,
+                                document["date"] as Timestamp,
+                                document["imgUri"] as String?,
+                                document.id))
+                        }
+                        plantjournal.postValue(datas)
                     }
                     Log.i("파이어베이스데이터 일지이름별", datas.toString());
                 }
         }
-        return datas
+        return plantjournal
     }
 
     // 일지 한개의 세부내용
