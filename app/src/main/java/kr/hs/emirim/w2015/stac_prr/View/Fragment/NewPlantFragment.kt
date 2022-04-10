@@ -16,6 +16,7 @@ import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
@@ -73,9 +74,12 @@ class NewPlantFragment : Fragment() {
         if (isEdit == true) {
             Log.d("TAG,", "onViewCreated: 수정 > 식물정보 가져온 이미지 uri $imgUri")
             val backgound = view.findViewById<ImageButton>(R.id.newplant_upload_btn)
-            Glide.with(requireContext()) //쓸곳
-                .load(imgUri)  //이미지 받아올 경로
-                .into(backgound)    // 받아온 이미지를 받을 공간
+            if(imgUri != null && !imgUri.equals("")){
+                Glide.with(requireContext()) //쓸곳
+                    .load(imgUri)  //이미지 받아올 경로
+                    .into(backgound)    // 받아온 이미지를 받을 공간
+            }
+
 
             model.getShowPlant(docId!!).observe(requireActivity(), androidx.lifecycle.Observer {
                 newplant_name.hint = it.name as String? // 식물 이름 재설정
@@ -140,17 +144,31 @@ class NewPlantFragment : Fragment() {
                 else -> { "업로드" }
             }
             if (photoURI != null) { // 이미지 있을 때
-                model.insertPlant(docId!!,isEdit,photoURI,docData).observe(requireActivity(),
+                model.insertPlant(docId!!,isEdit,photoURI,docData).observe(viewLifecycleOwner,
                     androidx.lifecycle.Observer {
                         getResult(it?:false,message)
                         activity.fragmentChange_for_adapter(HomeFragment())
                     })
             } else {        // 사진이 없을경우
-                model.insertPlantNimg(docId!!,isEdit,photoURI,docData).observe(requireActivity(),
-                    androidx.lifecycle.Observer {
-                        getResult(it?:false,message)
+                when(isEdit){
+                    false->{
+                        model.insertPlantNimg(docData).observe(viewLifecycleOwner,
+                        androidx.lifecycle.Observer {
+                            Log.i(TAG, "onViewCreated: 사진 없는 경우 추가")
+                            getResult(it?:false,message)
+                        })
                         activity.fragmentChange_for_adapter(HomeFragment())
-                    })
+                    }
+                    else->{
+                        model.insertPlantEdit(docId!!,docData).observe(viewLifecycleOwner,
+                            Observer<Boolean> {
+                                Log.i(TAG, "onViewCreated: 사진 없는 경우 추가")
+                                getResult(it?:false,message)
+                            })
+                            activity.fragmentChange_for_adapter(HomeFragment())
+                    }
+                }
+
             }// 업로드 끝
 
         }

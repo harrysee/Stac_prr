@@ -21,7 +21,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,10 +30,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"/>
+            android:name=".MainActivity" android:exported="true"/>
 
         <receiver android:name=".Receiver.DeviceBootReceiver"
-            android:enabled="false">
+            android:enabled="false" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

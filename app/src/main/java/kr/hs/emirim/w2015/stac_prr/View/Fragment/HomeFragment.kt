@@ -56,27 +56,31 @@ class HomeFragment : Fragment() {
         val screenWidth = resources.displayMetrics.widthPixels // 스마트폰의 너비 길이를 가져옴
         val offsetPx = screenWidth - pageMarginPx - pagerWidth
 
+        val pref = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
+        val pCnt = pref.getInt("PlantCnt",0)
+        with(pref.edit()){
+            this.putInt("PlantCnt",3)
+            commit()
+        }
         viewPager.setPageTransformer { page, position ->
             page.translationX = position * -offsetPx
         }
         viewPager.offscreenPageLimit = 1
         val viewAdapter = homedatas?.let { FhViewAdapter(it, activity, requireContext()) }  // 어댑터 생성
 
-        // 뷰페이저 어댑터 생성
-        viewPager.adapter = viewAdapter
-
         // 데이터세팅
-        model.getAllPlant().observe(requireActivity(), Observer{ // 뷰모델 데이터가져오기
-            Log.d("TAG", "onViewCreated: 식물정보 데이터리스트 null인지 : ${homedatas}")
+        model.getAllPlant().observe(viewLifecycleOwner, Observer{ // 뷰모델 데이터가져오기
+            Log.d("TAG", "onViewCreated: 식물정보 데이터리스트 null인지 : ${it}")
+            // 뷰페이저 어댑터 생성
             viewAdapter?.datas = it
+            viewPager.adapter = viewAdapter
             viewAdapter?.notifyDataSetChanged()
+            Log.i("어댑터소환", "어댑터 실행완료 ")
+            viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
+            viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
+            view_dots_indicator.setViewPager2(viewPager) // indicator 설정
         })
         getDataList()
-
-        Log.i("어댑터소환", "어댑터 실행완료 ")
-        viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
-        viewPager.setPageTransformer(ZoomOutPageTransformer()) // 애니메이션 적용
-        view_dots_indicator.setViewPager2(viewPager) // indicator 설정
 
         // 추가버튼
         home_fab.setOnClickListener {

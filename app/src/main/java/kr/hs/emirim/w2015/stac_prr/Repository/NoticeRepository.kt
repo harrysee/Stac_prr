@@ -13,29 +13,19 @@ import kotlinx.android.synthetic.main.fragment_set.*
 import kr.hs.emirim.w2015.stac_prr.Model.NoticeModel
 
 object NoticeRepository {
-    var isNotice = true
+    var isNotice =MutableLiveData<Int>()
     val notices = MutableLiveData<ArrayList<NoticeModel>>()
     val db = FirebaseFirestore.getInstance()
 
-    @SuppressLint("ApplySharedPref")
-    suspend fun getNoticeDot(context : Activity?): Boolean {
-        val push = context?.getSharedPreferences("push", Context.MODE_PRIVATE)!!
-        val noticeSize = push.getInt("noticeSize",0)
+    suspend fun getNoticeDot(): MutableLiveData<Int> {
         db.collection("noticed")
             .get()
             .addOnSuccessListener { result ->
-                Log.d("TAG", "setNoticeDot: 공지사항 가지러옴 : ${result.size()} /$noticeSize")
-                if (noticeSize < result.size() || noticeSize > result.size()){
-                    Log.d("TAG", "setNoticeDot: 공지사항 가지러옴 개수 : ${result.size()} / $noticeSize")
-                    push.edit()
-                        .putInt("noticeSize",result.size())
-                        .putBoolean("isOpen",true)
-                        .apply()
-                }
+                Log.d("TAG", "setNoticeDot: 공지사항 가지러옴 : ${result.size()} ")
+                isNotice.postValue(result.size())
             }
             .addOnFailureListener { exception ->
                 Log.d("TAG", "Error getting documents: ", exception)
-                isNotice = false
             }
         return isNotice
     }

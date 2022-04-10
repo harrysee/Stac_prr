@@ -34,6 +34,11 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
             return ViewHolder(view)
         }
 
+        fun setData(datas: MutableList<JournalModel>){
+            this.datas = datas
+            notifyDataSetChanged()
+            Log.i("TAG", "setData: 데이터 업데이트"+datas)
+        }
         override fun getItemCount(): Int = datas.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {

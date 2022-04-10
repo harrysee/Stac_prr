@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -116,16 +117,21 @@ class SetFragment : Fragment() {
     
     // 공지사항 읽었는지 보여주기
     fun setNoticeDot(){
-        model.getNoticeDot(requireActivity()).observe(requireActivity(), androidx.lifecycle.Observer {
+        model.getNoticeDot().observe(viewLifecycleOwner, Observer<Int> { it ->
             Log.i("TAG", "setNoticeDot: 가져오기"+it)
-            if(it){
-                val isopen = push.getBoolean("isOpen",false)
-                if(isopen){
-                    binding.setNoticeDot.visibility=View.VISIBLE
+            val push = context?.getSharedPreferences("push", Context.MODE_PRIVATE)!!
+            val noticeSize = push.getInt("noticeSize",0)
+            if(it!=null){
+                if(it > noticeSize || it <noticeSize){
+                    val isopen = push.getBoolean("isOpen",false)
+                    if(isopen){
+                        binding.setNoticeDot.visibility=View.VISIBLE
+                    }
+                }else{
+//                Toast.makeText(requireActivity(),"네트워크 연결을 확인해주세요", Toast.LENGTH_SHORT).show()
                 }
-            }else{
-                Toast.makeText(requireActivity(),"네트워크 연결을 확인해주세요", Toast.LENGTH_SHORT).show()
             }
+
         })
     }
 

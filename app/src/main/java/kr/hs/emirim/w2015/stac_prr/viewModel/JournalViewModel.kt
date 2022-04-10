@@ -1,5 +1,6 @@
 package kr.hs.emirim.w2015.stac_prr.viewModel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,7 +48,8 @@ class JournalViewModel : ViewModel(){
     // 선택한 일지 가져오긴 - 오름/내림 : name
     fun getJournals(sorted: Boolean, name:String): MutableLiveData<ArrayList<JournalModel>> {
         viewModelScope.launch {
-            journals = journalRep.getPlantJournal(sorted, name)
+            val result = journalRep.getPlantJournal(sorted, name)
+            Log.i("TAG", "getJournals: journals"+result )
         }
         return journals
     }

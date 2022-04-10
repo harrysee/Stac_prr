@@ -35,16 +35,25 @@ class AddPlantViewModel : ViewModel(){
         return isComplate
     }
     // 사진이 없을때 호출
-    fun insertPlantNimg(docId: String?, isEdit:Boolean?, photoURI: Uri?, docData:PlantModel): MutableLiveData<Boolean> {
-        viewModelScope.launch(Dispatchers.IO) {
-            isComplate.postValue(false)
-            var result = when(isEdit){
-                true->{plantRepository.createPlant(docData)}
-                else->{plantRepository.modifyPlant(docId,docData)}
-            }
-            Log.i("TAG", "insertPlant: 돌아왔다"+result.value)
-            isComplate.postValue(result.value)
+    fun insertPlantNimg(docData:PlantModel): MutableLiveData<Boolean> {
+        Log.i("","식물 추가하기"+"생성")
+        viewModelScope.launch {
+            isComplate = plantRepository.createPlant(docData)
         }
+
+        Log.i("TAG", "insertPlant: 돌아왔다"+isComplate.value)
+
+        return isComplate
+    }
+
+    fun insertPlantEdit(docId: String?,docData:PlantModel): MutableLiveData<Boolean> {
+        Log.i("","식물 추가하기"+"수정")
+        viewModelScope.launch {
+            isComplate = plantRepository.modifyPlant(docId,docData)
+        }
+
+        Log.i("TAG", "insertPlant: 돌아왔다"+isComplate.value)
+
         return isComplate
     }
 }

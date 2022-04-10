@@ -6,12 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kr.hs.emirim.w2015.stac_prr.Model.NoticeModel
 import kr.hs.emirim.w2015.stac_prr.Repository.NoticeRepository
 
 class NoticeViewModel : ViewModel() {
-    val isComplate = MutableLiveData<Boolean>()
+    val count = MutableLiveData<Int>()
     var notices = MutableLiveData<ArrayList<NoticeModel>>()
     val noticeRep = NoticeRepository
     init {
@@ -21,13 +22,15 @@ class NoticeViewModel : ViewModel() {
         }
     }
 
-    fun getNoticeDot(context:Activity?): MutableLiveData<Boolean> {
+    fun getNoticeDot(): MutableLiveData<Int> {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = noticeRep.getNoticeDot(context)
-            isComplate.postValue(result)
-            Log.i("TAG", "getNoticeDot: 공지사항 디비 "+result)
+            async {
+                val result = noticeRep.getNoticeDot()
+                count.postValue(result.value)
+                Log.i("TAG", "getNoticeDot: 공지사항 디비 "+result)
+            }.await()
         }
-        return isComplate
+        return count
     }
 
     @JvmName("getNotices1")

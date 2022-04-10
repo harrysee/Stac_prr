@@ -28,7 +28,7 @@ class PlantViewModel :ViewModel(){
 
     fun getJournalImgs(name:String?): MutableLiveData<ArrayList<String?>> {
         viewModelScope.launch {
-            imgs = name?.let { journalRepository.getJournalImg(it) }!!
+            imgs.postValue(name?.let { journalRepository.getJournalImg(it) })
         }
         return imgs
     }

@@ -168,14 +168,14 @@ class PlantInfoFragment : Fragment() {
             ObjectAnimator.ofFloat(info_del_linear, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(info_edit_linear, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(info_fab, View.ROTATION, -85f, 0f).apply { start() }
-            binding.infoFabEdit.visibility = View.INVISIBLE
-            binding.infoFabDel.visibility = View.INVISIBLE
+            binding.infoEditTxt.visibility = View.INVISIBLE
+            binding.infoDelTxt.visibility = View.INVISIBLE
         } else { // 플로팅 액션 버튼 열기 - 닫혀있는 플로팅 버튼 꺼내는 애니메이션
             ObjectAnimator.ofFloat(info_del_linear, "translationY", -360f).apply { start() }
             ObjectAnimator.ofFloat(info_edit_linear, "translationY", -180f).apply { start() }
             ObjectAnimator.ofFloat(info_fab, View.ROTATION, 0f, -85f).apply { start() }
-            binding.infoFabEdit.visibility = View.VISIBLE
-            binding.infoFabDel.visibility = View.VISIBLE
+            binding.infoEditTxt.visibility = View.VISIBLE
+            binding.infoDelTxt.visibility = View.VISIBLE
         }
         isFabOpen = !isFabOpen
     }

@@ -111,7 +111,7 @@ class CalenderFragment : Fragment(){
         getDotDate()
         var plans = ArrayList<PlanModel>()
         // 리사이클뷰 관련 변수 선언
-        model.getDatePlans(selec_date).observe(requireActivity(), androidx.lifecycle.Observer {
+        model.getDatePlans(selec_date).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             plans = it
             adapter = PlanAdapter(plans,model)      // 일정목록 어댑터 생성
             adapter.items = plans

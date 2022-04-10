@@ -1,12 +1,12 @@
 package kr.hs.emirim.w2015.stac_prr.Repository
 
+import android.content.ContentValues.TAG
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
@@ -31,17 +31,19 @@ object JournalRepository {
             .document(auth.uid.toString())
             .collection("journal")
             .orderBy("date")
-            .get()
-            .addOnSuccessListener {
+            .addSnapshotListener { value, error ->
                 Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                for (document in it) {
-                    val date = document["date"] as Timestamp
-                    datas.add(JournalModel(
-                        document["name"] as String,
-                        document["content"] as String,
-                        document["date"] as Timestamp,
-                        document["imgUri"] as String?,
-                        document.id))
+                datas.clear()
+                if (value != null) {
+                    for (document in value) {
+                        val date = document["date"] as Timestamp
+                        datas.add(JournalModel(
+                            document["name"] as String,
+                            document["content"] as String,
+                            document["date"] as Timestamp,
+                            document["imgUri"] as String?,
+                            document.id))
+                    }
                 }
                 Log.i("파이어베이스데이터", datas.toString())
             }
@@ -56,25 +58,26 @@ object JournalRepository {
             .document(auth.uid.toString())
             .collection("journal")
             .orderBy("date", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener {
+            .addSnapshotListener(EventListener<QuerySnapshot>{ value, error->
                 Log.d("", "makeTestItems: 해당 날짜 데이터 가져오기 성공")
-                for (document in it) {
-                    datas.add(JournalModel(
-                        document["name"] as String,
-                        document["content"] as String,
-                        document["date"] as Timestamp,
-                        document["imgUri"] as String?,
-                        document.id))
-                    Log.i("TAG", "getJournalList: 일지 데이터"+it)
+                if (value != null) {
+                    for (document in value) {
+                        datas.add(JournalModel(
+                            document["name"] as String,
+                            document["content"] as String,
+                            document["date"] as Timestamp,
+                            document["imgUri"] as String?,
+                            document.id))
+                        Log.i("TAG", "getJournalList: 일지 데이터"+document)
+                    }
                 }
                 Log.i("파이어베이스데이터", datas.toString());
-            }
+            })
         journalList.postValue(datas)
         return journalList
     }
     // 식물에 따라 가져오기
-    suspend fun getPlantJournal(dateSort: Boolean, name:String): MutableLiveData<ArrayList<JournalModel>> {
+    suspend fun getPlantJournal(dateSort: Boolean, name:String): ArrayList<JournalModel> {
         val datas = ArrayList<JournalModel>()
         if (dateSort==false){   //내림차순으로 가져오기
             db.collection("journals")
@@ -111,11 +114,10 @@ object JournalRepository {
                             document["imgUri"] as String?,
                             document.id))
                     }
-                    Log.i("파이어베이스데이터", datas.toString());
+                    Log.i("파이어베이스데이터 일지이름별", datas.toString());
                 }
         }
-        plantjournal.postValue(datas)
-        return plantjournal
+        return datas
     }
 
     // 일지 한개의 세부내용
@@ -129,7 +131,7 @@ object JournalRepository {
                         it["name"] as String?:"",
                         it["content"] as String?:"",
                         it["date"] as Timestamp,
-                        it["imgUri"] as String?:"",
+                        it["imgUri"] as String?,
                         docId
                     )
                     journal.postValue(journals)
@@ -139,7 +141,7 @@ object JournalRepository {
     }
 
     // 일지 사진들만 가져오기
-    suspend fun getJournalImg(name: String): MutableLiveData<ArrayList<String?>> {
+    suspend fun getJournalImg(name: String): ArrayList<String?> {
         val imgData = ArrayList<String?>()
         db.collection("journals")
             .document(auth.uid.toString())
@@ -155,9 +157,9 @@ object JournalRepository {
                     }
                 }
                 Log.i("갤러리 이미지리소스 주기", imgData.toString());
-                journalImgs.postValue(imgData)
+
             }
-        return journalImgs
+        return imgData
     }
 
     // 일지 추가
@@ -167,6 +169,7 @@ object JournalRepository {
             "content" to docData["content"],
             "name" to docData["name"],
             "date" to docData["date"],   // 날짜
+            "imgUri" to ""
         )
         auth.uid?.let {
             db!!.collection("journals").document(it).collection("journal").document()
@@ -203,6 +206,7 @@ object JournalRepository {
                     when(isEdit){
                         true->{
                             auth.uid?.let {
+                                Log.i(TAG, "CreateJournalImg: 사진 수정하기 들어옴"+downloadUri)
                                 db!!.collection("journals").document(it).collection("journal")
                                     .document(docId!!)
                                     .update(mapOf(

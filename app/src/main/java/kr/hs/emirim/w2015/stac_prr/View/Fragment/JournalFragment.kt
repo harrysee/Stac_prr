@@ -201,24 +201,21 @@ class JournalFragment : Fragment() {
 
     private fun allPlantJournal(){  //모든 일지 정보 보여주기
         // 일지 목록 리사이클 설정
-        model.getAllJournals(dateSort).observe(requireActivity(), Observer {
-            datas = it
-            Log.i("파이어베이스데이터", datas.toString());
-            journalAdapter.datas = it
-            journalAdapter.notifyDataSetChanged()
-        })
+        activity?.let {
+            model.getAllJournals(dateSort).observe(it, Observer {
+                Log.i("파이어베이스데이터", datas.toString()+dateSort.toString());
+                journalAdapter.setData(it)
+            })
+        }
 
     }
 
     // 일지목록 업데이트
     private fun initRecycler(name: String?) {
         if (name != null) {
-            Log.i("TAG", "initRecycler: 파이어베이스 일지 가져오기")
+            Log.i("TAG", "initRecycler: 파이어베이스 일지 가져오기"+dateSort)
             model.getJournals(dateSort,name).observe(requireActivity(), Observer {
-                datas = it
-                Log.i("파이어베이스데이터", datas.toString());
-                journalAdapter.datas = it
-                journalAdapter.notifyDataSetChanged()
+                journalAdapter.setData(it)
             })
         }
     }

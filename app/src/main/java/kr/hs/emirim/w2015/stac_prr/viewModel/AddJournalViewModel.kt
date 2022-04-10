@@ -45,11 +45,9 @@ class AddJournalViewModel : ViewModel() {
     ): MutableLiveData<Boolean> {
         viewModelScope.launch {
             isComplate.postValue(true)
-            val addProcess = async {
-                journalRep.CreateJournalImg(docData = docData, docId = docId?:"",photoURI = photoUri,isEdit = isEdit)
-                isComplate.postValue(journalRep.isComplate.value)
-            }
-            addProcess.await()
+            journalRep.CreateJournalImg(docData = docData, docId = docId?:"",photoURI = photoUri,isEdit = isEdit)
+            isComplate.postValue(journalRep.isComplate.value)
+
         }
         return isComplate
     }

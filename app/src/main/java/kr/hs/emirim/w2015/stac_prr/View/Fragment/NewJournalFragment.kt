@@ -60,7 +60,7 @@ class NewJournalFragment : Fragment() {
         model.getPlantName().observe(requireActivity(), androidx.lifecycle.Observer {
             val plantnames = it
             nadapter = ArrayAdapter<String>(
-                requireContext(),
+                activity,
                 R.layout.spinner_custom_name,
                 plantnames
             )
@@ -80,7 +80,7 @@ class NewJournalFragment : Fragment() {
                 binding.journalContent.setText(it.journal as String?)
                 binding.choiceSpinner.setSelection(pos)
 
-                if (imgUri != null) {
+                if (imgUri != null && !imgUri.equals("")) {
                     Glide.with(requireContext())
                         .load(imgUri)
                         .fitCenter()
@@ -155,12 +155,9 @@ class NewJournalFragment : Fragment() {
                 else ->{"업로드"}
             }
             if (photoURI != null) { // 이미지 있을 때
-                model.setJournalImg( docData, photoURI, docId, isEdit).observe(requireActivity(),
-                    androidx.lifecycle.Observer {
-                        showMsg(it?:false)
-                    })
+                model.setJournalImg( docData, photoURI, docId, isEdit)
                 Toast.makeText(requireContext(), msg+" 완료!", Toast.LENGTH_SHORT).show()
-                Log.d("TAG", "onViewCreated: 파이어 업로드 완료 : journal")
+                Log.d("TAG", "onViewCreated: 파이어 업로드 완료 사진 : journal")
             } else {        // 사진이 없을경우
                 model.setJournal( docData,  docId, isEdit).observe(requireActivity(),
                     androidx.lifecycle.Observer {
