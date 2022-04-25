@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_journal.*
+import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.JournalAdapter
 import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 import kr.hs.emirim.w2015.stac_prr.R
@@ -91,6 +92,13 @@ class JournalFragment : Fragment() {
                 ?.replace(R.id.container, fragment)
                 ?.commit()
         }   //일지 플러스 버튼
+
+        bookmark.setOnClickListener {
+            val fragment = BookmarkFragment();
+            activity?.supportFragmentManager?.beginTransaction()?.addToBackStack(null)
+                ?.replace(R.id.container, fragment)
+                ?.commit()
+        }
 
         up_btn.setOnClickListener {
             journal_recycler.smoothScrollToPosition(0)

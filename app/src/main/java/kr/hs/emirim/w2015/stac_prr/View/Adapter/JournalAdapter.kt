@@ -1,6 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr.View.Adapter
 
 import android.content.Context
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,6 +51,8 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
             private val txtJournal: TextView = itemView.findViewById(R.id.journal_content)
             private val journalimg : ImageView = itemView.findViewById(R.id.journal_img)
             private val journaldate : TextView = itemView.findViewById(R.id.journal_item_date)
+            private val bookmarkBtn : ImageView = itemView.findViewById(R.id.bookmark_btn)
+
 
             fun bind(item: JournalModel) {
                 txtName.text = item.name
@@ -94,6 +97,12 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
                             notifyDataSetChanged()
                         }
                         .show()
+                }
+                bookmarkBtn.setOnClickListener{
+                    bookmarkBtn.isSelected = false
+                    if(bookmarkBtn.isSelected == true) {
+                        bookmarkBtn.setImageResource(R.drawable.ic_bookmark)
+                    }
                 }
             }
         }

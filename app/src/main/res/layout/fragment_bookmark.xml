@@ -11,7 +11,6 @@
         tools:context=".View.Fragment.JournalFragment"
         xmlns:fab="http://schemas.android.com/apk/res-auto">
 
-        <!-- TODO: Update blank fragment layout -->
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
@@ -21,10 +20,19 @@
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/back_journal_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:background="@color/back_gray"
+                android:backgroundTint="@color/transparent"
+                android:padding="15dp"
+                android:src="@drawable/ic_back" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
                 android:gravity="center"
                 android:text="일지"
                 android:textColor="@color/pp_green"
@@ -54,15 +62,6 @@
                 android:padding="10dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/ic_down_btn" />
-
-            <ImageView
-                android:id="@+id/bookmark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="25dp"
-                android:layout_gravity="right|center_vertical"
-                android:src="@drawable/ic_bookmark" />
-
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -240,19 +239,5 @@
             tools:listitem="@layout/journal_item">
         </androidx.recyclerview.widget.RecyclerView>
 
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabCustomSize="48dp"
-            app:fab_shadow="false"
-            android:layout_gravity="end|bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/pp_green"
-            android:src="@drawable/ic_baseline_add"
-            tools:ignore="MissingConstraints"
-            app:hideOnScroll="true"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

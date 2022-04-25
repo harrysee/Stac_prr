@@ -9,5 +9,4 @@ data class JournalModel (
     val date : Timestamp,
     val imgUri : String?,
     val docId : String,
-    val bookmark : Boolean
 )
