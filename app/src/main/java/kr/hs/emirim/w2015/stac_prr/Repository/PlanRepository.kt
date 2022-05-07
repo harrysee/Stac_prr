@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kr.hs.emirim.w2015.stac_prr.Model.PlanModel
-import java.security.Timestamp
+import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,11 +33,14 @@ object PlanRepository {
                     val item = PlanModel()
                     Log.d("TAG", "makeTestItems: ${document.data}")
                     if (document["str_date"] != null) {
+                        val time = document["date"] as Timestamp
                         Log.d("TAG", "makeTestItems: 모델 ${document.data}")
                         item.contents = document["title"] as String?
                         item.name = document["name"] as String?
                         item.isChecked = document["checkbox"] as Boolean
                         item.memo = document["memo"] as String?
+                        item.create = time.toDate()
+                        item.alarmId = document["alarmId"] as Long
                         item.docId = document.id
                         plans.add(item)
                     }

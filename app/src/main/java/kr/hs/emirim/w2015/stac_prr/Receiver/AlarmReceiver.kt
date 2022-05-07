@@ -8,12 +8,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
 
 class AlarmReceiver : BroadcastReceiver() {
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onReceive(context: Context, intent: Intent) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -33,12 +35,14 @@ class AlarmReceiver : BroadcastReceiver() {
             val importance = NotificationManager.IMPORTANCE_HIGH //소리와 알림메시지를 같이 보여줌
             val channel = NotificationChannel("default", channelName, importance)
             channel.description = description
-            notificationManager?.createNotificationChannel(channel)
+            notificationManager.createNotificationChannel(channel)
         } else builder.setSmallIcon(R.mipmap.ic_launcher) // Oreo 이하에서 mipmap 사용하지 않으면 Couldn't create icon: StatusBarIcon 에러남
 
         val title = intent.getStringExtra("title")
         val name = intent.getStringExtra("name")
         val content = intent.getStringExtra("content")
+        val id = intent.getIntExtra("id",0)
+        val img = context.getDrawable(R.drawable.ic_home_emty_item)
 
         builder.setAutoCancel(true)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
@@ -50,17 +54,14 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentInfo("INFO")
             .setContentIntent(pendingI)
 
-        if (notificationManager != null) {
-            //알람 중복되지않게 카운트
-            val push = context?.getSharedPreferences("push", Context.MODE_PRIVATE)!!
-            val idcnt = push.getInt("notifyid", 0)
-            val isAlarm = push.getBoolean("isAlarm", false)
+        //알람 중복되지않게 카운트
+        val alarmPref = context.getSharedPreferences("alarms", Context.MODE_PRIVATE)!!
+        val isAlarm = alarmPref.getBoolean(id.toString(), true)
 
-            // 노티피케이션 동작시킴
-            if (isAlarm){
-                notificationManager.notify(idcnt, builder.build())
-            }
-            Log.d("TAG", "onReceive: 알림 : $idcnt")
+        // 노티피케이션 동작시킴
+        if (isAlarm){
+            notificationManager.notify(id, builder.build())
         }
+        Log.d("TAG", "onReceive: 알림 : $id")
     }
 }

@@ -142,7 +142,7 @@ class MainActivity : BaseActivity() {
         pref = this.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
         val isCheck = pref.getBoolean("isFirst", true)
         if (isCheck) {
-            val flowerPref = context.getSharedPreferences("flower", Context.MODE_PRIVATE)
+            val flowerPref = this.getSharedPreferences("flower", Context.MODE_PRIVATE)
             val alarmMgr = this.getSystemService(ALARM_SERVICE) as AlarmManager
             val alarmIntent = Intent(this, BroadcastReceiver::class.java).let { intent ->
                 PendingIntent.getBroadcast(this, 0, intent, 0)

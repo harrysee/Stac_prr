@@ -1,5 +1,6 @@
 package kr.hs.emirim.w2015.stac_prr.View.Fragment
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.TimePickerDialog
@@ -37,6 +38,7 @@ class AddPlanFragment : Fragment() {
     var date_str: String? = null
     val cal: Calendar = Calendar.getInstance()
     lateinit var push: SharedPreferences
+    lateinit var alarmPref: SharedPreferences
     lateinit var nadapter: ArrayAdapter<String>
     val model by lazy {
         ViewModelProvider(requireActivity()).get(AddPlanViewModel::class.java)
@@ -45,6 +47,7 @@ class AddPlanFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -59,6 +62,7 @@ class AddPlanFragment : Fragment() {
             e.printStackTrace()
         }
         push = context?.getSharedPreferences("push", Context.MODE_PRIVATE)!!
+        alarmPref = context?.getSharedPreferences("alarms", Context.MODE_PRIVATE)!!
         return inflater.inflate(R.layout.fragment_add_plan, container, false)
     }
 
@@ -66,7 +70,6 @@ class AddPlanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as MainActivity
         R.style.AlertDialog_AppCompat
-        val isAlarm = push.getBoolean("isAlarm", false)
         addplan_date_txt.text = date_str
 
         // 이미지 화살표 눌렀을때
@@ -86,6 +89,7 @@ class AddPlanFragment : Fragment() {
         addplan_complate_btn.setOnClickListener {
             Toast.makeText(requireContext(), "업로드 중..", Toast.LENGTH_SHORT)
             // 파이어스토어에 데이터 저장
+            val id = cal.timeInMillis.toInt()
             val date: Date = cal.time
             val str_date = SimpleDateFormat("yyyy/MM/dd").format(date)
             //val str_date = cal.get(Calendar.YEAR).toString() + "/"+ cal.get(Calendar.MONTH).toString() +"/"+cal.get(Calendar.DAY_OF_MONTH).toString()
@@ -95,6 +99,7 @@ class AddPlanFragment : Fragment() {
                 "name" to plant_name_spinner.selectedItem.toString(),
                 "checkbox" to false,
                 "date" to Timestamp(date),   // 날짜
+                "alarmId" to id,
                 "str_date" to str_date,
                 "memo" to addplan_memo.text.toString()
             )
@@ -105,37 +110,38 @@ class AddPlanFragment : Fragment() {
             Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
 
             //알람 일단 등록
-            val idCnt = push.getInt("notifyid", 0)
             val pm = context?.packageManager
             val receiver = ComponentName(requireContext(), DeviceBootReceiver::class.java)
             val alarmIntent = Intent(context, AlarmReceiver::class.java)
             alarmIntent.putExtra("title", planets_spinner.selectedItem.toString())
             alarmIntent.putExtra("name", plant_name_spinner.selectedItem.toString())
             alarmIntent.putExtra("content", addplan_memo.text.toString())
-            val pendingIntent = PendingIntent.getBroadcast(context, idCnt, alarmIntent, 0)
-            val alarmManager =
-                context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
+            alarmIntent.putExtra("id", id)
+            val pendingIntent = PendingIntent.getBroadcast(context, id, alarmIntent, 0)
+            val alarmManager = context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
 
-            if (alarmManager != null) {
-                push.edit()     //알림 등록 겹치지않게
-                    .putInt("notifyid", idCnt + 1)
-                    .apply()
+            //알림 등록 아이디 설정
+            alarmPref.edit()
+                .putBoolean(id.toString(), true)
+                .apply()
 
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.timeInMillis,
-                    AlarmManager.INTERVAL_DAY, pendingIntent)
-                Log.d("TAG", "diaryNotification: 알림 이동시 : $idCnt")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
-                        cal.timeInMillis,
-                        pendingIntent)
-                }
-                Log.d("TAG", "onViewCreated: 알림 시간 : ${cal.time}")
-                // 부팅 후 실행되는 리시버 사용가능하게 설정
-                pm?.setComponentEnabledSetting(receiver,
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP)
+            Log.d("TAG", "diaryNotification: 알림 이동시 : $id")
+            // 알림 설정
+            if  (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {  // 버전에 따른 도즈모드 처리 우선순위
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis,
+                    pendingIntent)
+            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent)
+            }else{
+                alarmManager.set(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent)
             }
-            
+            Log.d("TAG", "onViewCreated: 알림 시간 : ${cal.time}")
+            // 부팅 후 실행되는 리시버 사용가능하게 설정
+            pm?.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP)
+
             activity.fragmentChange_for_adapter(CalenderFragment()) // 이동하기
         }
 
@@ -200,8 +206,6 @@ class AddPlanFragment : Fragment() {
             plant_name_spinner.adapter = nadapter
             nadapter.notifyDataSetChanged()
         })
-
-
     }
 
 }

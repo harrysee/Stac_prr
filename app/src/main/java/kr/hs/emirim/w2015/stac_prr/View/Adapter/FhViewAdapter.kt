@@ -55,7 +55,7 @@ class FhViewAdapter(var datas : ArrayList<HomeModel>, val fragment_s:FragmentAct
             if (item.imgUrl != null){
                 Glide.with(context) //쓸곳
                     .load(item.imgUrl.toString())  //이미지 받아올 경로
-                    .fitCenter()        // 가운데 잘라서 채우게 가져오기
+                    .centerCrop()// 가운데 잘라서 채우게 가져오기
                     .placeholder(R.drawable.ic_home_emty_item)
                     .into(imageView)    // 받아온 이미지를 받을 공간
             }

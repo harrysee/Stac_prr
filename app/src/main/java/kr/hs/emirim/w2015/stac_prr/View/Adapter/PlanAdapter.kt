@@ -1,10 +1,13 @@
 package kr.hs.emirim.w2015.stac_prr.View.Adapter
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Paint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.plan_item_view.view.*
 import kr.hs.emirim.w2015.stac_prr.Model.PlanModel
 import kr.hs.emirim.w2015.stac_prr.viewModel.PlanViewModel
 import kr.hs.emirim.w2015.stac_prr.databinding.PlanItemViewBinding
@@ -15,10 +18,12 @@ import kotlin.collections.ArrayList
 class PlanAdapter(var items: ArrayList<PlanModel>?,var model: PlanViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var date : String = SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().time)
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         Log.d("TAG", "onCreateViewHolder: 일정 어댑터 실행됨")
-        var binding = PlanItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ItemHolder(binding)
+        val binding = PlanItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val alarms = parent.context.getSharedPreferences("alarms", Context.MODE_PRIVATE)
+        return ItemHolder(binding,alarms)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -37,7 +42,7 @@ class PlanAdapter(var items: ArrayList<PlanModel>?,var model: PlanViewModel) : R
     
     companion object {
         // 작성했던 레이아웃 bind 가져오기
-        class ItemHolder(var binding: PlanItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        class ItemHolder(var binding: PlanItemViewBinding, var alarmPref: SharedPreferences) : RecyclerView.ViewHolder(binding.root) {
             lateinit var item: PlanModel
 
             @JvmName("getItem1")
@@ -56,6 +61,7 @@ class PlanAdapter(var items: ArrayList<PlanModel>?,var model: PlanViewModel) : R
                         binding.content.setPaintFlags(0)
                     }
                     binding.content.text = it.name.toString()+" | "+it.contents.toString() +" | "+it.memo.toString()
+                    binding.date.text = SimpleDateFormat("hh:mm").format(item.create.time)
                     
                     //체크 확인하기
                     binding.checkBox.setOnClickListener {
@@ -68,6 +74,9 @@ class PlanAdapter(var items: ArrayList<PlanModel>?,var model: PlanViewModel) : R
                         }
                         //체크박스 선택부분 업데이트
                         model.setChecked(item.docId,item.isChecked)
+                        alarmPref.edit()    // 알람 울렸다는거 표시
+                            .putBoolean(item.alarmId.toString(),false)
+                            .apply()
                         Log.d("checked", "${item.isChecked}")
                     }
                 }
