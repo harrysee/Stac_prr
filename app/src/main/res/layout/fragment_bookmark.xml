@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/back_gray"
-        tools:context=".View.Fragment.JournalFragment"
-        xmlns:fab="http://schemas.android.com/apk/res-auto">
+        tools:context=".View.Fragment.JournalFragment">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -34,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="일지"
+                android:text="북마크"
                 android:textColor="@color/pp_green"
                 android:fontFamily="@font/notosanscjkkr_medium"
                 android:includeFontPadding="false"
@@ -64,168 +63,8 @@
                 android:src="@drawable/ic_down_btn" />
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/tab_linear"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.06"
-            android:background="@color/set_bg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/journal_recycler"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-
-            <HorizontalScrollView
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:scrollbars="none"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/journal_date_sort">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <Button
-                        android:id="@+id/plant_all_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_corner"
-                        android:backgroundTint="@color/btn_color"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="8dp"
-                        android:text="전체"
-                        android:textColor="@color/btn_text_color"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:clickable="false"/>
-
-                    <Button
-                        android:id="@+id/plant_name_btn1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:background="@drawable/shape_corner"
-                        android:backgroundTint="@color/btn_color"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="8dp"
-                        android:textColor="@color/btn_text_color"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/plant_name_btn1"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:clickable="false"
-                        android:visibility="invisible"/>
-
-                    <Button
-                        android:id="@+id/plant_name_btn2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:background="@drawable/shape_corner"
-                        android:backgroundTint="@color/btn_color"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="8dp"
-                        android:textColor="@color/btn_text_color"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/plant_name_btn1"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:clickable="false"
-                        android:visibility="invisible"/>
-
-                    <Button
-                        android:id="@+id/plant_name_btn3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:background="@drawable/shape_corner"
-                        android:backgroundTint="@color/btn_color"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="8dp"
-                        android:textColor="@color/btn_text_color"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/plant_name_btn2"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:clickable="false"
-                        android:visibility="invisible"/>
-
-                    <Button
-                        android:id="@+id/plant_name_btn4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dp"
-                        android:fontFamily="@font/notosanscjkkr_regular"
-                        android:includeFontPadding="false"
-                        android:background="@drawable/shape_corner"
-                        android:backgroundTint="@color/btn_color"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="8dp"
-                        android:textColor="@color/btn_text_color"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/plant_name_btn3"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:clickable="false"
-                        android:visibility="invisible"/>
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
-            <TextView
-                android:id="@+id/journal_date_sort"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="7dp"
-                android:text="날짜순↓"
-                android:fontFamily="@font/notosanscjkkr_regular"
-                android:includeFontPadding="false"
-                android:textColor="@color/day_gray"
-                android:textSize="12sp"
-                android:layout_marginRight="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/journal_recycler"
+            android:id="@+id/bookmark_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -235,9 +74,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tab_linear"
-            tools:listitem="@layout/journal_item">
-        </androidx.recyclerview.widget.RecyclerView>
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:listitem="@layout/journal_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

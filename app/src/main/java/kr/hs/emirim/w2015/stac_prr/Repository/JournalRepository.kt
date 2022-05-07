@@ -12,9 +12,10 @@ import com.google.firebase.storage.StorageReference
 import kr.hs.emirim.w2015.stac_prr.Model.JournalModel
 
 object JournalRepository {
-    private val journalList = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
-    private val journalListD = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
-    private val plantjournal = MutableLiveData<ArrayList<JournalModel>>()     // 여기가 데이터저장 배열
+    private val journalList = MutableLiveData<ArrayList<JournalModel>>()     // 오름차순 모든 식물
+    private val journalListD = MutableLiveData<ArrayList<JournalModel>>()     // 내림차순 모든 식물
+    private val plantjournal = MutableLiveData<ArrayList<JournalModel>>()     // 해당식물 배열 가져오기
+    private val bookmarkjournal = MutableLiveData<ArrayList<JournalModel>>()    // 북마크 식물 가져오기
     private val journal = MutableLiveData<JournalModel>()     // 여기가 데이터저장 배열
     private val journalUploadImg = MutableLiveData<String?>()
     private var isSucces = MutableLiveData<Boolean>()
@@ -37,13 +38,14 @@ object JournalRepository {
                 datas.clear()
                 if (value != null) {
                     for (document in value) {
-                        val date = document["date"] as Timestamp
-                        datas.add(JournalModel(
-                            document["name"] as String,
-                            document["content"] as String,
-                            document["date"] as Timestamp,
-                            document["imgUri"] as String?,
-                            document.id))
+                        datas.add(
+                            JournalModel(
+                                document["name"] as String,
+                                document["content"] as String,
+                                document["date"] as Timestamp,
+                                document["imgUri"] as String?,
+                                document["bookmark"] as Boolean?,
+                                document.id))
                     }
                     journalList.postValue(datas)
                 }
@@ -68,6 +70,7 @@ object JournalRepository {
                             document["content"] as String,
                             document["date"] as Timestamp,
                             document["imgUri"] as String?,
+                            document["bookmark"] as Boolean?,
                             document.id))
                         Log.i("TAG", "getJournalList: 일지 데이터"+document)
                     }
@@ -95,6 +98,7 @@ object JournalRepository {
                                 document["content"] as String,
                                 document["date"] as Timestamp,
                                 document["imgUri"] as String?,
+                                document["bookmark"] as Boolean?,
                                 document.id))
                         }
                         plantjournal.postValue(datas)
@@ -117,6 +121,7 @@ object JournalRepository {
                                 document["content"] as String,
                                 document["date"] as Timestamp,
                                 document["imgUri"] as String?,
+                                document["bookmark"] as Boolean?,
                                 document.id))
                         }
                         plantjournal.postValue(datas)
@@ -139,6 +144,7 @@ object JournalRepository {
                         it["content"] as String?:"",
                         it["date"] as Timestamp,
                         it["imgUri"] as String?,
+                        it["bookmark"] as Boolean,
                         docId
                     )
                     journal.postValue(journals)
@@ -147,6 +153,32 @@ object JournalRepository {
         return journal
     }
 
+    // 북마크만 가져오기
+    suspend fun getBookmarks(): MutableLiveData<ArrayList<JournalModel>> {
+        val datas = ArrayList<JournalModel>()
+        db.collection("journals")
+            .document(auth.uid.toString())
+            .collection("journal")
+            .whereEqualTo("bookmark",true)
+            .orderBy("date")
+            .addSnapshotListener { value, error ->
+                datas.clear()
+                if (value != null) {
+                    for(document in value){
+                        datas.add(JournalModel(
+                            document["name"] as String,
+                            document["content"] as String,
+                            document["date"] as Timestamp,
+                            document["imgUri"] as String?,
+                            document["bookmark"] as Boolean?,
+                            document.id)
+                        )
+                    }
+                    bookmarkjournal.postValue(datas)
+                }
+            }
+        return bookmarkjournal
+    }
     // 일지 사진들만 가져오기
     suspend fun getJournalImg(name: String): MutableLiveData<ArrayList<String?>> {
         Log.i(TAG, "getJournalImg: 사진 가지러옴"+name)
@@ -179,6 +211,7 @@ object JournalRepository {
             "content" to docData["content"],
             "name" to docData["name"],
             "date" to docData["date"],   // 날짜
+            "bookmark" to docData["bookmark"],
             "imgUri" to ""
         )
         auth.uid?.let {
@@ -223,6 +256,7 @@ object JournalRepository {
                                         "content" to docData.get("content"),
                                         "name" to docData.get("name"),
                                         "date" to docData.get("date"),
+                                        "bookmark" to docData.get("bookmark"),
                                         "imgUri" to downloadUri
                                     ))
                                     .addOnSuccessListener { Log.d("TAG", "파이어스토어 올라감 : journal") }
@@ -312,6 +346,17 @@ object JournalRepository {
                     }
                 }// journal for end
             }// journal success end
+    }
+
+    suspend fun setBookmark(docId: String, isChecked : Boolean){
+        db.collection("journals")
+            .document(auth.uid.toString())
+            .collection("journal")
+            .document(docId)
+            .update("bookmark",isChecked)
+            .addOnSuccessListener {
+                Log.i("", "checked: checked 업데이트"+isChecked)
+            }
     }
 
 }

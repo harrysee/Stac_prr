@@ -35,11 +35,6 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
             return ViewHolder(view)
         }
 
-        fun setData(datas: MutableList<JournalModel>){
-            this.datas = datas
-            notifyDataSetChanged()
-            Log.i("TAG", "setData: 데이터 업데이트"+datas)
-        }
         override fun getItemCount(): Int = datas.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -52,13 +47,17 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
             private val journalimg : ImageView = itemView.findViewById(R.id.journal_img)
             private val journaldate : TextView = itemView.findViewById(R.id.journal_item_date)
             private val bookmarkBtn : ImageView = itemView.findViewById(R.id.bookmark_btn)
-
-
             fun bind(item: JournalModel) {
                 txtName.text = item.name
                 txtJournal.text = item.journal
                 journaldate.text = SimpleDateFormat("yy-MM-dd").format(item.date.toDate())
-
+                bookmarkBtn.isSelected = item.bookmark == true
+                Log.i("TAG", "bind: 일지데이터 "+datas)
+                if(bookmarkBtn.isSelected) {    // 북마크 모양 설정
+                    bookmarkBtn.setImageResource(R.drawable.ic_bookmark)
+                }else{
+                    bookmarkBtn.setImageResource(R.drawable.ic_baseline_bookmark_border)
+                }
                 if (item.imgUri != null){
                     Log.d("TAG", "bind: 일지어댑터 사진 null아님 : ${item.imgUri}")
                     Glide.with(context)
@@ -99,10 +98,8 @@ class JournalAdapter(private val context: Context, private val activity: Fragmen
                         .show()
                 }
                 bookmarkBtn.setOnClickListener{
-                    bookmarkBtn.isSelected = false
-                    if(bookmarkBtn.isSelected == true) {
-                        bookmarkBtn.setImageResource(R.drawable.ic_bookmark)
-                    }
+                    bookmarkBtn.isSelected = !bookmarkBtn.isSelected
+                    model.setBookmark(item.docId,bookmarkBtn.isSelected)
                 }
             }
         }

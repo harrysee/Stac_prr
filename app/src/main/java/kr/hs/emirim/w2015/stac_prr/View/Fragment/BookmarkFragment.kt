@@ -1,6 +1,5 @@
 package kr.hs.emirim.w2015.stac_prr.View.Fragment
 
-import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,19 +9,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_bookmark.*
-import kotlinx.android.synthetic.main.fragment_set_iot.*
-import kotlinx.android.synthetic.main.fragment_set_iot.iot_pass_btn
 import kr.hs.emirim.w2015.stac_prr.MainActivity
-import kr.hs.emirim.w2015.stac_prr.R
 import kr.hs.emirim.w2015.stac_prr.View.Adapter.JournalAdapter
-import kr.hs.emirim.w2015.stac_prr.databinding.FragmentJournalBinding
+import kr.hs.emirim.w2015.stac_prr.databinding.FragmentBookmarkBinding
 import kr.hs.emirim.w2015.stac_prr.viewModel.JournalViewModel
 
 
 class BookmarkFragment : Fragment() {
-    private lateinit var journalAdapter: JournalAdapter
-    private lateinit var binding : FragmentJournalBinding
-    private var dateSort = false    //false-내림차순 / true -오름차순
+    private lateinit var bookmarkAdapter: JournalAdapter
+    private lateinit var binding : FragmentBookmarkBinding
     private val model by lazy{
         ViewModelProvider(requireActivity()).get(JournalViewModel::class.java)
     }
@@ -36,28 +31,23 @@ class BookmarkFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bookmark, container, false)
+        binding = FragmentBookmarkBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        bookmarkAdapter = JournalAdapter(requireContext(),activity,model)
+        model.getBookmarks().observe(requireActivity(), Observer {
+            Log.i("TAG", "북마크: 북마크 가져오기"+it)
+            bookmarkAdapter.datas = it
+            binding.bookmarkRecycler.adapter = bookmarkAdapter
+            bookmarkAdapter.notifyDataSetChanged()
+        })
         back_journal_btn.setOnClickListener(){
             val activity = activity as MainActivity
             activity.fragmentChange_for_adapter(JournalFragment())
         }
     }
 
-    private fun initRecycler(name: String?) {
-        Log.i(ContentValues.TAG, "initRecycler: 한개씩 보여줌"+dateSort)
-        if (name != null) {
-            Log.i("TAG", "initRecycler: 파이어베이스 일지 가져오기"+dateSort)
-            model.getJournals(dateSort,name).observe(requireActivity(), Observer {
-                journalAdapter = JournalAdapter(requireContext(),activity,model)
-                journalAdapter.datas = it
-                binding.journalRecycler.adapter = journalAdapter
-                journalAdapter.notifyDataSetChanged()
-            })
-        }
-    }
 }

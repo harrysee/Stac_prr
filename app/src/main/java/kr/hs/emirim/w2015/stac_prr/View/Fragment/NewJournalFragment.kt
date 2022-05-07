@@ -149,6 +149,7 @@ class NewJournalFragment : Fragment() {
                 "content" to binding.journalContent.text.toString(),
                 "name" to binding.choiceSpinner.selectedItem.toString(),
                 "date" to Timestamp(date),   // 날짜
+                "bookmark" to false,
             )
             msg = when(isEdit){
                 true ->{"업데이트"}

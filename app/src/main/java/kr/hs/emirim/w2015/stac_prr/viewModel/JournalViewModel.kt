@@ -17,6 +17,7 @@ class JournalViewModel : ViewModel(){
     var allJournalsAsk = MutableLiveData<ArrayList<JournalModel>>()
     var allJournalsDesk = MutableLiveData<ArrayList<JournalModel>>()
     var journals = MutableLiveData<ArrayList<JournalModel>>()
+    var bookjournals = MutableLiveData<ArrayList<JournalModel>>()
     var isComplate = MutableLiveData<Boolean>()
     val plantRep = PlantRepository
     val journalRep = JournalRepository
@@ -55,6 +56,22 @@ class JournalViewModel : ViewModel(){
             Log.i("TAG", "getJournals: journals"+journals.value )
         }
         return journals
+    }
+    
+    // 북마크 일지 가져오기
+    fun getBookmarks(): MutableLiveData<ArrayList<JournalModel>> {
+        viewModelScope.launch {
+            bookjournals = journalRep.getBookmarks()
+            Log.i("TAG", "getBookmarks: 북마크 가져오기"+bookjournals)
+        }
+        return bookjournals
+    }
+    
+    //북마크 버튼 클릭
+    fun setBookmark(docId: String, isChecked:Boolean){
+        viewModelScope.launch {
+            journalRep.setBookmark(docId, isChecked)
+        }
     }
 
     // 일지 삭제하기 : docId
