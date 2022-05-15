@@ -69,17 +69,17 @@ class NewPlantFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as MainActivity
         db = FirebaseFirestore.getInstance()
-        val pcnt = pref.getInt("PlantCnt", 0)   // 처음 생성시 식물개수 0
         binding.newplantInputScroll.bringToFront()    // 스크롤 위치 맨위로
 
         // 수정으로 인해서 호출됬을때 기본데이터 뿌리기
         if (isEdit == true) {
             Log.d("TAG,", "onViewCreated: 수정 > 식물정보 가져온 이미지 uri $imgUri")
-            val backgound = view.findViewById<ImageButton>(R.id.newplant_upload_btn)
             if(imgUri != null && !imgUri.equals("")){
                 Glide.with(requireContext()) //쓸곳
                     .load(imgUri)  //이미지 받아올 경로
-                    .into(backgound)    // 받아온 이미지를 받을 공간
+                    .centerCrop()// 가운데 잘라서 채우게 가져오기
+                    .placeholder(R.drawable.ic_home_emty_item)
+                    .into(binding.newplantUploadBtn)    // 받아온 이미지를 받을 공간
             }
 
             model.getShowPlant(docId!!).observe(requireActivity(), Observer<PlantModel> {
@@ -148,25 +148,25 @@ class NewPlantFragment : Fragment() {
             if (photoURI != null) { // 이미지 있을 때
                 model.insertPlant(docId!!,isEdit,photoURI,docData).observe(viewLifecycleOwner,
                     androidx.lifecycle.Observer {
-                        getResult(it?:true,message)
                         activity.fragmentChange_for_adapter(HomeFragment())
                     })
+                    getResult()
             } else {        // 사진이 없을경우
                 when(isEdit){
                     false->{
                         model.insertPlantNimg(docData).observe(viewLifecycleOwner,
                         androidx.lifecycle.Observer {
                             Log.i(TAG, "onViewCreated: 사진 없는 경우 추가")
-                            getResult(it?:true,message)
                         })
+                        getResult()
                         activity.fragmentChange_for_adapter(HomeFragment())
                     }
-                    else->{
+                    true->{
                         model.insertPlantEdit(docId!!,docData).observe(viewLifecycleOwner,
                             Observer<Boolean> {
                                 Log.i(TAG, "onViewCreated: 사진 없는 경우 추가")
-                                getResult(it?:true,message)
                             })
+                            getResult()
                             activity.fragmentChange_for_adapter(HomeFragment())
                     }
                 }
@@ -212,16 +212,12 @@ class NewPlantFragment : Fragment() {
         }
     }
 
-    fun getResult(r:Boolean,msg:String?){
+    fun getResult(){
         val pCnt = pref.getInt("PlantCnt",0)
-        if(r){
-            Toast.makeText(activity, msg+" 완료 !", Toast.LENGTH_LONG).show()
-            with(pref.edit()){
-                this.putInt("PlantCnt",pCnt+1)
-                commit()
-            }
-        }else{
-            Toast.makeText(activity, msg+" 실패 !", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, " 완료 !", Toast.LENGTH_LONG).show()
+        with(pref.edit()){
+            this.putInt("PlantCnt",pCnt+1)
+            commit()
         }
         Toast.makeText(activity, "업로드 완료 !", Toast.LENGTH_LONG).show()
         Log.d("TAG", "onViewCreated: 파이어 업로드 완료")
@@ -236,7 +232,11 @@ class NewPlantFragment : Fragment() {
                 Log.d(TAG, "onViewCreated111: 사진uri "+ photoURI)
                 photoURI = data.data!!
                 val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, photoURI)
-                binding.newplantUploadBtn.setImageBitmap(bitmap)
+                Glide.with(requireContext()) //쓸곳
+                    .load(bitmap)  //이미지 받아올 경로
+                    .centerCrop()// 가운데 잘라서 채우게 가져오기
+                    .placeholder(R.drawable.ic_home_emty_item)
+                    .into(binding.newplantUploadBtn)    // 받아온 이미지를 받을 공간
             } catch (e: Exception) {
                 e.printStackTrace()
             }
