@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -32,7 +33,7 @@ import kr.hs.emirim.w2015.stac_prr.viewModel.MainViewModel
 import java.util.*
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var context: Context
     private lateinit var bottomNaviLayout: View
     private val br: BroadcastReceiver = BroadcastReceiver()
@@ -46,25 +47,6 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         onTabs()
 
-        ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 10) {
-            if (resultCode == Activity.RESULT_OK) {
-
-            } else {
-
-            }
-        }
-    }
-
-    override fun permissionGranted(requestCode: Int) {
-    }
-
-    override fun permissionDenied(requestCode: Int) {
-        Toast.makeText(baseContext, "권한 거부됨", Toast.LENGTH_LONG).show()
     }
 
     fun onTabs() {

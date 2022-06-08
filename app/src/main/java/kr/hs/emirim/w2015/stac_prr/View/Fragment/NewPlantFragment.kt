@@ -1,5 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr.View.Fragment
 
+import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -15,6 +17,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_new_journal.*
 import kotlinx.android.synthetic.main.fragment_new_plant.*
 import kotlinx.android.synthetic.main.fragment_plant_info.*
+import kr.hs.emirim.w2015.stac_prr.BaseFragment
 import kr.hs.emirim.w2015.stac_prr.View.Dialog.CustomDialog
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.Model.PlantModel
@@ -47,8 +51,15 @@ class NewPlantFragment : Fragment() {
     private lateinit var binding : FragmentNewPlantBinding
     private lateinit var pref: SharedPreferences
 
+    private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        isGranted -> {
+            Log.d("mytag", isGranted.toString())
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -70,6 +81,9 @@ class NewPlantFragment : Fragment() {
         val activity = activity as MainActivity
         db = FirebaseFirestore.getInstance()
         binding.newplantInputScroll.bringToFront()    // 스크롤 위치 맨위로
+        Log.d("test", "onViewCreated")
+
+        requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
 
         // 수정으로 인해서 호출됬을때 기본데이터 뿌리기
         if (isEdit == true) {
@@ -177,12 +191,14 @@ class NewPlantFragment : Fragment() {
 
         binding.newplantUploadBtn.setOnClickListener {
             //앨범 열기
+
             val intent = Intent(Intent.ACTION_PICK)
 
             intent.type = MediaStore.Images.Media.CONTENT_TYPE
             intent.type = "image/*"
             //intent. setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
             startActivityForResult(intent, FROM_ALBUM)
+
         }
 
         // 날짜 선택 다이얼로그
