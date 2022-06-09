@@ -125,7 +125,7 @@ class JournalFragment : Fragment() {
         pcnt = pref.getInt("PlantCnt", 0)
         Log.d("TAG", "setTab: 현재 식물개수 : $pcnt")
         Log.d("TAG", "setTab: 현재 식물이름: $pNames")
-        for (i in 0..pcnt-1) {
+        for (i in 0..(pcnt-1)) {
             btnArr[i].isClickable = true
             btnArr[i].visibility = View.VISIBLE
             btnArr[i].text = pNames[i]

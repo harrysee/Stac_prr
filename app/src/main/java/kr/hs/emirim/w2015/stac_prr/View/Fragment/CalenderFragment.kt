@@ -137,7 +137,7 @@ class CalenderFragment : Fragment(){
                     dotDecorator
                 )
                 //dotDecorator = DotDecorator("#8EC057", dotPlanDay)
-                Log.d("TAG", "점날짜 ${it} => ${dotPlanDay}")
+                Log.d("TAG", "점날짜 ${it} => ${document} ${dotPlanDay}")
             }
         })
     }
@@ -181,7 +181,7 @@ class CalenderFragment : Fragment(){
     }
 
     fun addDecorator() {
-        //getDotDate()    //점찍을 날짜 추가
+        getDotDate()    //점찍을 날짜 추가
         Log.d("TAG", "onViewCreated: ${dotPlanDay}")
 
         val sundayDecorator = SundayDecorator()     // 일요일 빨간색

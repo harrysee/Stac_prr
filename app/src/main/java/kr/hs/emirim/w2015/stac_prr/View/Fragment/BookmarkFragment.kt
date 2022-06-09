@@ -37,8 +37,8 @@ class BookmarkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bookmarkAdapter = JournalAdapter(requireContext(),activity,model)
         model.getBookmarks().observe(requireActivity(), Observer {
+            bookmarkAdapter = JournalAdapter(requireContext(),activity,model)
             Log.i("TAG", "북마크: 북마크 가져오기"+it)
             bookmarkAdapter.datas = it
             binding.bookmarkRecycler.adapter = bookmarkAdapter

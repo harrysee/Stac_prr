@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
         val pCnt = pref.getInt("PlantCnt",0)
         Log.i(TAG, "onViewCreated: 현재 식물 개수 : "+pCnt)
 //        with(pref.edit()){
-//            this.putInt("PlantCnt",3)
+//            this.putInt("PlantCnt",2)
 //            commit()
 //        }
         viewPager.setPageTransformer { page, position ->
