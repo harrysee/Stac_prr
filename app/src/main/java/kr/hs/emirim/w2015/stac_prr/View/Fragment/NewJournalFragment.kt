@@ -161,9 +161,7 @@ class NewJournalFragment : Fragment() {
                 Log.d("TAG", "onViewCreated: 파이어 업로드 완료 사진 : journal")
             } else {        // 사진이 없을경우
                 model.setJournal( docData,  docId, isEdit).observe(requireActivity(),
-                    androidx.lifecycle.Observer {
-                        showMsg(it?:false)
-                    })
+                    androidx.lifecycle.Observer {})
                 Toast.makeText(requireContext(), msg+" 완료!", Toast.LENGTH_SHORT).show()
                 Log.d("TAG", "onViewCreated: 파이어 업로드 완료 : journal")
             }// 업로드 끝
@@ -181,14 +179,6 @@ class NewJournalFragment : Fragment() {
 
         }
 
-    }
-
-    fun showMsg(r: Boolean){
-        if (r){
-            Toast.makeText(requireContext(),"업로드 완료",Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(requireContext(),"업로드 실패",Toast.LENGTH_SHORT).show()
-        }
     }
     // 사진 가져오기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

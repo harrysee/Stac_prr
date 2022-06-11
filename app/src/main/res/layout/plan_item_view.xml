@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/transparent">
 
         <CheckBox
             android:id="@+id/check_box"
@@ -20,16 +20,32 @@
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/notosanscjkkr_regular"
             android:includeFontPadding="false"
             android:text="내용"
             android:textColor="@color/day_gray"
-            android:textSize="15sp"
+            android:textSize="14sp"
+            app:flow_wrapMode="aligned"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/check_box"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/check_box"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.13999999" />
+
+        <TextView
+            android:id="@+id/plan_item_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
+            android:text="푸른이 : 급수"
+            android:textColor="@color/day_gray"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toStartOf="@+id/date"
+            app:layout_constraintLeft_toRightOf="@+id/check_box"
+            app:layout_constraintStart_toEndOf="@+id/check_box"
+            app:layout_constraintTop_toBottomOf="@+id/content" />
 
         <TextView
             android:id="@+id/date"

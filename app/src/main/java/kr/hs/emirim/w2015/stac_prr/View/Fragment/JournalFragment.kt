@@ -25,7 +25,6 @@ import kr.hs.emirim.w2015.stac_prr.databinding.FragmentJournalBinding
 import kr.hs.emirim.w2015.stac_prr.viewModel.JournalViewModel
 
 class JournalFragment : Fragment() {
-    private var datas = mutableListOf<JournalModel>()
     private lateinit var pref: SharedPreferences
     private lateinit var btnArr: List<Button>
     private lateinit var journalAdapter: JournalAdapter

@@ -8,8 +8,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -122,13 +120,13 @@ class MainActivity : AppCompatActivity() {
     fun isFirstCheck() {
         // isFirst가 처음 만들어지지않았을때 넣으면 null이다 - null이면 true로 가져오기
         pref = this.getSharedPreferences("pref", Context.MODE_PRIVATE)!!
+        val alarmMgr = this.getSystemService(ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(this, BroadcastReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(this, 0, intent, 0)
+        }
         val isCheck = pref.getBoolean("isFirst", true)
         if (isCheck) {
             val flowerPref = this.getSharedPreferences("flower", Context.MODE_PRIVATE)
-            val alarmMgr = this.getSystemService(ALARM_SERVICE) as AlarmManager
-            val alarmIntent = Intent(this, BroadcastReceiver::class.java).let { intent ->
-                PendingIntent.getBroadcast(this, 0, intent, 0)
-            }
             Toast.makeText(this, "푸르름에 오신걸 환영합니다", Toast.LENGTH_SHORT).show()
             auth.signInAnonymously()
                 .addOnCompleteListener { task ->

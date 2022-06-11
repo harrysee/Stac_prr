@@ -28,9 +28,7 @@ import java.util.*
 
 class SetFragment : Fragment() {
     val auth = FirebaseAuth.getInstance()
-    private var alarmMgr: AlarmManager? = null
     private lateinit var push: SharedPreferences
-    private lateinit var alarmIntent: PendingIntent
     private var isOpen : Boolean? = null
     private lateinit var binding : FragmentSetBinding
     val model by lazy {

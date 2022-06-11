@@ -14,7 +14,6 @@ import kr.hs.emirim.w2015.stac_prr.View.Adapter.JournalAdapter
 import kr.hs.emirim.w2015.stac_prr.databinding.FragmentBookmarkBinding
 import kr.hs.emirim.w2015.stac_prr.viewModel.JournalViewModel
 
-
 class BookmarkFragment : Fragment() {
     private lateinit var bookmarkAdapter: JournalAdapter
     private lateinit var binding : FragmentBookmarkBinding

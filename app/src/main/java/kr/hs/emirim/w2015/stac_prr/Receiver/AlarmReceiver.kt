@@ -1,5 +1,7 @@
 package kr.hs.emirim.w2015.stac_prr.Receiver
 
+import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -13,8 +15,8 @@ import androidx.core.app.NotificationCompat
 import kr.hs.emirim.w2015.stac_prr.MainActivity
 import kr.hs.emirim.w2015.stac_prr.R
 
-
 class AlarmReceiver : BroadcastReceiver() {
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onReceive(context: Context, intent: Intent) {
         val notificationManager =
@@ -42,24 +44,44 @@ class AlarmReceiver : BroadcastReceiver() {
         val name = intent.getStringExtra("name")
         val content = intent.getStringExtra("content")
         val id = intent.getIntExtra("id",0)
-        val img = context.getDrawable(R.drawable.ic_home_emty_item)
+        val img = when(title){
+            "급수"-> R.drawable.ic_alarm_icon_water
+            "분갈이"-> R.drawable.ic_alarm_icon_blown
+            "영양제투여"-> R.drawable.ic_alarm_icon_pen
+            "심은날"-> R.drawable.ic_alarm_icon_prr
+            "수분"-> R.drawable.ic_alarm_icon_flower
+            "수확"-> R.drawable.ic_alarm_icon_orange
+            else -> R.drawable.ic_home_emty_item
+        }
+
+//        <item>제목</item>
+//        <item>급수</item>
+//        <item>분갈이</item>
+//        <item>영양제투여</item>
+//        <item>심은날</item>
+//        <item>수분</item>
+//        <item>수확</item>
 
         builder.setAutoCancel(true)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setWhen(System.currentTimeMillis())
-            .setSmallIcon(R.drawable.ic_alram_icon)
+            .setSmallIcon(img)
+            .setColor(R.color.dot_gray)
+            .setDefaults(Notification.DEFAULT_SOUND)
             .setTicker("{Time to watch some cool stuff!}")
-            .setContentTitle(title + "알림")
-            .setContentText(name+" 일정 : "+content)
+            .setContentTitle(name + " : "+ title)
+            .setContentText(content)
             .setContentInfo("INFO")
             .setContentIntent(pendingI)
 
         //알람 중복되지않게 카운트
         val alarmPref = context.getSharedPreferences("alarms", Context.MODE_PRIVATE)!!
-        val isAlarm = alarmPref.getBoolean(id.toString(), true)
+        val alarmcheck = context.getSharedPreferences("push", Context.MODE_PRIVATE)!!
+        val isAlarm = alarmPref.getBoolean(id.toString(), true) // 모든알림 설정확인
+        val check = alarmcheck.getBoolean("isAlarm", true) // 해당알림 설정확인
 
         // 노티피케이션 동작시킴
-        if (isAlarm){
+        if (isAlarm && check){
             notificationManager.notify(id, builder.build())
         }
         Log.d("TAG", "onReceive: 알림 : $id")

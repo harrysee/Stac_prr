@@ -57,20 +57,25 @@ class PlanAdapter(var items: ArrayList<PlanModel>?,var model: PlanViewModel) : R
                     binding.checkBox.isChecked = it.isChecked
                     if (binding.checkBox.isChecked){
                         binding.content.setPaintFlags(binding.content.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+                        binding.content.setPaintFlags(binding.planItemInfo.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                     }else{
                         binding.content.setPaintFlags(0)
+                        binding.planItemInfo.setPaintFlags(0)
                     }
-                    binding.content.text = it.name.toString()+" | "+it.contents.toString() +" | "+it.memo.toString()
+                    binding.content.text = it.memo.toString()
+                    binding.planItemInfo.text = it.name.toString()+" : "+it.contents.toString()
                     binding.date.text = SimpleDateFormat("hh:mm").format(item.create.time)
                     
                     //체크 확인하기
                     binding.checkBox.setOnClickListener {
                         if(item.isChecked){
                             binding.content.setPaintFlags(0)
+                            binding.planItemInfo.setPaintFlags(0)
                             item.isChecked = false
                         }else if(!item.isChecked){
                             item.isChecked = true
                             binding.content.setPaintFlags(binding.content.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+                            binding.planItemInfo.setPaintFlags(binding.planItemInfo.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                         }
                         //체크박스 선택부분 업데이트
                         model.setChecked(item.docId,item.isChecked)
